@@ -1,1 +1,1 @@
-SUBDIRS = rott
+SUBDIRS = src

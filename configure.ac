@@ -4,7 +4,7 @@
 AC_PREREQ([2.69])
 AC_INIT([rott], [1.1.2])
 AM_INIT_AUTOMAKE([foreign no-define])
-AC_CONFIG_SRCDIR([rott/version.h])
+AC_CONFIG_SRCDIR([src/version.h])
 #AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -81,5 +81,5 @@ no|yes)
     ;;
 esac
 
-AC_CONFIG_FILES([Makefile rott/Makefile rott/audiolib/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile src/audiolib/Makefile])
 AC_OUTPUT
