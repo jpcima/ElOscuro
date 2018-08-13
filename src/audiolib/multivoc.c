@@ -43,7 +43,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "dpmi.h"
 #include "usrhooks.h"
 #include "interrup.h"
-#include "dma.h"
 #include "linklist.h"
 #include "sndcards.h"
 
@@ -60,7 +59,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "pitch.h"
 #include "multivoc.h"
 #include "_multivc.h"
-#include "debugio.h"
 
 #define RoundFixed( fixedval, bits )            \
         (                                       \

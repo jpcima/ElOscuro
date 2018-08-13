@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_def.h"
 #include "rt_sound.h"
 #include "_rt_soun.h"
-#include "fx_man.h"
+#include "audiolib/fx_man.h"
 #include "music.h"
 #include "z_zone.h"
 #include "w_wad.h"

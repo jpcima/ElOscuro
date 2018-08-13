@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "_rt_menu.h"
 #include "rt_menu.h"
 #include "rt_sound.h"
-#include "fx_man.h"
+#include "audiolib/fx_man.h"
 #include "rt_build.h"
 #include "rt_in.h"
 #include "isr.h"

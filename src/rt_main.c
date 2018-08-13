@@ -76,7 +76,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_dr_a.h"
 #include "rt_msg.h"
 #include "rt_build.h"
-#include "rt_error.h"
 #include "modexlib.h"
 #include "rt_net.h"
 #include "cin_main.h"
@@ -84,7 +83,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_scale.h"
 
 #include "music.h"
-#include "fx_man.h"
+#include "audiolib/fx_man.h"
 //MED
 #include "memcheck.h"
 
