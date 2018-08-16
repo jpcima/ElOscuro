@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -38,6 +40,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <mem.h>
 #endif
 
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 
@@ -58,19 +62,19 @@ messagetype Messages[MAXMSGS];
 =============================================================================
 */
 
-static int  UpdateMessageBackground;
-static int  MessageSystemStarted=0;
-static int  LastMessageTime;
-static boolean EraseMessage[ MAXMSGS ];
-static int     MessageOrder[ MAXMSGS ];
-static int     TotalMessages = 0;
-static int     MsgPos = 0;
+static int32_t  UpdateMessageBackground;
+static int32_t  MessageSystemStarted=0;
+static int32_t  LastMessageTime;
+static bool EraseMessage[ MAXMSGS ];
+static int32_t     MessageOrder[ MAXMSGS ];
+static int32_t     TotalMessages = 0;
+static int32_t     MsgPos = 0;
 
-boolean MessagesEnabled = true;
+bool MessagesEnabled = true;
 
-int StringLength (char *string)
+int32_t StringLength (int8_t* string)
 {
-	int length=0;
+	int32_t length=0;
 
    while ((*string)!=0)
       {
@@ -109,8 +113,8 @@ void InitializeMessages
    )
 
    {
-   int i;
-   boolean start;
+   int32_t i;
+   bool start;
 
    start = false;
 
@@ -162,11 +166,11 @@ void GetMessageOrder
    )
 
    {
-   int  i;
-   int  lowest;
-   int  lowesttime;
-   byte done[ MAXMSGS ];
-   boolean found;
+   int32_t  i;
+   int32_t  lowest;
+   int32_t  lowesttime;
+   uint8_t done[ MAXMSGS ];
+   bool found;
 
    memset( &done[ 0 ],    0, sizeof( done ) );
    memset( MessageOrder, -1, sizeof( MessageOrder ) );
@@ -208,13 +212,13 @@ void GetMessageOrder
 */
 void DeleteMessage
    (
-   int num
+   int32_t num
    )
 
    {
-   int i;
-   int msg;
-   boolean found;
+   int32_t i;
+   int32_t msg;
+   bool found;
 
    found = false;
    for( i = 0; i < TotalMessages; i++ )
@@ -248,9 +252,9 @@ void DeleteMessage
 =
 ====================
 */
-void DeletePriorityMessage ( int flags )
+void DeletePriorityMessage ( int32_t flags )
 {
-   int i;
+   int32_t i;
 
    for (i=0;i<MAXMSGS;i++)
       {
@@ -270,14 +274,14 @@ void DeletePriorityMessage ( int flags )
 =
 ====================
 */
-int GetFreeMessage
+int32_t GetFreeMessage
    (
    void
    )
 
    {
-   int i;
-   int found;
+   int32_t i;
+   int32_t found;
 
    for( i = 0; i < MAXMSGS; i++ )
       {
@@ -322,16 +326,16 @@ int GetFreeMessage
 */
 void SetMessage
    (
-   int   num,
-   char *text,
-   int   flags
+   int32_t   num,
+   int8_t* text,
+   int32_t   flags
    )
 
    {
-   int i;
-   int msg;
-   int length;
-   boolean found;
+   int32_t i;
+   int32_t msg;
+   int32_t length;
+   bool found;
 
    if (iGLOBAL_SCREENWIDTH >= 640){
 		CurrentFont = newfont1;//smallfont;
@@ -347,7 +351,7 @@ void SetMessage
 
    if ( PERMANENT_MSG( flags ) )
       {
-      int l;
+      int32_t l;
 
       l = COM_MAXTEXTSTRINGLENGTH + 1;
       Messages[ num ].text = SafeMalloc( l );
@@ -392,14 +396,14 @@ void SetMessage
 =
 ====================
 */
-int AddMessage
+int32_t AddMessage
    (
-   char *text,
-   int flags
+   int8_t* text,
+   int32_t flags
    )
 
    {
-   int new;
+   int32_t new;
 
    if ( MessageSystemStarted == 0 )
       {
@@ -430,8 +434,8 @@ void UpdateMessages
    )
 
    {
-   int messagetics;
-   int i;
+   int32_t messagetics;
+   int32_t i;
 
    messagetics = GetTicCount() - LastMessageTime;
    LastMessageTime = GetTicCount();
@@ -464,7 +468,7 @@ void UpdateMessages
 ====================
 */
 
-void DisplayMessage   (int num,int position)
+void DisplayMessage   (int32_t num,int32_t position)
    {
    PrintX = 1;
    if (iGLOBAL_SCREENWIDTH > 320){
@@ -569,8 +573,8 @@ void RestoreMessageBackground
 
    {
    pic_t *shape;
-   int i;
-   int y;
+   int32_t i;
+   int32_t y;
 
    if ( UpdateMessageBackground > 0 )
       {
@@ -621,7 +625,7 @@ void DrawMessages
    )
 
    {
-   int i;
+   int32_t i;
 
    if ( TotalMessages > 0 )
       {
@@ -645,12 +649,12 @@ void DrawMessages
 */
 void UpdateModemMessage
    (
-   int num,
-   char c
+   int32_t num,
+   int8_t c
    )
 
    {
-   int i;
+   int32_t i;
 
    Messages[ num ].text[ MSG.length - 1 ] = ( byte )c;
    Messages[ num ].text[ MSG.length ]     = ( byte )'_';
@@ -678,11 +682,11 @@ void UpdateModemMessage
 */
 void ModemMessageDeleteChar
    (
-   int num
+   int32_t num
    )
 
    {
-   int i;
+   int32_t i;
 
    MSG.length--;
    Messages[ num ].text[ MSG.length ]     = ( byte )0;
@@ -715,9 +719,9 @@ void DrawPlayerSelectionMenu
    )
 
    {
-   int i;
-   int p;
-   char str[ 20 ];
+   int32_t i;
+   int32_t p;
+   int8_t str[ 20 ];
 
    p = 1;
    MsgPos = 1;
@@ -768,8 +772,8 @@ void DrawPlayerSelectionMenu
 */
 void FinishModemMessage
    (
-   int num,
-   boolean send
+   int32_t num,
+   bool send
    )
    {
    if ( ( !MSG.inmenu ) && ( MSG.length > 0 ) )
