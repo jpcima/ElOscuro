@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "z_zone.h"
 #include "w_wad.h"
 #include "lumpy.h"
-#include "gmove.h"
 #include "states.h"
 #include "rt_sqrt.h"
 #include "rt_stat.h"

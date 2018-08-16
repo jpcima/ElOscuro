@@ -55,7 +55,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_crc.h"
 #include "modexlib.h"
 #include "engine.h"
-#include "gmove.h"
 #include "rt_com.h"
 #include "rt_net.h"
 #include "watcom.h"
