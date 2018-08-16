@@ -34,7 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #include "modexlib.h"
-#include "fli_glob.h"
 
 static int cin_sprtopoffset;
 static int cin_invscale;
