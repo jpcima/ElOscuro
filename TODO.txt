@@ -1,6 +1,6 @@
 DONE memcheck.h
 watcom.c
-gmove.h
+DONE gmove.h
 fli_glob.h
 profile.h
 _rt_msg.h
