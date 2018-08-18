@@ -25,7 +25,7 @@ DONE _rt_door.h
 DONE cin_evnt.h // Make sure to check static and unused functions in cin_evnt.c
 DONE f_scale.h // Functions and variables from cin_main.c, try to merge it with cin_main.h later
 DONE scriplib.h
-_rt_map.h
+DONE _rt_map.h
 _rt_com.h
 cin_actr.h
 rt_floor.h
