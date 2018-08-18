@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <fcntl.h>
 #include <string.h>
+#include <stdint.h>
 #include "rt_def.h"
 #include "scriplib.h"
 #include "watcom.h"
@@ -210,7 +211,7 @@ void GetCinematicTics ( void )
 }
 
 
-void PlayMovie ( char * name, bool uselumpy )
+void PlayMovie ( int8_t * name, bool uselumpy )
 {
    int i;
 

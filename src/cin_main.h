@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,19 +19,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _cin_main_public
-#define _cin_main_public
+#pragma once
 
-//***************************************************************************
-//
-// CIN_MAIN.H
-//
-//***************************************************************************
-
-void GrabMovieScript (char const *basename, bool uselumpy);
-void PlayMovie (char * name, bool uselumpy);
-void GetCinematicTics ( void );
+#include <stdbool.h>
+#include <stdint.h>
 
 extern bool cinematicdone;
 
-#endif
+void GetCinematicTics (void);
+void GrabMovieScript (int8_t const*, bool);
+void PlayMovie (int8_t*, bool);
+
