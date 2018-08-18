@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 // CRC lib
 
+#include <stdint.h>
 #include	<stdio.h>
 #include	<stdlib.h>
 #include	<string.h>
@@ -102,7 +103,7 @@ int updatecrc(int crc, int c)
 //
 //******************************************************************************
 
-word CalculateCRC (byte *source, unsigned size)
+uint16_t CalculateCRC (uint8_t *source, uint32_t size)
 {
    unsigned i;
    int checksum;
@@ -116,7 +117,7 @@ word CalculateCRC (byte *source, unsigned size)
 	   checksum=(checksum>>8)^crc16tab[tmp & 0xff];
       }
 
-   return ((word)checksum);
+   return ((uint16_t)checksum);
 
 }
 
