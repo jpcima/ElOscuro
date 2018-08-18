@@ -32,7 +32,7 @@ DONE rt_floor.h
 DONE rt_rand.h
 DONE _rt_util.h
 DONE _rt_buil.h
-rt_com.h
+DONE rt_com.h
 byteordr.h
 rt_sqrt.c
 cin_util.c
