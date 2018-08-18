@@ -16,7 +16,7 @@ DONE _engine.h
 DONE rt_map.h // Check if CheatMap() is really useful
 DONE cin_glob.h
 DONE _isr.h
-cin_glob.c
+DONE cin_glob.c
 rt_debug.h
 rt_spbal.h
 rt_vh_a.h
