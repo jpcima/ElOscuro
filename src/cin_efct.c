@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "rt_def.h"
-#include "cin_util.h"
 #include "cin_def.h"
 #include "cin_main.h"
 #include "f_scale.h"
@@ -283,8 +282,6 @@ void DrawFlic ( flicevent * flic )
 
    curpal = SafeMalloc (768);
 
-   CinematicGetPalette (curpal);
-
    DrawFadeout ( );
 
    if (flic->usefile==false)
@@ -311,8 +308,6 @@ void DrawFlic ( flicevent * flic )
 #ifdef DOS
    VL_SetVGAPlaneMode ();
 #endif
-
-   CinematicSetPalette (curpal);
 
    SafeFree (curpal);
    GetCinematicTics ();
@@ -618,7 +613,6 @@ void DrawPalette (paletteevent * event)
 
    pal=W_CacheLumpName(event->name,PU_CACHE, CvtNull, 1);
    XFlipPage ();
-   CinematicSetPalette (pal);
 }
 
 /*
@@ -650,7 +644,6 @@ void DrawFadeout ( void )
    byte newpal[768];
    int      i,j;
 
-   CinematicGetPalette (&origpal[0]);
    for (j = 0; j < FADEOUTTIME; j++)
       {
       for (i = 0; i < 768; i++)
@@ -658,7 +651,6 @@ void DrawFadeout ( void )
          newpal[i] = ( origpal[i] * (FADEOUTTIME - j - 1) ) / FADEOUTTIME;
          }
       WaitVBL();
-      CinematicSetPalette (&newpal[0]);
       CalcTics(); // CinematicDelay
       }
    VL_ClearVideo (0);
