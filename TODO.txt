@@ -31,7 +31,7 @@ DONE cin_actr.h // Make sure to check static and unused functions in cin_actr.c
 DONE rt_floor.h
 DONE rt_rand.h
 DONE _rt_util.h
-_rt_buil.h
+DONE _rt_buil.h
 rt_com.h
 byteordr.h
 rt_sqrt.c
