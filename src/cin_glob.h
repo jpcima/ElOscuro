@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,21 +19,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#include "rt_def.h"
-#include "rt_util.h"
-#include "isr.h"
-#include <time.h>
+#pragma once
 
-#ifndef CIN_GLOB_H
-#define CIN_GLOB_H
+#include <stdbool.h>
+#include <stdint.h>
 
 #define DUMP 0
 
-#define CLOCKSPEED (VBLCOUNTER)
+void CinematicDelay (void);
+int32_t GetCinematicTime (void);
+bool CinematicAbort (void);
+void ClearCinematicAbort (void);
 
-void CinematicDelay( void );
-int GetCinematicTime( void );
-bool CinematicAbort( void );
-void ClearCinematicAbort( void );
-
-#endif

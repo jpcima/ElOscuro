@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "rt_def.h"
 #include "cin_glob.h"
 #include "cin_evnt.h"
 #include "cin_efct.h"

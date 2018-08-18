@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <fcntl.h>
 #include <string.h>
+#include "rt_def.h"
 #include "cin_glob.h"
 #include "scriplib.h"
 #include "watcom.h"
