@@ -4,7 +4,7 @@ DONE gmove.h
 DONE fli_glob.h
 DONE profile.h // Check how profiling works
 DONE _rt_msg.h
-rt_crc.h
+DONE rt_crc.h
 DONE _rt_scal.h
 Makefile.am
 DONE _rt_spba.h
