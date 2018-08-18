@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,23 +19,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _cin_actr_public
-#define _cin_actr_public
+#pragma once
 
-#include "cin_def.h"
-
-extern actortype * firstcinematicactor;
-extern actortype * lastcinematicactor;
-
-void AddCinematicActor ( actortype * actor );
-void DeleteCinematicActor ( actortype * actor);
-
-actortype * GetNewCinematicActor ( void );
-void StartupCinematicActors ( void );
-void ShutdownCinematicActors ( void );
-void SpawnCinematicActor ( enum_eventtype type, void * effect );
-void DrawCinematicActors ( void );
-void UpdateCinematicActors ( void );
-
-#endif
+void DrawCinematicActors (void);
+void ShutdownCinematicActors (void);
+void StartupCinematicActors (void);
 
