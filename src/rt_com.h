@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,32 +19,23 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _rt_com_public
-#define _rt_com_public
+#pragma once
 
-//***************************************************************************
-//
-// RT_COM.C
-//
-//***************************************************************************
-
-#define MAXPACKET	512
+#include <stdbool.h>
+#include <stdint.h>
 
 #include "rottnet.h"
 
-extern int badpacket;
-extern int consoleplayer;
-extern byte ROTTpacket[MAXCOMBUFFERSIZE];
+#define MAXPACKET	512
 
-extern int controlsynctime;
+extern int32_t badpacket;
+extern int32_t consoleplayer;
+extern int32_t controlsynctime;
+extern uint8_t ROTTpacket[MAXCOMBUFFERSIZE];
 
-
-//#define consoleplayer (rottcom->consoleplayer)
-
+void ComSetTime (void);
+int32_t GetTransitTime (int32_t);
 void InitROTTNET (void);
 bool ReadPacket (void);
-void WritePacket (void * buffer, int len, int destination);
-void ComSetTime (void);
-int GetTransitTime( int client );
+void WritePacket (void*, int32_t, int32_t);
 
-#endif
