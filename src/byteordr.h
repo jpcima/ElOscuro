@@ -1,5 +1,7 @@
 /*
 Copyright (C) 2002 John R. Hall
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,27 +19,22 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-//***************************************************************************
-//
-//    byteordr.c - Byte order conversion routines.
-//
-//***************************************************************************
+#pragma once
 
-#ifndef BYTEORDER_H
-#define BYTEORDER_H
+#include <stdint.h>
 
-typedef void (*converter_t)(void *, int);
+typedef void (*converter_t) (void*, int32_t);
 
-#define DECLARE_CONVERTER(type) void Cvt_##type(void *lmp, int num);
+#define DECLARE_CONVERTER(type) void Cvt_##type(void *lmp, int32_t num);
 
-DECLARE_CONVERTER(pic_t);
-DECLARE_CONVERTER(lpic_t);
-DECLARE_CONVERTER(font_t);
-DECLARE_CONVERTER(lbm_t);
-DECLARE_CONVERTER(patch_t);
-DECLARE_CONVERTER(transpatch_t);
-DECLARE_CONVERTER(cfont_t);
-void CvtNull(void *lmp, int num);
-converter_t CvtForType(int type);
+DECLARE_CONVERTER (cfont_t);
+DECLARE_CONVERTER (font_t);
+DECLARE_CONVERTER (lbm_t);
+DECLARE_CONVERTER (lpic_t);
+DECLARE_CONVERTER (patch_t);
+DECLARE_CONVERTER (pic_t);
+DECLARE_CONVERTER (transpatch_t);
 
-#endif
+void CvtNull (void*, int32_t);
+converter_t CvtForType (int32_t);
+
