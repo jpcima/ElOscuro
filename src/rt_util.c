@@ -40,7 +40,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <sys/stat.h>
 #include <time.h>
 #include "watcom.h"
-#include "_rt_util.h"
 #include "rt_util.h"
 #include "isr.h"
 #include "z_zone.h"
@@ -56,6 +55,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_view.h"
 #include "modexlib.h"
 #include "rt_cfg.h"
+
+#define ERRORROW        2
+#define ERRORCOL        11
+
+#define ERRORFILE       ("rotterr.txt")
+#define SOFTERRORFILE   ("error.txt")
+#define DEBUGFILE       ("rott.dbg")
+#define MAPDEBUGFILE    ("mapinfo.txt")
+
+#define SLASHES         ('\\')
+#define MAXCHARS        8
+
+#define WeightR  3
+#define WeightG  5
+#define WeightB  2
 
 int    egacolor[16];
 byte   *  origpal;
