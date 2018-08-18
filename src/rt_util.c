@@ -1688,7 +1688,7 @@ int SideOfLine(int x1, int y1, int x2, int y2, int x3, int y3)
    b1 = x1 - x2;
    c1 = FixedMulShift(x2,y1,16) - FixedMulShift(x1,y2,16);
 
-   return SGN(FixedMulShift(a1,x3,16) + FixedMulShift(b1,y3,16) + c1);
+   return SGN0(FixedMulShift(a1,x3,16) + FixedMulShift(b1,y3,16) + c1);
 }
 
 

@@ -889,13 +889,11 @@ void DrawMaskedWalls (void)
 ======================
 */
 
-#define SGN(x)          ((x>0) ? (1) : ((x==0) ? (0) : (-1)))
-
 /*--------------------------------------------------------------------------*/
 int CompareHeights(s1p,s2p) visobj_t **s1p,**s2p;
 {
    whereami=3;
-   return SGN((*s1p)->viewheight-(*s2p)->viewheight);
+   return SGN0((*s1p)->viewheight-(*s2p)->viewheight);
 }
 
 void SwitchPointers(s1p,s2p) visobj_t **s1p,**s2p;
@@ -3711,10 +3709,10 @@ void UpdateScreenSaver ( void )
       }
 
    if (abs(ScreenSaver->dx)>MAXSPEED)
-      ScreenSaver->dx=SGN(ScreenSaver->dx)*MAXSPEED;
+      ScreenSaver->dx=SGN0(ScreenSaver->dx)*MAXSPEED;
 
    if (abs(ScreenSaver->dy)>MAXSPEED)
-      ScreenSaver->dy=SGN(ScreenSaver->dy)*MAXSPEED;
+      ScreenSaver->dy=SGN0(ScreenSaver->dy)*MAXSPEED;
 
    DrawRotatedScreen(ScreenSaver->x,ScreenSaver->y, (byte *)bufferofs,ScreenSaver->angle,ScreenSaver->scale,0);
 

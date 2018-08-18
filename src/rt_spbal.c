@@ -62,7 +62,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //static char c[]="Copyright 1995 Spacetec IMC Corporation";
 
 
-#define MSGN(x)    (((x)>0)?1:-1)
 #define MABS(x)    ((x<0)?(-x):(x))
 
 #define FF(n) FLOAT_TO_FIXED(n)

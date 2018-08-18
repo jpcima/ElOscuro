@@ -182,17 +182,16 @@ int GetLumpForTile(int tile);
 =
 ======================
 */
-#define SGN(x)          ((x>0) ? (1) : ((x==0) ? (0) : (-1)))
 
 /*--------------------------------------------------------------------------*/
 int CompareTags(s1p,s2p) cachetype *s1p,*s2p;
 {
 // Sort according to lump
    if (DoPanicMapping()==true)
-      return SGN(s1p->cachelevel-s2p->cachelevel);
+      return SGN0(s1p->cachelevel-s2p->cachelevel);
 // Sort according to cachelevel
    else
-      return SGN(s1p->lump-s2p->lump);
+      return SGN0(s1p->lump-s2p->lump);
 }
 
 void SwitchCacheEntries(s1p,s2p) cachetype *s1p,*s2p;
