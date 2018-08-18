@@ -7,7 +7,7 @@ DONE _rt_msg.h
 rt_crc.h
 DONE _rt_scal.h
 Makefile.am
-_rt_spba.h
+DONE _rt_spba.h
 cin_util.h
 version.h
 _rt_floo.h
