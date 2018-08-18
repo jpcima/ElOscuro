@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,28 +19,20 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _rt_floor_public
-#define _rt_floor_public
+#pragma once
 
-//***************************************************************************
-//
-//    RT_FLOOR.C - Floor and Ceiling stuff
-//
-//***************************************************************************
+#include <stdbool.h>
+#include <stdint.h>
 
-extern int		mr_xstep;
-extern int		mr_ystep;
-extern int		mr_xfrac;
-extern int		mr_yfrac;
+extern int32_t mr_xstep;
+extern int32_t mr_ystep;
+extern int32_t mr_xfrac;
+extern int32_t mr_yfrac;
+extern int32_t sky; // Whether Parallax is on or off
 
-extern int     sky;      //Whether Parallax is on or off
+void DrawFullSky (void);
 void DrawPlanes (void);
-void SetPlaneViewSize( void );
-void MakeSkyTile (byte * tile);
-void DrawFullSky( void );
+void MakeSkyTile (uint8_t*);
+void SetPlaneViewSize (void);
 bool SkyExists (void);
-
-#endif
-
-
 
