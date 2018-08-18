@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,12 +19,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _cin_util_public
-#define _cin_util_public
+#pragma once
 
+#include <stdint.h>
 
-void CinematicGetPalette (byte *pal);
-void CinematicSetPalette (byte *pal);
-
-#endif
+void CinematicGetPalette (uint8_t*);
+void CinematicSetPalette (uint8_t*);
 
