@@ -95,13 +95,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CP_Acknowledge;
 
-boolean POK = false;
+bool POK = false;
 char    pword[ 13 ];
 
-boolean ingame    = false;
-boolean inmenu    = false;
-boolean pickquick = false;
-boolean NewGame   = false;
+bool ingame    = false;
+bool inmenu    = false;
+bool pickquick = false;
+bool NewGame   = false;
 
 //
 // Global window coords
@@ -125,7 +125,7 @@ font_t  *smallfont;
 font_t  *bigfont;
 font_t  *tinyfont;
 
-boolean loadedgame = false;
+bool loadedgame = false;
 
 battle_type BATTLE_Options[ battle_NumBattleModes ];
 
@@ -148,7 +148,7 @@ char order[ 21 ] = {
 
 #define RETURNVAL    100
 
-static boolean loadsavesound = false;
+static bool loadsavesound = false;
 static int numdone;
 
 static char *endStrings[ 7 ] =
@@ -314,7 +314,7 @@ static int DangerNums[ 3 ] =
 static int MenuNum = 0;
 static int handlewhich;
 static int CSTactive = 0;
-static boolean INFXSETUP = false;
+static bool INFXSETUP = false;
 static int MaxVoices;
 static int MaxBits;
 static int MaxChannels;
@@ -1125,7 +1125,7 @@ static int CUSTOM_y[ 7 ] = { 31, 0, 63, 0, 94, 0, 126 };
 //
 // Save globals
 //
-static boolean StartGame = false;
+static bool StartGame = false;
 
 static int  SaveGamesAvail[ NUMSAVEGAMES ];
 static char SaveGameNames[ NUMSAVEGAMES ][ 32 ];
@@ -1444,7 +1444,7 @@ void ScanForSavedGames ()
    char filename[256];
    char str[45];
    int which;
-   boolean found = false;
+   bool found = false;
 #ifndef DOS
    char *pathsave;
 #endif
@@ -1688,7 +1688,7 @@ void CleanUpControlPanel (void)
 // CP_CheckQuick ()
 //
 //******************************************************************************
-boolean CP_CheckQuick
+bool CP_CheckQuick
    (
    byte scancode
    )
@@ -1939,7 +1939,7 @@ int HandleMenu (CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
    int         newpos;
    volatile int timer;
    ControlInfo ci;
-   boolean     playsnd = false;
+   bool     playsnd = false;
 
    handlewhich = item_i->curpos;
    x     = item_i->x;
@@ -2620,7 +2620,7 @@ void CP_OrderInfo
    int maxpage;
    int page;
    int key;
-   boolean newpage;
+   bool newpage;
 
 
 
@@ -2757,7 +2757,7 @@ void CP_Quit ( int which )
 //
 //******************************************************************************
 
-boolean CP_DisplayMsg
+bool CP_DisplayMsg
    (
    char *s,
    int number
@@ -2783,11 +2783,11 @@ boolean CP_DisplayMsg
 #define NO     "q_no\0"
 
    ControlInfo ci;
-   boolean retval;
-   boolean done;
-   boolean YESON;
-   boolean redraw;
-   boolean blowout;
+   bool retval;
+   bool done;
+   bool YESON;
+   bool redraw;
+   bool blowout;
    char   *temp;
    char   *active;
    char   *inactive;
@@ -3193,7 +3193,7 @@ void CP_EndGame
    )
 
    {
-   boolean action;
+   bool action;
 
    SetMenuTitle( "End Game" );
    action = CP_DisplayMsg( ENDGAMESTR, 12 );
@@ -3811,8 +3811,8 @@ void DefineKey
    )
 
    {
-   boolean tick;
-   boolean picked;
+   bool tick;
+   bool picked;
    int     timer;
    int     x;
    int     y;
@@ -4409,7 +4409,7 @@ int CalibrateJoystick
    word xmax, ymax, xmin, ymin, jb;
    int  checkbits;
    int  status;
-   boolean done;
+   bool done;
 
    if ( joypadenabled )
       {
@@ -4615,7 +4615,7 @@ void DrawCtlButtons (void)
    int i,
        x,
        y;
-   static boolean first = true;
+   static bool first = true;
    int button_on;
    int button_off;
 
@@ -5007,7 +5007,7 @@ void DisplayInfo (int which)
 //
 //******************************************************************************
 
-void DrawSTMenuBuf (int x, int y, int w, int h, boolean up)
+void DrawSTMenuBuf (int x, int y, int w, int h, bool up)
 {
    if (!up)
    {
@@ -5106,7 +5106,7 @@ void MusicVolume
 
    {
 #ifdef DOS
-   extern boolean SOUNDSETUP;
+   extern bool SOUNDSETUP;
 #endif
 
    SliderMenu( &MUvolume, 254, 0, 33, 81, 225, 8, "block3", MUSIC_SetVolume,
@@ -5140,7 +5140,7 @@ void FXVolume
 
    {
 #ifdef DOS
-   extern boolean SOUNDSETUP;
+   extern bool SOUNDSETUP;
 #endif
    int oldvolume;
 
@@ -5358,10 +5358,10 @@ void DrawExtOptionsMenu (void)
    FlipMenuBuf();
 }
 extern int inverse_mouse;
-extern boolean usemouselook;
-extern boolean iG_aimCross;
-extern boolean usejump;
-extern boolean sdl_fullscreen;
+extern bool usemouselook;
+extern bool iG_aimCross;
+extern bool usejump;
+extern bool sdl_fullscreen;
 
 void CP_ExtOptionsMenu (void)
 {
@@ -5823,7 +5823,7 @@ void CP_BattleMenu (void)
 //
 //****************************************************************************
 
-extern boolean dopefish;
+extern bool dopefish;
 void MN_PlayMenuSnd (int which)
 {
    if (INFXSETUP || (SD_Started == false))
@@ -5855,7 +5855,7 @@ void MN_PlayMenuSnd (int which)
 //
 //******************************************************************************
 
-boolean SliderMenu
+bool SliderMenu
    (
    int *number,
    int upperbound,
@@ -5875,8 +5875,8 @@ boolean SliderMenu
    ControlInfo ci;
    Direction   lastdir;
    patch_t    *shape;
-   boolean     returnval;
-   boolean     moved;
+   bool     returnval;
+   bool     moved;
    unsigned long scale;
    int         exit;
    int         range;
@@ -6179,7 +6179,7 @@ void CP_ViolenceLevel (void)
 {
    int which;
    char p1[13];
-   boolean passok=false;
+   bool passok=false;
 
    if (ingame)
    	{
@@ -6310,9 +6310,9 @@ void CP_PWMenu (void)
    {
    char p1[13];
    char p2[13];
-   boolean EnterNewPassword;
-   boolean AskForNew;
-   boolean RetypePassword;
+   bool EnterNewPassword;
+   bool AskForNew;
+   bool RetypePassword;
 
    memset (p1, 0, 13);
    memset (p2, 0, 13);
@@ -6948,8 +6948,8 @@ int ColorMenu
    int timer;
    int baseshape;
    int status;
-   boolean update;
-   boolean done;
+   bool update;
+   bool done;
 
    colorindex = DefaultPlayerColor;
    timer      = GetTicCount();
@@ -8089,7 +8089,7 @@ void CP_TimeLimitOptions (void)
 
 void PrintBattleOption
    (
-   boolean inmenu,
+   bool inmenu,
    int x,
    int y,
    char *text
@@ -8112,7 +8112,7 @@ void PrintBattleOption
 
 void ShowBattleOption
    (
-   boolean inmenu,
+   bool inmenu,
    int PosX,
    int PosY,
    int column,
@@ -8139,7 +8139,7 @@ void ShowBattleOption
 
 void ShowBattleOptions
 	(
-   boolean inmenu,
+   bool inmenu,
    int PosX,
    int PosY
 	)
@@ -8433,11 +8433,11 @@ int HandleMultiPageCustomMenu
    char *title,
    void  ( *routine )( int w ),
    void ( *redrawfunc )( void ),
-   boolean exitonselect
+   bool exitonselect
    )
 
    {
-   boolean redraw;
+   bool redraw;
    int  page;
    int  cursorpos;
    int  maxpos;
@@ -9654,7 +9654,7 @@ void SS_Quit
    )
 
    {
-   extern boolean WriteSoundFile;
+   extern bool WriteSoundFile;
 
    CP_DisplayMsg( "Do you wish to\nsave your changes?\n"
       "Press ESC to return\nto sound setup.", 12 );
@@ -9685,7 +9685,7 @@ void SS_Quit
 void CP_SoundSetup ( void )
    {
    int which;
-   extern boolean WriteSoundFile;
+   extern bool WriteSoundFile;
 
    WriteSoundFile = false;
 

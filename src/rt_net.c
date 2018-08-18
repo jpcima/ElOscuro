@@ -66,20 +66,20 @@ int        controlupdatestartedtime=-1;
 int        controlupdatetime=-1;
 int        serverupdatetime=-1;
 int        controlupdatestarted=0;
-boolean    GamePaused=false;
+bool    GamePaused=false;
 
-boolean    modemgame;
-boolean    networkgame;
+bool    modemgame;
+bool    networkgame;
 int        numplayers;
 int        server;
-boolean    IsServer;
-boolean    standalone;
-boolean    restartgame=false;
-boolean    respawnactive=false;
-boolean    playerdead=false;
-boolean    controlschanged=true;
-boolean    battlegibs=false;
-boolean    remoteridicule = false;
+bool    IsServer;
+bool    standalone;
+bool    restartgame=false;
+bool    respawnactive=false;
+bool    playerdead=false;
+bool    controlschanged=true;
+bool    battlegibs=false;
+bool    remoteridicule = false;
 /*
 =============================================================================
 
@@ -87,39 +87,39 @@ boolean    remoteridicule = false;
 
 =============================================================================
 */
-boolean  demorecord,
+bool  demorecord,
 			demoplayback;
 byte     *demoptr,
 			*lastdemoptr,
          *demobuffer=NULL;
-boolean  demodone = false;
+bool  demodone = false;
 int      predemo_violence = -1;
 int oldmomx;
 int oldmomy;
 int oldspdang;
 
-static boolean GameCommandsStarted=false;
+static bool GameCommandsStarted=false;
 
 static int oldcontrolbuf[3];
 static int oldbuttonbits;
 static CommandType * PlayerCmds[MAXPLAYERS];
 static CommandType * ClientCmds[MAXPLAYERS];
 
-static boolean GotPlayersDesc[MAXPLAYERS];
-static boolean PlayersReady[MAXPLAYERS];
+static bool GotPlayersDesc[MAXPLAYERS];
+static bool PlayersReady[MAXPLAYERS];
 static int     LastCommandTime[MAXPLAYERS];
 
 static CommandStatusType * CommandState[MAXPLAYERS+1];
 
-static boolean InProcessServer=false;
+static bool InProcessServer=false;
 static int lastcontrolupdatetime;
 static int largesttime;
 static int PlayerStatus[MAXPLAYERS];
 //static int syncservertime;
-//static boolean FixingPackets;
+//static bool FixingPackets;
 static int controldivisor=1;
 static int nextupdatetime;
-static boolean UpdateServer=true;
+static bool UpdateServer=true;
 
 void CheckForPacket ( void );
 void PrepareLocalPacket ( void );
@@ -169,7 +169,7 @@ void ComError (char *error, ...)
 // ConsoleIsServer()
 //
 //****************************************************************************
-boolean ConsoleIsServer ( void )
+bool ConsoleIsServer ( void )
 {
    if (modemgame==true)
       {
@@ -603,7 +603,7 @@ void StartupClientControls ( void )
 //
 //****************************************************************************
 
-static boolean InUCC=false;
+static bool InUCC=false;
 void UpdateClientControls ( void )
 {
    int time;
@@ -649,7 +649,7 @@ void UpdateClientControls ( void )
       while (time>=controlupdatetime)
          {
          MoveType * Delta;
-         boolean soundready;
+         bool soundready;
 
          soundready = SD_SoundDataReady();
 
@@ -773,7 +773,7 @@ void UpdateClientControls ( void )
 // PlayerInGame()
 //
 //****************************************************************************
-boolean PlayerInGame ( int p )
+bool PlayerInGame ( int p )
 {
    if (PlayerStatus[p]!=player_ingame)
       return false;
@@ -1227,7 +1227,7 @@ void ResendLocalPackets (int time, int dest, int numpackets)
       int i;
       int starti;
       int size;
-      boolean done;
+      bool done;
 
       // allocate some space
 
@@ -1301,7 +1301,7 @@ void ResendServerPackets (int time, int dest, int numpackets)
       int i;
       int starti;
       int size;
-      boolean done;
+      bool done;
 
       // allocate some space
 
@@ -2048,7 +2048,7 @@ void RequestPacket (int time, int dest, int numpackets)
 // IsServerCommandReady ()
 //
 //****************************************************************************
-boolean IsServerCommandReady ( int time )
+bool IsServerCommandReady ( int time )
 {
 
    if (
@@ -2067,7 +2067,7 @@ boolean IsServerCommandReady ( int time )
 // AreClientsReady ()
 //
 //****************************************************************************
-boolean AreClientsReady ( void )
+bool AreClientsReady ( void )
 {
    int i;
    int timeindex;
@@ -2098,7 +2098,7 @@ boolean AreClientsReady ( void )
 // IsPlayerCommandReady ()
 //
 //****************************************************************************
-boolean IsPlayerCommandReady (int num, int time)
+bool IsPlayerCommandReady (int num, int time)
 {
    MoveType * cmd;
 
@@ -2198,8 +2198,8 @@ void SendFullServerPacket ( void )
 
 void ProcessServer ( void )
 {
-   boolean done;
-   boolean exit;
+   bool done;
+   bool exit;
    int i;
    int time;
    int quittime;
@@ -2363,7 +2363,7 @@ int SetupCheckForPacket ( void )
 //****************************************************************************
 void ServerLoop( void )
 {
-   boolean done;
+   bool done;
 
    while (1)
       {
@@ -2531,7 +2531,7 @@ void ControlPlayerObj (objtype * ob)
 	playertype * pstate;
    int num;
    int savetime;
-//   boolean asked;
+//   bool asked;
 
 //   if (GamePaused==true)
 //      return;
@@ -2928,8 +2928,8 @@ void SendGameStart( void )
 void SetupGamePlayer ( void )
 {
    int savetime;
-   boolean done;
-   boolean gameready;
+   bool done;
+   bool gameready;
 
    savetime=GetTicCount();
 
@@ -2973,7 +2973,7 @@ void SetupGamePlayer ( void )
 // AllPlayersReady ()
 //
 //****************************************************************************
-boolean AllPlayersReady ( void )
+bool AllPlayersReady ( void )
 {
    int i;
 
@@ -2989,7 +2989,7 @@ boolean AllPlayersReady ( void )
 // GotAllPlayerDescriptions ()
 //
 //****************************************************************************
-boolean GotAllPlayerDescriptions ( void )
+bool GotAllPlayerDescriptions ( void )
 {
    int i;
 
@@ -3008,7 +3008,7 @@ boolean GotAllPlayerDescriptions ( void )
 void SetupGameMaster ( void )
 {
    int savetime;
-   boolean done;
+   bool done;
 
    memset(GotPlayersDesc,false,sizeof(GotPlayersDesc));
 	GotPlayersDesc[consoleplayer]=true;
@@ -3087,7 +3087,7 @@ void GetDemoFilename (int demonumber, char * filename)
 //
 //****************************************************************************
 
-boolean DemoExists (int demonumber)
+bool DemoExists (int demonumber)
 {
    char demo[20 + sizeof(DATADIR)];
 

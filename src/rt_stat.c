@@ -731,7 +731,7 @@ void DoLights (int tilex, int tiley)
 ===============
 */
 
-boolean TurnOffLight0 (int tilex, int tiley)
+bool TurnOffLight0 (int tilex, int tiley)
 {
    if ( IsLight(tilex-1,tiley  ) ||
         IsLight(tilex-1,tiley-1) ||
@@ -754,7 +754,7 @@ boolean TurnOffLight0 (int tilex, int tiley)
 ===============
 */
 
-boolean TurnOffLight1 (int tilex, int tiley, int i, int j)
+bool TurnOffLight1 (int tilex, int tiley, int i, int j)
 {
 	int tempi = 2*i;
 	int tempy = 2*j;
@@ -781,7 +781,7 @@ boolean TurnOffLight1 (int tilex, int tiley, int i, int j)
 ===============
 */
 
-boolean TurnOffLight2 (int tilex, int tiley, int j)
+bool TurnOffLight2 (int tilex, int tiley, int j)
 {
 	int tempy = 2*j;
 
@@ -807,7 +807,7 @@ boolean TurnOffLight2 (int tilex, int tiley, int j)
 ===============
 */
 
-boolean TurnOffLight3 (int tilex, int tiley, int i)
+bool TurnOffLight3 (int tilex, int tiley, int i)
 {
 	int tempx = 2*i;
 
@@ -1120,7 +1120,7 @@ int BaseMarkerZ;//bna++
 
 void SpawnStatic (int tilex, int tiley, int mtype, int zoffset)
 {statobj_t * temp;
- boolean onetimer;
+ bool onetimer;
 
 
 

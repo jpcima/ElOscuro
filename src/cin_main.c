@@ -42,7 +42,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cin_evnt.h"
 #include "cin_efct.h"
 
-boolean cinematicdone;
+bool cinematicdone;
 static int cinematictime;
 static int cinematictics;
 static int cinematictictime;
@@ -170,7 +170,7 @@ void CacheScriptFile (char *filename)
 =================
 */
 
-void GrabCinematicScript (char const *basename, boolean uselumpy)
+void GrabCinematicScript (char const *basename, bool uselumpy)
 {
    char script[256];
 
@@ -210,7 +210,7 @@ void GetCinematicTics ( void )
 }
 
 
-void PlayMovie ( char * name, boolean uselumpy )
+void PlayMovie ( char * name, bool uselumpy )
 {
    int i;
 

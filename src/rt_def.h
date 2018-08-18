@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _rt_def_public
 #define _rt_def_public
 
+#include <stdbool.h>
 
 // RT_DEF.H Zee big one
 #include <stdio.h>
@@ -318,24 +319,6 @@ typedef int fixed;
 
 
 //////////////////      GLOBAL ENUMERATED TYPES    ///////////////////////
-
-#ifdef __WATCOMC__
-typedef enum
- {false,
-  true
- }
- boolean;
-#else
-/* boolean is serialized at the moment, and watcomc made it a byte. */
-
-typedef unsigned char boolean;
-enum {
-  false, true
-};
-#endif
-
-
-
 
 typedef enum {
 		  east,

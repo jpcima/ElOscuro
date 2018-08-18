@@ -63,9 +63,9 @@ FILE   *  errout;
 FILE   *  debugout;
 FILE   *  mapdebugout;
 
-static boolean SoftErrorStarted=false;
-static boolean DebugStarted=false;
-static boolean MapDebugStarted=false;
+static bool SoftErrorStarted=false;
+static bool DebugStarted=false;
+static bool MapDebugStarted=false;
 
 static unsigned char egargb[48]={ 0x00,0x00,0x00,
 									 0x00,0x00,0xab,
@@ -204,7 +204,7 @@ int atan2_appx(int dx, int dy)
 // StringsNotEqual
 //
 //******************************************************************************
-boolean StringsNotEqual (char * s1, char * s2, int length)
+bool StringsNotEqual (char * s1, char * s2, int length)
 {
    int i;
 
@@ -1768,7 +1768,7 @@ static int i,n,stop;
 
 char * UL_GetPath (char * path, char *dir)
 {
-   boolean done      = 0;
+   bool done      = 0;
    char *dr          = dir;
    int cnt           = 0;
 
@@ -1811,7 +1811,7 @@ char * UL_GetPath (char * path, char *dir)
 //
 //******************************************************************************
 
-boolean UL_ChangeDirectory (char *path)
+bool UL_ChangeDirectory (char *path)
 {
 #ifdef DOS
    char *p;
@@ -1879,7 +1879,7 @@ boolean UL_ChangeDirectory (char *path)
 //
 //******************************************************************************
 
-boolean UL_ChangeDrive (char *drive)
+bool UL_ChangeDrive (char *drive)
 {
 #ifdef DOS
    unsigned d, total, tempd;

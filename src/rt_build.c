@@ -66,9 +66,9 @@ static int titleshadedir=1;
 static int titleyoffset=0;
 static char titlestring[40]="\0";
 static int readytoflip;
-static boolean MenuBufStarted=false;
+static bool MenuBufStarted=false;
 static int mindist=0x2700;
-static boolean BackgroundDrawn=false;
+static bool BackgroundDrawn=false;
 
 static plane_t planelist[MAXPLANES],*planeptr;
 
@@ -519,7 +519,7 @@ void SetupMenuBuf ( void )
 //
 //******************************************************************************
 
-void PositionMenuBuf( int angle, int distance, boolean drawbackground )
+void PositionMenuBuf( int angle, int distance, bool drawbackground )
 {
    int px,py;
    font_t * oldfont;
@@ -1074,7 +1074,7 @@ void DrawTMenuBufBox ( int x, int y, int width, int height )
 //
 //******************************************************************************
 
-void DrawTMenuBufHLine (int x, int y, int width, boolean up)
+void DrawTMenuBufHLine (int x, int y, int width, bool up)
 {
    byte *buffer;
    byte *buf;
@@ -1132,7 +1132,7 @@ void DrawTMenuBufHLine (int x, int y, int width, boolean up)
 //
 //******************************************************************************
 
-void DrawTMenuBufVLine (int x, int y, int height, boolean up)
+void DrawTMenuBufVLine (int x, int y, int height, bool up)
 {
    byte *buffer;
    byte *buf;

@@ -45,7 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "w_wad.h"
 
 extern int		iDemoNames;
-extern boolean iG_aimCross;
+extern bool iG_aimCross;
 
 
 extern void DisplayMessage   (int num,int position);
@@ -386,7 +386,7 @@ void DoWarp (void)
 {
 /*
 	char str[10];
-	boolean esc;
+	bool esc;
 	int level;
 
    CurrentFont = smallfont;
@@ -745,7 +745,7 @@ void HurtPlayer (void)
 ================
 */
 
-void SetLightDiminish (boolean off)
+void SetLightDiminish (bool off)
 {
 	if (off)
 	{
@@ -768,7 +768,7 @@ void SetLightDiminish (boolean off)
 ================
 */
 
-void SetFog (boolean on)
+void SetFog (bool on)
 {
 	if (on)
 	{
@@ -857,7 +857,7 @@ void EndLevel (void)
 ================
 */
 
-void FloorandCeiling (boolean off)
+void FloorandCeiling (bool off)
 {
 	if (off)
 	{
@@ -997,7 +997,7 @@ void RestartCurrentLevel (void)
 void EndDemo ( void )
 {
 	char str[10];
-	boolean esc;
+	bool esc;
 	int demonumber;
 
    if (demorecord==false)
@@ -1049,7 +1049,7 @@ void EndDemo ( void )
 void RecordDemoQuery ( void )
 {
    char str[10];
-	boolean esc;
+	bool esc;
 	int level;
 
    ShutdownClientControls();
@@ -1105,7 +1105,7 @@ void RecordDemoQuery ( void )
 void PlaybackDemoQuery ( void )
 {
    char str[10];
-	boolean esc;
+	bool esc;
 	int level;
 
    ShutdownClientControls();
@@ -1153,7 +1153,7 @@ int DebugKeys (void)
 {
 #if (DEVELOPMENT == 1)
 	char str[10];
-	boolean esc;
+	bool esc;
 	int level;
 	int i,f,temp;
 	static int whichpowerup    = 0;

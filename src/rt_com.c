@@ -213,7 +213,7 @@ void InitROTTNET (void)
 ================
 */
 
-boolean ReadPacket (void)
+bool ReadPacket (void)
 {
    word   crc;
    word   sentcrc;
@@ -347,7 +347,7 @@ void WritePacket (void * buffer, int len, int destination)
 =
 =============
 */
-boolean ValidSyncPacket ( synctype * sync )
+bool ValidSyncPacket ( synctype * sync )
 {
    if (ReadPacket() && (badpacket==0))
       {
@@ -383,9 +383,9 @@ void SendSyncPacket ( synctype * sync, int dest)
 =============
 */
 
-boolean SlavePhaseHandler( synctype * sync )
+bool SlavePhaseHandler( synctype * sync )
 {
-   boolean done;
+   bool done;
 
    done=false;
 
@@ -422,9 +422,9 @@ boolean SlavePhaseHandler( synctype * sync )
 =============
 */
 
-boolean MasterPhaseHandler( synctype * sync )
+bool MasterPhaseHandler( synctype * sync )
 {
-   boolean done;
+   bool done;
 
    done=false;
 
@@ -465,7 +465,7 @@ void ComSetTime ( void )
 {
    int i;
    syncpackettype * syncpacket;
-   boolean done=false;
+   bool done=false;
 
    syncpacket=(syncpackettype *)SafeMalloc(sizeof(syncpackettype));
 
@@ -575,7 +575,7 @@ void ComSetTime ( void )
 */
 void InitialMasterSync ( synctype * sync, int client )
 {
-   boolean done=false;
+   bool done=false;
    int i;
 
    if (networkgame==true)
@@ -629,7 +629,7 @@ void InitialMasterSync ( synctype * sync, int client )
 */
 void InitialSlaveSync ( synctype * sync )
 {
-   boolean done=false;
+   bool done=false;
 
    while (done==false)
       {
@@ -674,7 +674,7 @@ void InitialSlaveSync ( synctype * sync )
 void SyncTime( int client )
 {
    int dtime[NUMSYNCPHASES];
-   boolean done;
+   bool done;
    int i;
    synctype * sync;
 
