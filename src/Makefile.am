@@ -6,7 +6,6 @@ rott@SUFFIX@_SOURCES = \
 	cin_actr.c \
 	cin_efct.c \
 	cin_evnt.c \
-	cin_glob.c \
 	cin_main.c \
 	cin_util.c \
 	dosutil.c \
