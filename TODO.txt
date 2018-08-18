@@ -20,7 +20,7 @@ DONE cin_glob.c
 DONE rt_debug.h
 DONE rt_spbal.h
 DONE rt_vh_a.h
-cin_main.h
+DONE cin_main.h
 _rt_door.h
 cin_evnt.h
 f_scale.h
