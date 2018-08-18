@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _modexlib_public
 #define _modexlib_public
 
-#include "WinRott.h"
+#include "winrott.h"
 #include "rt_def.h"
 /*
 int iGLOBAL_SCREENWIDTH;//bna val 800

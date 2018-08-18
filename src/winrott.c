@@ -1,7 +1,7 @@
 /* Routines from winrott needed for the highres support for the SDL port */
 #include <stdlib.h>
 #include <string.h>
-#include "WinRott.h"
+#include "winrott.h"
 #include "modexlib.h"
 
 //typedef unsigned char byte;
