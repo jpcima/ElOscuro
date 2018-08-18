@@ -31,7 +31,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __MUSIC_H
 #define __MUSIC_H
 
-#include "sndcards.h"
+#define ASS_VERSION_STRING "1.04"
+
+typedef enum
+{
+  SoundBlaster,
+  SoundScape,
+  UltraSound,
+  NumSoundCards
+} soundcardnames;
 
 extern int MUSIC_ErrorCode;
 
