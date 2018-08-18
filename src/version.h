@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,12 +19,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+#pragma once
 
-#ifndef VERSION_H
-#define VERSION_H
+#define ROTTMAJORVERSION  1
+#define ROTTMINORVERSION  4
+#define ROTTVERSION       (ROTTMAJORVERSION * 10) + ROTTMINORVERSION
 
-#define ROTTMAJORVERSION 1
-#define ROTTMINORVERSION 4
-#define ROTTVERSION ((ROTTMAJORVERSION*10)+(ROTTMINORVERSION))
-
-#endif
