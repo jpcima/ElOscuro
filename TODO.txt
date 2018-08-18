@@ -2,7 +2,7 @@ DONE memcheck.h
 DONE watcom.c // TODO: Get rid of watcom.c
 DONE gmove.h
 DONE fli_glob.h
-profile.h
+DONE profile.h // Check how profiling works
 DONE _rt_msg.h
 rt_crc.h
 DONE _rt_scal.h
