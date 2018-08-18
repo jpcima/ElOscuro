@@ -10,7 +10,7 @@ Makefile.am
 DONE _rt_spba.h
 DONE cin_util.h // Change function names when revewing cin_util.c
 DONE version.h // Try to evaluate why version.h is useful
-_rt_floo.h
+DONE _rt_floo.h
 _rt_dman.h
 _engine.h
 rt_map.h
