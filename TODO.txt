@@ -27,7 +27,7 @@ DONE f_scale.h // Functions and variables from cin_main.c, try to merge it with 
 DONE scriplib.h
 DONE _rt_map.h
 DONE _rt_com.h
-cin_actr.h
+DONE cin_actr.h // Make sure to check static and unused functions in cin_actr.c
 rt_floor.h
 rt_rand.h
 _rt_util.h
