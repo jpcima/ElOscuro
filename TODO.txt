@@ -39,7 +39,7 @@ DONE cin_util.c
 DONE WinRott.h
 DONE _rt_vid.h
 DONE engine.h
-sndcards.h
+DONE sndcards.h
 rt_sc_a.h
 myprint.h
 _w_wad.h
