@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,43 +19,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _watcom_h_public
-#define _watcom_h_public
-fixed FixedMul(fixed a, fixed b);
-fixed FixedDiv2(fixed a, fixed b);
-fixed FixedScale(fixed orig, fixed factor, fixed divisor);
-fixed FixedMulShift(fixed a, fixed b, fixed shift);
-#ifdef __WATCOMC__
-#pragma aux FixedMul =  \
-        "imul ebx",                     \
-        "add  eax, 8000h"        \
-        "adc  edx,0h"            \
-        "shrd eax,edx,16"       \
-        parm    [eax] [ebx] \
-        value   [eax]           \
-        modify exact [eax edx]
+#pragma once
 
-#pragma aux FixedMulShift =  \
-        "imul ebx",                     \
-        "shrd eax,edx,cl"       \
-        parm    [eax] [ebx] [ecx]\
-        value   [eax]           \
-        modify exact [eax edx]
+#include <stdint.h>
 
-#pragma aux FixedDiv2 = \
-        "cdq",                          \
-        "shld edx,eax,16",      \
-        "sal eax,16",           \
-        "idiv ebx"                      \
-        parm    [eax] [ebx] \
-        value   [eax]           \
-        modify exact [eax edx]
-#pragma aux FixedScale = \
-        "imul ebx",                     \
-        "idiv ecx"                      \
-        parm    [eax] [ebx] [ecx]\
-        value   [eax]           \
-        modify exact [eax edx]
-#endif
+int32_t FixedDiv2 (int32_t, int32_t);
+int32_t FixedMul (int32_t, int32_t);
+int32_t FixedMulShift (int32_t, int32_t, int32_t);
+int32_t FixedScale (int32_t, int32_t, int32_t);
 
-#endif
