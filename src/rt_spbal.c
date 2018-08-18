@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "isr.h"
 #include <stdlib.h>
 #include "rt_spbal.h"
-#include "_rt_spba.h"
 #include "rt_main.h"
 #include "rt_map.h"
 
