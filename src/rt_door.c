@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_door.h"
 #include "rt_actor.h"
 #include "rt_stat.h"
-#include "_rt_door.h"
 #include "z_zone.h"
 #include "w_wad.h"
 #include "rt_ted.h"
@@ -63,6 +62,30 @@ Every time a door opens or closes the areabyplayer matrix gets recalculated.
 
 // Global Variables
 
+#define OPENTICS        165
+
+typedef struct tp
+ {
+  signed char actionindex;
+  signed char swapactionindex;
+  int         whichobj;
+  byte        tictime;
+  byte        ticcount;
+  byte        triggered;
+  byte        complete;
+  byte        done;
+ } saved_touch_type;
+
+
+#define NUMTOUCHPLATEACTIONS 8
+
+#define FL_TACT 0x4000
+#define FL_TSTAT 0x8000
+
+#define PUSHWALLSPEED 10
+
+#define AMW_NUMFRAMES 9
+#define AMW_TICCOUNT  3
 
 #define ELEVATORMUSICTIME   560
 
