@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "watcom.h"
 #include "rt_floor.h"
 #include "rt_fc_a.h"
-#include "_rt_floo.h"
 #include "rt_draw.h"
 #include "rt_util.h"
 #include "engine.h"
@@ -44,6 +43,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_playr.h"
 #include "rt_sound.h"
 #include "rt_rand.h"
+
+#define MAXSKYSEGS    2048
+#define MAXSKYDATA    8
+#define MINSKYHEIGHT  148
 
 /*
 =============================================================================
