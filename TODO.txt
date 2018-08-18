@@ -13,7 +13,7 @@ DONE version.h // Try to evaluate why version.h is useful
 DONE _rt_floo.h
 DONE _rt_dman.h
 DONE _engine.h
-rt_map.h
+DONE rt_map.h // Check if CheatMap() is really useful
 cin_glob.h
 _isr.h
 cin_glob.c
