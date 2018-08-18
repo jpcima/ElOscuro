@@ -52,6 +52,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_sound.h"
 #include "myprint.h"
 
+#define NONE         -1
+#define SINGLE_FRAME -1
+#define DOUBLE_FRAME -2
 
 //******************************************************************************
 //

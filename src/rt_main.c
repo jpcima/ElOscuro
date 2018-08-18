@@ -2918,7 +2918,7 @@ void CheckDevelopmentKeys
    if ( Keyboard[ sc_B ] )
       {
       SetLightRate( GetLightRate() + 1 );
-      myprintf( "normalshade = %ld\n", normalshade );
+      printf( "normalshade = %ld\n", normalshade );
 
       while( Keyboard[ sc_B ] )
          {
@@ -2930,7 +2930,7 @@ void CheckDevelopmentKeys
    if ( Keyboard[ sc_V ] )
       {
       SetLightRate( GetLightRate() - 1 );
-      myprintf( "normalshade = %ld\n", normalshade );
+      printf( "normalshade = %ld\n", normalshade );
 
       while( Keyboard[ sc_V ] )
          {

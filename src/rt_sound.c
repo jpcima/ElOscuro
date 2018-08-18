@@ -150,12 +150,12 @@ void SD_PrintActive ( void )
 {
    int i;
 
-   myprintf("Active Sounds\n");
+   printf("Active Sounds\n");
    for (i=0;i<MAXSOUNDS;i++)
       {
       if (sounds[i].count>0)
          {
-         myprintf("sound active #%ld\n",i);
+         printf("sound active #%ld\n",i);
          }
       }
 }

@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,27 +19,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef __MYPRINT_H
-#define __MYPRINT_H
+#pragma once
 
 enum COLORS
-   {
-   BLACK, BLUE, GREEN, CYAN, RED, MAGENTA, BROWN, LIGHTGRAY, DARKGRAY,
-   LIGHTBLUE, LIGHTGREEN, LIGHTCYAN, LIGHTRED, LIGHTMAGENTA, YELLOW, WHITE
-   };
+{
+  BLACK,
+	BLUE,
+	GREEN,
+	CYAN,
+	RED,
+	MAGENTA,
+	BROWN,
+	LIGHTGRAY,
+	DARKGRAY,
+  LIGHTBLUE,
+	LIGHTGREEN,
+	LIGHTCYAN,
+	LIGHTRED,
+	LIGHTMAGENTA,
+	YELLOW,
+	WHITE
+};
 
-#define NONE         -1
-#define SINGLE_FRAME -1
-#define DOUBLE_FRAME -2
-
-void DrawRottText( int x, int y, int ch, int foreground, int background );
-void TextBox( int x1, int y1, int x2, int y2, int ch, int foreground, int background );
-void TextFrame( int x1, int y1, int x2, int y2, int type, int foreground, int background );
-void mysetxy( int x, int y );
-void myputch( char ch );
-int  printstring( char *string );
-int  printnum( int number );
-int  printunsigned( unsigned long number, int radix );
-int  myprintf( char *fmt, ... ) __attribute__((format(printf,1,2)));
-
-#endif
