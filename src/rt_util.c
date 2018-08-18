@@ -320,7 +320,7 @@ void Error (char *error, ...)
 	va_list	argptr;
    char i;
    int size;
-   char * sptr;
+   int8_t * sptr;
    char buf[30];
    int handle;
    int x,y;

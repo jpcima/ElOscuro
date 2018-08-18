@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,25 +19,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-// scriplib.h
+#pragma once
 
-#ifndef _scriplib_public
-#define _scriplib_public
+#include <stdbool.h>
+#include <stdint.h>
 
-#define	MAXTOKEN	128
+#define	MAXTOKEN  128
 
-extern	char	token[MAXTOKEN];
-extern	char	name[MAXTOKEN*2];
-extern	char	*scriptbuffer,*script_p,*scriptend_p;
-extern	int		scriptline;
-extern	bool	endofscript;
-extern   bool tokenready;      // only true if UnGetToken was just called
+extern bool     endofscript;
+extern int8_t   name[MAXTOKEN * 2];
+extern int8_t*  script_p;
+extern int8_t*  scriptbuffer;
+extern int8_t*  scriptend_p;
+extern int32_t  scriptline;
+extern int8_t   token[MAXTOKEN];
+extern bool     tokenready; // only true if UnGetToken was just called
 
-
-void LoadScriptFile (char *filename);
-void GetToken (bool crossline);
-void GetTokenEOL (bool crossline);
-void UnGetToken (void);
+void GetToken (bool);
+void GetTokenEOL (bool);
+void LoadScriptFile (int8_t*);
 bool TokenAvailable (void);
+void UnGetToken (void);
 
-#endif

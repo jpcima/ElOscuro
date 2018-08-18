@@ -39,11 +39,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =============================================================================
 */
 
-char    token[MAXTOKEN];
-char    name[MAXTOKEN*2];
-char    scriptfilename[512];
-char    *scriptbuffer,*script_p,*scriptend_p;
-int     scriptline;
+int8_t    token[MAXTOKEN];
+int8_t    name[MAXTOKEN*2];
+int8_t    scriptfilename[512];
+int8_t    *scriptbuffer,*script_p,*scriptend_p;
+int32_t     scriptline;
 bool endofscript;
 bool tokenready;                     // only true if UnGetToken was just called
 
@@ -55,7 +55,7 @@ bool tokenready;                     // only true if UnGetToken was just called
 ==============
 */
 
-void LoadScriptFile (char *filename)
+void LoadScriptFile (int8_t *filename)
 {
 	long            size;
 
