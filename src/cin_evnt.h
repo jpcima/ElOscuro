@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,24 +19,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _cin_evnt_public
-#define _cin_evnt_public
+#pragma once
 
-#include "cin_def.h"
+#include <stdint.h>
 
-extern eventtype * firstevent;
-extern eventtype * lastevent;
-
-void AddEvent (eventtype * event);
-void DeleteEvent(eventtype * event);
-
-eventtype * GetNewEvent ( void );
-void StartupEvents ( void );
-void ShutdownEvents ( void );
-eventtype * CreateEvent ( int time, int type );
-void ParseEvent ( int time );
-void UpdateCinematicEvents ( int time );
-void PrecacheCinematic ( void );
-
-#endif
+void ParseEvent (int32_t);
+void PrecacheCinematic (void);
+void ShutdownEvents (void);
+void StartupEvents (void);
+void UpdateCinematicEvents (int32_t);
 
