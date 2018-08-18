@@ -1,5 +1,5 @@
 DONE memcheck.h
-watcom.c
+DONE watcom.c // TODO: Get rid of watcom.c
 DONE gmove.h
 DONE fli_glob.h
 profile.h
@@ -55,7 +55,7 @@ rt_scale.h
 fli_type.h
 develop.h
 _rt_main.h
-watcom.h
+DONE watcom.h
 task_man.h
 DONE rt_msg.h //Need to rename functions and global variables
 cin_def.h
