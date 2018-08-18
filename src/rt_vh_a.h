@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,20 +19,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _rt_vh_a_public
-#define _rt_vh_a_public
-
-//***************************************************************************
-//
-// Public header for RT_VH_A.ASM.
-//
-//***************************************************************************
+#pragma once
 
 void VH_UpdateScreen (void);
 void JoyStick_Vals (void);
 
-#ifdef __WATCOMC__
-#pragma aux JoyStick_Vals modify exact [eax ebx ecx edx esi edi]
-#endif
-
-#endif
