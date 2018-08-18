@@ -37,7 +37,7 @@ DONE byteordr.h // To re-check when reviewing byteordr.c
 DONE rt_sqrt.c
 DONE cin_util.c
 DONE WinRott.h
-_rt_vid.h
+DONE _rt_vid.h
 engine.h
 sndcards.h
 rt_sc_a.h
