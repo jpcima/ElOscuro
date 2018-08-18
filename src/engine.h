@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,36 +19,29 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _engine_public
-#define _engine_public
+#pragma once
+
+#include <stdint.h>
 
 #include "modexlib.h"
-//***************************************************************************
-//
-// ENGINE.C
-//
-//***************************************************************************
 
 typedef struct
 {
-  int      offset;
-  int      wallheight;
-  int      ceilingclip;
-  int      floorclip;
-  int      texture;
-  int      lump;
-  int      posttype;
-  int      alttile;
+  int32_t offset;
+  int32_t wallheight;
+  int32_t ceilingclip;
+  int32_t floorclip;
+  int32_t texture;
+  int32_t lump;
+  int32_t posttype;
+  int32_t alttile;
 } wallcast_t;
-extern wallcast_t posts[800+2];//bna++ JUST MAKE IT MAX RES
-//extern wallcast_t posts[642];//bna++
-//extern wallcast_t posts[321];
 
-extern int lasttilex;
-extern int lasttiley;
+extern wallcast_t posts[800 + 2]; //bna++ JUST MAKE IT MAX RES
+extern int32_t lasttilex;
+extern int32_t lasttiley;
 
-void Refresh ( void );
+void Refresh (void);
 
-#define IsWindow(x,y)       (MAPSPOT((x),(y),2)==13)
+#define IsWindow(x, y)       MAPSPOT(x, y, 2) == 13
 
-#endif
