@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _cin_evnt_public
 #define _cin_evnt_public
 
-#include "cin_glob.h"
 #include "cin_def.h"
 
 extern eventtype * firstevent;

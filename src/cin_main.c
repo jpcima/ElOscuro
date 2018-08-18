@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <fcntl.h>
 #include <string.h>
 #include "rt_def.h"
-#include "cin_glob.h"
 #include "scriplib.h"
 #include "watcom.h"
 #include "z_zone.h"
@@ -64,12 +63,12 @@ void ProfileMachine ( void )
 
    if (profiletics>0)
       return;
-   time=GetCinematicTime();
+   time=GetTicCount(); // GetCinematicTime
    for (i=0;i<4;i++)
       {
       ProfileDisplay();
       }
-   endtime=GetCinematicTime();
+   endtime=GetTicCount(); // GetCinematicTime
 
    profiletics = (endtime-time)>>2;
    if (profiletics<1)
@@ -90,7 +89,7 @@ void StartupCinematic ( void )
    cinematicdone=false;
    cinematictime=0;
    GetCinematicTics ();
-   ClearCinematicAbort();
+   IN_StartAck(); // ClearCinematicAbort
    ProfileMachine();
 }
 
@@ -200,10 +199,10 @@ void GetCinematicTics ( void )
 {
    int time;
 
-   time=GetCinematicTime();
+   time=GetTicCount(); // GetCinematicTime
    while (time==cinematictictime)
       {
-      time=GetCinematicTime();
+      time=GetTicCount(); // GetCinematicTime
       }
    cinematictics=(time-cinematictictime);
    cinematictictime=time;
@@ -222,7 +221,7 @@ void PlayMovie ( char * name, bool uselumpy )
    GetCinematicTics();
    while (cinematicdone==false)
       {
-      cinematicdone=CinematicAbort();
+      cinematicdone=IN_CheckAck(); // CinematicAbort
 #if DUMP
       printf("time=%ld\n",cinematictime);
 #endif

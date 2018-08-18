@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "rt_def.h"
-#include "cin_glob.h"
 #include "cin_util.h"
 #include "cin_def.h"
 #include "cin_main.h"
@@ -300,7 +299,7 @@ void DrawFlic ( flicevent * flic )
 //   PlayFlic ( flicname, buf, flic->usefile, flic->loop);
 
    if (flic->loop==true)
-      ClearCinematicAbort();
+      IN_StartAck(); // ClearCinematicAbort
 
    DrawFadeout ( );
 
@@ -657,7 +656,7 @@ void DrawFadeout ( void )
          }
       WaitVBL();
       CinematicSetPalette (&newpal[0]);
-      CinematicDelay();
+      CalcTics(); // CinematicDelay
       }
    VL_ClearVideo (0);
    GetCinematicTics ();
