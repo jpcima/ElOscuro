@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,25 +19,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-//***************************************************************************
-//
-//    RT_SC_A.ASM - Low level DrawColumn for masked post
-//
-//***************************************************************************
+#pragma once
 
-#ifndef _rt_sc_a_public
-#define _rt_sc_a_public
+#include <stdint.h>
 
-void R_DrawColumn (byte * buf);
-void R_DrawSolidColumn (int color, byte * buf);
-void R_TransColumn (byte * buf);
-void R_DrawClippedColumn (byte * buf);
+void R_DrawClippedColumn (uint8_t*);
+void R_DrawColumn (uint8_t*);
+void R_DrawSolidColumn (int32_t, uint8_t*);
+void R_TransColumn (uint8_t*);
 
-#if defined(__WATCOMC__)
-#pragma aux R_DrawColumn parm [EDI] modify exact [eax ebx ecx edx esi edi]
-#pragma aux R_DrawSolidColumn parm [EBX] [EDI]  modify exact [eax ecx edi]
-#pragma aux R_TransColumn parm [EDI] modify exact [eax ebx esi edi]
-#pragma aux R_DrawClippedColumn parm [EDI] modify exact [eax ebx ecx edx esi edi]
-#endif
-
-#endif
