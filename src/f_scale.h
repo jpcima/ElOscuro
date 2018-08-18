@@ -1,5 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
+Copyright (C) 2002-2015 icculus.org, GNU/Linux port
+Copyright (C) 2018 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -17,22 +19,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#ifndef _f_scale_public
-#define _f_scale_public
+#pragma once
 
-extern int cin_yl;
-extern int cin_yh;
-extern int cin_ycenter;
-extern int cin_iscale;
-extern int cin_texturemid;
-extern byte * cin_source;
+#include <stdint.h>
 
-void R_DrawFilmColumn (byte * buf);
-void DrawFilmPost (byte * buf, byte * src, int height);
+extern int32_t  cin_iscale;
+extern int32_t  cin_texturemid;
+extern int32_t  cin_ycenter;
+extern int32_t  cin_yh;
+extern int32_t  cin_yl;
+extern uint8_t* cin_source;
 
-#if (defined __WATCOMC__)
-#pragma aux R_DrawFilmColumn parm [EDI] modify exact [eax ebx ecx edx esi edi]
-#pragma aux DrawFilmPost parm [EDI] [ESI] [ECX] modify exact [eax ecx edx edi esi ebx]
-#endif
-
-#endif
+void DrawFilmPost (uint8_t*, uint8_t*, int32_t);
+void R_DrawFilmColumn (uint8_t*);
