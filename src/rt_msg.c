@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_vid.h"
 #include "rt_str.h"
 #include "rt_menu.h"
-#include "_rt_msg.h"
 #include "rt_msg.h"
 #include "rt_playr.h"
 #include "isr.h"
@@ -44,6 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdint.h>
 #include <stdlib.h>
 
+#define MESSAGETIME (35*6)
 
 /*
 =============================================================================
