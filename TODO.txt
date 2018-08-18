@@ -5,7 +5,7 @@ DONE fli_glob.h
 profile.h
 DONE _rt_msg.h
 rt_crc.h
-_rt_scal.h
+DONE _rt_scal.h
 Makefile.am
 _rt_spba.h
 cin_util.h
