@@ -21,7 +21,7 @@ DONE rt_debug.h
 DONE rt_spbal.h
 DONE rt_vh_a.h
 DONE cin_main.h
-_rt_door.h
+DONE _rt_door.h
 cin_evnt.h
 f_scale.h
 scriplib.h
@@ -85,7 +85,6 @@ rt_dmand.h
 _rt_game.h
 _rt_play.h
 audiolib
-..
 rt_crc.c
 rt_main.h
 rt_ted.h
@@ -114,7 +113,6 @@ engine.c
 _rt_acto.h
 dukemusc.c
 rt_actor.h
-.
 w_wad.c
 rt_spbal.c
 _rt_rand.h
