@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "rt_def.h"
 #include "rt_vid.h"
-#include "_rt_vid.h"
 #include "rt_menu.h"
 #include "rt_util.h"
 #include "modexlib.h"
@@ -46,6 +45,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cin_efct.h"
 #include "w_wad.h"
 
+#define PIXTOBLOCK         4
+
+#define VW_Hlin(x,z,y,c)   VL_Hlin(x,y,(z)-(x)+1,c)
+#define VW_Vlin(y,z,x,c)   VL_Vlin(x,y,(z)-(y)+1,c)
+
+#define VW_THlin(x,z,y,up)    VL_THlin(x,y,(z)-(x)+1, up)
+#define VW_TVlin(y,z,x,up)    VL_TVlin(x,y,(z)-(y)+1, up)
 
 //******************************************************************************
 //
