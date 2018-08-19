@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #pragma once
 
+#include <stdbool.h>
 #include <stdint.h>
 
 extern int32_t iGLOBAL_SCREENWIDTH;   // bna val 800
@@ -34,4 +35,4 @@ extern int32_t iGLOBAL_FOCALWIDTH;
 
 void EnableScreenStretch (void);
 void DisableScreenStretch (void);
-
+void move_screen(bool, bool, bool, bool);

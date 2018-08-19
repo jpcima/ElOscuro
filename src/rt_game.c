@@ -62,6 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_msg.h"
 #include "rt_scale.h"
 #include "develop.h"
+#include "winrott.h"
 
 #if (SHAREWARE == 1)
 #define NUMAMMOGRAPHICS 10
@@ -161,10 +162,6 @@ static int playeruniformcolor;
 
 extern void VL_MemToScreenClipped (byte *source, int width, int height, int x, int y);
 void DrawPPic (int xpos, int ypos, int width, int height, byte *src, int num, bool up, bool bufferofsonly);
-extern void    MoveScreenUpLeft();
-extern void    MoveScreenUpRight();
-extern void    MoveScreenDownLeft();
-extern void    MoveScreenDownRight();
 //******************************************************************************
 //
 // V_ReDrawBkgnd ()
@@ -2884,25 +2881,25 @@ void ScreenShake (void)
       {
          case 0:
             displayofs += 1;
-			MoveScreenUpLeft();//SetTextMode (  );
+			move_screen(true, false, true, false);
 			DrawPlayScreen(true);//repaint ammo and life stat
          break;
 
          case 1:
             displayofs -= 1;
-			MoveScreenUpRight();
+			move_screen(true, false, false, true);
 			DrawPlayScreen(true);//repaint ammo and life stat
          break;
 
          case 2:
             displayofs += 3*iGLOBAL_SCREENBWIDE;
-			MoveScreenDownLeft();
+			move_screen(false, true, true, false);
 			DrawPlayScreen(true);//repaint ammo and life stat
          break;
 
          case 3:
             displayofs -= 3*iGLOBAL_SCREENBWIDE;
-			MoveScreenDownRight();
+			move_screen(false, true, false, true);
 			DrawPlayScreen(true);//repaint ammo and life stat
          break;
       }
