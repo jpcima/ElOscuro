@@ -80,7 +80,7 @@ _rt_net.h
 fli_def.h
 rt_sqrt.h
 rt_view.h
-rt_rand.c
+DONE rt_rand.c // OK, but check the individual use of get_rng() in every functions
 rt_dmand.h
 _rt_game.h
 _rt_play.h
