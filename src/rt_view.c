@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_draw.h"
 #include "rt_ted.h"
 #include "isr.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "rt_sound.h"
 #include "modexlib.h"
 #include "rt_menu.h"
@@ -806,8 +806,8 @@ void UpdateLightning (void)
       {
       if (lightningsoundtime>0)
          SD_Play3D (SD_LIGHTNINGSND, 0, lightningdistance);
-      lightningtime=GameRandomNumber("UpdateLightning",0)<<1;
-      lightningdistance=GameRandomNumber("UpdateLightning",0);
+      lightningtime=get_rng("UpdateLightning",0)<<1;
+      lightningdistance=get_rng("UpdateLightning",0);
       lightninglevel=(255-lightningdistance)>>LIGHTNINGLEVEL;
       if (lightninglevel<MINLIGHTNINGLEVEL)
          lightninglevel=MINLIGHTNINGLEVEL;

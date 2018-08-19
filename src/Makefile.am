@@ -32,7 +32,7 @@ rott@SUFFIX@_SOURCES = \
 	rt_msg.c \
 	rt_net.c \
 	rt_playr.c \
-	rt_rand.c \
+	random.c \
 	rt_scale.c \
 	rt_sound.c \
 	rt_spbal.c \

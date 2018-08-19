@@ -180,11 +180,11 @@ enum {
       else                                                    \
          {                                                    \
          MISCVARS->SOUNDTIME = 5*VBLCOUNTER;                  \
-         if (GameRandomNumber("boss sound check",0)<160)      \
+         if (get_rng("boss sound check",0)<160)      \
             {                                                 \
             int rand,sound;                                   \
                                                               \
-            rand = GameRandomNumber("boss sounds",0);         \
+            rand = get_rng("boss sounds",0);         \
             sound = BAS[ob->obclass].operate;                 \
             if (rand < 160)                                   \
                sound ++;                                      \

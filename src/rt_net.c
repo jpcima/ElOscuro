@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <time.h>
 
 #ifdef DOS
 #include <dos.h>
@@ -43,7 +44,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_sound.h"
 #include "rt_menu.h"
 #include "rt_util.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "rt_game.h"
 #include "rt_draw.h"
 #include "rt_debug.h"
@@ -1463,7 +1464,7 @@ void CheckForSyncCheck ( void )
             PlayerSync[i].z=PLAYER[i]->z;
             PlayerSync[i].angle=PLAYER[i]->angle;
             }
-         PlayerSync[0].randomindex=GetRNGindex();
+         //PlayerSync[0].randomindex=GetRNGindex(); //FIXME
          PlayerSync[0].synctime=lastsynccheck;
          SendSyncCheckPacket();
          lastsynccheck+=CHECKSYNCTIME;
@@ -2768,7 +2769,7 @@ void SendGameDescription( void )
    memcpy( &desc->SpecialsTimes, &gamestate.SpecialsTimes, sizeof( specials ) );
    BATTLE_GetOptions( &( desc->options ) );
    GetMapFileName( &(desc->battlefilename[0]) );
-   desc->randomseed=GetRNGindex ( );
+   //desc->randomseed=GetRNGindex ( ); //FIXME
    gamestate.randomseed=desc->randomseed;
    desc->ludicrousgibs=battlegibs;
    ludicrousgibs=battlegibs;
@@ -2819,7 +2820,7 @@ void SetGameDescription( void * pkt )
    memcpy( &gamestate.SpecialsTimes, &desc->SpecialsTimes, sizeof( specials ) );
    BATTLE_SetOptions( &( desc->options ) );
    gamestate.randomseed=desc->randomseed;
-   SetRNGindex ( gamestate.randomseed );
+   //SetRNGindex ( gamestate.randomseed ); //FIXME
    SetBattleMapFileName( &(desc->battlefilename[0]) );
    localcrc=GetMapCRC (gamestate.mapon);
    ludicrousgibs=desc->ludicrousgibs;
@@ -3019,7 +3020,7 @@ void SetupGameMaster ( void )
 
    done=false;
 
-   InitializeRNG ();
+   srand(time(0));
 
    while (done==false)
       {

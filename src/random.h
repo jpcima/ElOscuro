@@ -23,13 +23,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdint.h>
 
-#include "develop.h"
-
-#define GameRandomNumber(string, val) GameRNG()
-#define RandomNumber(string, val) RNG()
-int32_t GameRNG (void);
-int32_t GetRNGindex (void);
-int32_t GetRandomSeed (void);
-void InitializeRNG (void);
-int32_t RNG (void);
-void SetRNGindex (int32_t);
+int32_t get_rng (int8_t*, int32_t);

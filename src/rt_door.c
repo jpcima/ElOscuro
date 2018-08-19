@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_net.h"
 #include "isr.h"
 #include "develop.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "engine.h"
 #include <stdlib.h>
 #include <string.h>
@@ -2853,7 +2853,7 @@ bool PlayerInElevator(elevator_t *eptr)
          (MusicStarted() == true) &&                                   \
          (!BATTLEMODE) && \
          (!(player->flags & FL_GODMODE)) &&\
-         (GameRandomNumber("elevator music",0) < 25) && \
+         (get_rng("elevator music",0) < 25) && \
          (PlayerInElevator(eptr))                                      \
         )                                                              \
 

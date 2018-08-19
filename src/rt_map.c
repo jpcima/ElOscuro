@@ -44,7 +44,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_in.h"
 #include "rt_ted.h"
 #include "rt_game.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "rt_view.h"
 #include "rt_floor.h"
 #include "engine.h"
@@ -452,7 +452,7 @@ void DrawMap_PlayerArrow (int x, int y, int dir)
 void DrawMap_Player (int x, int y)
 {
    if (player->flags&FL_SHROOMS)
-      DrawMap_PlayerArrow(x,y,( RandomNumber("DrawMap_PLAYER",0)>>5) );
+      DrawMap_PlayerArrow(x,y,( get_rng("DrawMap_PLAYER",0)>>5) );
    else
       DrawMap_PlayerArrow(x,y,( ( (player->angle+(FINEANGLES/16)) & (FINEANGLES-1) ) >>8) );
    DrawMap_MaskedShape(x,y,player->shapenum+shapestart,0);

@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_str.h"
 #include "isr.h"
 #include "rt_build.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "rt_cfg.h"
 #include "rt_sound.h"
 #include "version.h"
@@ -2878,7 +2878,7 @@ void ScreenShake (void)
       SHAKETICS -= tics;
 	  if (SHAKETICS >= 0xFF00){SHAKETICS = 0xFFFF;}//bna safety val check
 
-      which = (RandomNumber ("ScreenShake",0) & 3);
+      which = (get_rng ("ScreenShake",0) & 3);
 
       switch (which)
       {
@@ -4478,8 +4478,8 @@ player->yzangle=0;
             }
          if (dopefish==true)
             {
-            dummy->momentumx+=(RandomNumber("Died",0)<<6)-(256<<5);
-            dummy->momentumy+=(RandomNumber("Died",0)<<6)-(256<<5);
+            dummy->momentumx+=(get_rng("Died",0)<<6)-(256<<5);
+            dummy->momentumy+=(get_rng("Died",0)<<6)-(256<<5);
             }
          player->x=x+FixedMul(radius,costable[iangle&(FINEANGLES-1)]);
          player->y=y-FixedMul(radius,sintable[iangle&(FINEANGLES-1)]);
@@ -4616,7 +4616,7 @@ player->yzangle=0;
    {
       int rng;
 
-      rng = RandomNumber ("Died",0);
+      rng = get_rng ("Died",0);
 
       if (pstate->falling==true)
          {
@@ -4658,7 +4658,7 @@ player->yzangle=0;
       int rng;
 
       SD_Play (SD_GAMEOVERSND);
-      rng=RandomNumber("Died",0);
+      rng=get_rng("Died",0);
       if (rng<64)
          RotateBuffer(0,(FINEANGLES>>1),(FINEANGLES),(FINEANGLES*64),(VBLCOUNTER*(3+slowrate)));
       else if (rng<128)

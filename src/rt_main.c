@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stddef.h>
 #include <fcntl.h>
 #include <string.h>
+#include <time.h>
 
 #ifdef DOS
 #include <malloc.h>
@@ -66,7 +67,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_ted.h"
 #include "rt_in.h"
 #include "rt_map.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "rt_debug.h"
 #include "isr.h"
 #include "rt_cfg.h"
@@ -355,7 +356,7 @@ int main (int argc, char *argv[])
 #endif
 
       Init_Tables ();
-      InitializeRNG ();
+      srand(time(0)); // Initialize random number generator
       InitializeMessages();
       LoadColorMap();
       }
@@ -1245,7 +1246,7 @@ void GameLoop (void)
                      )
                      {
                      if (demonumber==-1)
-                        demonumber=RandomNumber("GameLoop",0);
+                        demonumber=get_rng("GameLoop",0);
                      for (i=0;i<4;i++)
                         {
                         demonumber=(demonumber+1)%4;

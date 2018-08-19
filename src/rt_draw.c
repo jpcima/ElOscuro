@@ -60,7 +60,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_sound.h"
 #include "rt_msg.h"
 #include "modexlib.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "rt_net.h"
 #include "rt_sc_a.h"
 
@@ -3601,8 +3601,8 @@ void SetupScreenSaverPhase ( void )
       ScreenSaver->angle=0;
       ScreenSaver->scale=FINEANGLES<<2;
       ScreenSaver->dangle=FINEANGLES/VBLCOUNTER;
-      ScreenSaver->dx=RandomNumber("StartupScreen",0)>>5;
-      ScreenSaver->dy=RandomNumber("StartupScreen",0)>>5;
+      ScreenSaver->dx=get_rng("StartupScreen",0)>>5;
+      ScreenSaver->dy=get_rng("StartupScreen",0)>>5;
       ScreenSaver->dscale=0;
       ScreenSaver->time=-1;
       }
@@ -3687,25 +3687,25 @@ void UpdateScreenSaver ( void )
       {
       ScreenSaver->x=SPINSIZE;
       ScreenSaver->dx=abs(ScreenSaver->dx);
-      ScreenSaver->dy+=(RandomNumber("Rotate",0)>>6)-2;
+      ScreenSaver->dy+=(get_rng("Rotate",0)>>6)-2;
       }
    else if (ScreenSaver->x>iGLOBAL_SCREENWIDTH-SPINSIZE)
       {
       ScreenSaver->x=iGLOBAL_SCREENWIDTH-SPINSIZE;
       ScreenSaver->dx=-(abs(ScreenSaver->dx));
-      ScreenSaver->dy+=(RandomNumber("Rotate",0)>>6)-2;
+      ScreenSaver->dy+=(get_rng("Rotate",0)>>6)-2;
       }
    if (ScreenSaver->y<SPINSIZE)
       {
       ScreenSaver->y=SPINSIZE;
       ScreenSaver->dy=abs(ScreenSaver->dy);
-      ScreenSaver->dx+=(RandomNumber("Rotate",0)>>6)-2;
+      ScreenSaver->dx+=(get_rng("Rotate",0)>>6)-2;
       }
    else if (ScreenSaver->y>iGLOBAL_SCREENHEIGHT-SPINSIZE)
       {
       ScreenSaver->y=iGLOBAL_SCREENHEIGHT-SPINSIZE;
       ScreenSaver->dy=-(abs(ScreenSaver->dy));
-      ScreenSaver->dx+=(RandomNumber("Rotate",0)>>6)-2;
+      ScreenSaver->dx+=(get_rng("Rotate",0)>>6)-2;
       }
 
    if (abs(ScreenSaver->dx)>MAXSPEED)
@@ -3721,14 +3721,14 @@ void UpdateScreenSaver ( void )
    {
       ScreenSaver->pausetime=PAUSETIME;
 	  if (iGLOBAL_SCREENWIDTH == 320){
-		  ScreenSaver->pausex=RandomNumber ("pausex",0)%240;
-		  ScreenSaver->pausey=RandomNumber ("pausey",0)%168;
+		  ScreenSaver->pausex=get_rng ("pausex",0)%240;
+		  ScreenSaver->pausey=get_rng ("pausey",0)%168;
       }else if (iGLOBAL_SCREENWIDTH == 640){
-		  ScreenSaver->pausex=RandomNumber ("pausex",0)%480;
-		  ScreenSaver->pausey=RandomNumber ("pausey",0)%403;
+		  ScreenSaver->pausex=get_rng ("pausex",0)%480;
+		  ScreenSaver->pausey=get_rng ("pausey",0)%403;
 	  }else if (iGLOBAL_SCREENWIDTH == 800){
-		  ScreenSaver->pausex=RandomNumber ("pausex",0)%600;
-		  ScreenSaver->pausey=RandomNumber ("pausey",0)%504;
+		  ScreenSaver->pausex=get_rng ("pausex",0)%600;
+		  ScreenSaver->pausey=get_rng ("pausey",0)%504;
 	  }
    }
    DrawPauseXY (ScreenSaver->pausex, ScreenSaver->pausey);
@@ -3981,7 +3981,7 @@ void DoZIntro (void)
             if (src<0)
                src=0;
             dc_source=shape+(src * 200);
-//            if (RandomNumber("hello",0)<128)
+//            if (get_rng("hello",0)<128)
 #ifdef DOS
             R_DrawColumn ((byte *)bufferofs+(x>>2));
 #else
@@ -4717,10 +4717,10 @@ static ExplosionType Explosions[MAXTRANSMITTEREXPLOSIONS];
 
 void ResetTransmitterExplosion ( ExplosionType * Explosion )
 {
-   Explosion->which=RandomNumber("Explosion",0)%NUMEXPLOSIONTYPES;
+   Explosion->which=get_rng("Explosion",0)%NUMEXPLOSIONTYPES;
    Explosion->frame=0;
-   Explosion->x=(RandomNumber("Explosion",2)>>1)+(160-64);
-   Explosion->y=(RandomNumber("Explosion",3)>>1);
+   Explosion->x=(get_rng("Explosion",2)>>1)+(160-64);
+   Explosion->y=(get_rng("Explosion",3)>>1);
 }
 
 void CacheTransmitterExplosions ( void )
@@ -4755,7 +4755,7 @@ void UpdateTransmitterExplosions ( void )
       if (Explosions[i].frame>=(ExplosionInfo[Explosions[i].which].numframes<<1))
          {
          ResetTransmitterExplosion(&Explosions[i]);
-         SD_Play(SD_EXPLODEFLOORSND+(RandomNumber("Explosion",4)>>7));
+         SD_Play(SD_EXPLODEFLOORSND+(get_rng("Explosion",4)>>7));
          }
       }
 }
@@ -4982,11 +4982,11 @@ void DoTryAgainScreen ( void )
 
 void ResetWorldExplosion ( ExplosionType * Explosion )
 {
-   Explosion->which=RandomNumber("Explosion",0)%NUMEXPLOSIONTYPES;
+   Explosion->which=get_rng("Explosion",0)%NUMEXPLOSIONTYPES;
    Explosion->frame=0;
-//   RandomNumber("Explosion",1)%ExplosionInfo[Explosions[i].which].numframes;
-   Explosion->x=(RandomNumber("Explosion",2))+64;
-   Explosion->y=(RandomNumber("Explosion",3)%180);
+//   get_rng("Explosion",1)%ExplosionInfo[Explosions[i].which].numframes;
+   Explosion->x=(get_rng("Explosion",2))+64;
+   Explosion->y=(get_rng("Explosion",3)%180);
 }
 
 void SetupWorldExplosions ( void )
@@ -5007,7 +5007,7 @@ void UpdateWorldExplosions ( void )
       if (Explosions[i].frame>=(ExplosionInfo[Explosions[i].which].numframes<<1))
          {
          ResetWorldExplosion(&Explosions[i]);
-         SD_Play(SD_EXPLODEFLOORSND+(RandomNumber("Explosion",4)>>7));
+         SD_Play(SD_EXPLODEFLOORSND+(get_rng("Explosion",4)>>7));
          }
       }
 }
@@ -5730,7 +5730,7 @@ void WarpCreditString ( int time, byte * back, int num, CreditType * Credits)
 
             do
                {
-               snd=(RandomNumber("DoCredits",0)+RandomNumber("DoCredits",0))%MAXSOUNDS;
+               snd=(get_rng("DoCredits",0)+get_rng("DoCredits",0))%MAXSOUNDS;
                }
             while (SD_SoundOkay ( snd ) == false);
             SD_Play ( snd );
@@ -5739,9 +5739,9 @@ void WarpCreditString ( int time, byte * back, int num, CreditType * Credits)
             {
 //            SD_Play ( SD_BAZOOKAFIRESND );
 #if (SHAREWARE == 0)
-            SD_Play ( SD_BAZOOKAFIRESND + (RandomNumber("DoCredits",1)%13) );
+            SD_Play ( SD_BAZOOKAFIRESND + (get_rng("DoCredits",1)%13) );
 #else
-            SD_Play ( SD_BAZOOKAFIRESND + (RandomNumber("DoCredits",1)%6) );
+            SD_Play ( SD_BAZOOKAFIRESND + (get_rng("DoCredits",1)%6) );
 #endif
             soundplayed=true;
             }
@@ -6175,18 +6175,18 @@ void InitializeParticles (void)
    for (i=0;i<numparticles;i++)
       {
       part=&Particle[i];
-      part->x=((RandomNumber("hello",0)*RandomNumber("hello",0))%viewwidth)<<16;
-      part->y=((RandomNumber("hello",0)*RandomNumber("hello",0))%viewheight)<<16;
-//      part->x=(((RandomNumber("hello",0)*RandomNumber("hello",0))%(viewwidth-40)+20)<<16);
-//      part->y=(((RandomNumber("hello",0)*RandomNumber("hello",0))%(viewheight-40)+20)<<16);
-      part->angle=(RandomNumber("hello",0)*RandomNumber("hello",0))%FINEANGLES;
-//      part->speed=(RandomNumber("hello",0)%2)<<16;
+      part->x=((get_rng("hello",0)*get_rng("hello",0))%viewwidth)<<16;
+      part->y=((get_rng("hello",0)*get_rng("hello",0))%viewheight)<<16;
+//      part->x=(((get_rng("hello",0)*get_rng("hello",0))%(viewwidth-40)+20)<<16);
+//      part->y=(((get_rng("hello",0)*get_rng("hello",0))%(viewheight-40)+20)<<16);
+      part->angle=(get_rng("hello",0)*get_rng("hello",0))%FINEANGLES;
+//      part->speed=(get_rng("hello",0)%2)<<16;
       part->speed=(1<<16)-1;
-      part->color=RandomNumber("hello",0);
+      part->color=get_rng("hello",0);
       part->endx=-1;
       part->endy=-1;
       part->plane=(part->x>>16)&3;
-      part->time=(RandomNumber("",0)%PARTICLETHINKTIME)+1;
+      part->time=(get_rng("",0)%PARTICLETHINKTIME)+1;
 //      part->color=255;
       }
 }
@@ -6257,7 +6257,7 @@ void UpdateParticles (int type)
          part=&Particle[i];
 //         target=&Particle[numparticles-1];
 //         target=&Particle[i+1];
-         target=&Particle[(RandomNumber("",0)*RandomNumber("",0))%numparticles];
+         target=&Particle[(get_rng("",0)*get_rng("",0))%numparticles];
          part->x+=-FixedMul (part->speed, costable[part->angle]);
          part->y+= FixedMul (part->speed, sintable[part->angle]);
          part->plane=(part->x>>16)&3;

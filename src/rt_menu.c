@@ -57,7 +57,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_util.h"
 #include "rt_main.h"
 #include "rt_playr.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "rt_game.h"
 #include "rt_floor.h"
 #include "rt_draw.h"
@@ -2725,7 +2725,7 @@ void CP_Quit ( int which )
    static int oldnum;
 
    while ((num >= 7) || (oldnum == num))
-      num = (RandomNumber ("CP_QUIT", 0) & 7);
+      num = (get_rng ("CP_QUIT", 0) & 7);
 
    oldnum = num;
 
@@ -3071,7 +3071,7 @@ void CP_NewGame
 
    while( ToughMenuNum == temp )
       {
-		temp = ( ( RandomNumber( "TOUGH MENU", 0 ) ) & 3 );
+		temp = ( ( get_rng( "TOUGH MENU", 0 ) ) & 3 );
       if ( temp == 3 )
          {
          temp = 1;

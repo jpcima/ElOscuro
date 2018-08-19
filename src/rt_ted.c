@@ -56,7 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "isr.h"
 #include "rt_floor.h"
 #include "rt_game.h"
-#include "rt_rand.h"
+#include "random.h"
 #include "rt_cfg.h"
 #include "develop.h"
 #include "modexlib.h"
@@ -1097,7 +1097,7 @@ void DrawPreCache( void )
 
       PrintY = PRECACHESTRINGY;
 
-      num = (RandomNumber ("PreCacheString", 0)) % MAXSILLYSTRINGS;
+      num = (get_rng ("PreCacheString", 0)) % MAXSILLYSTRINGS;
 
       if ((dopefish==true) || (tedlevel == true))
          strcpy (temp, &(CacheStrings[num][0]));
@@ -2333,7 +2333,7 @@ void RespawnPlayerobj(objtype *ob)
 
  if (gamestate.battlemode != battle_CaptureTheTriad)
      {
-      rand = (GameRandomNumber("playerobj respawn",0) % NUMSPAWNLOCATIONS);
+      rand = (get_rng("playerobj respawn",0) % NUMSPAWNLOCATIONS);
 
       while(numchecked < NUMSPAWNLOCATIONS)
          {
@@ -2452,7 +2452,7 @@ void SetupTeams(void)
   int locspawned[MAXSPAWNLOCATIONS] = {0};
 
   if (gamestate.battlemode == battle_CaptureTheTriad)
-        {rand = (GameRandomNumber("net player spawn",0) % NUMSPAWNLOCATIONS);
+        {rand = (get_rng("net player spawn",0) % NUMSPAWNLOCATIONS);
 
          for(i=0;i<NUMSPAWNLOCATIONS;i++)
            {sx = SPAWNLOC[rand].x;
@@ -2505,7 +2505,7 @@ void SetupTeams(void)
        //for(rand = 0;rand < NUMSPAWNLOCATIONS;rand++)
        for(cnt=0;cnt<numteams;)
           {
-          rand = (GameRandomNumber("team spawn",0) % NUMSPAWNLOCATIONS);
+          rand = (get_rng("team spawn",0) % NUMSPAWNLOCATIONS);
 
           if (locspawned[rand])
             continue;
@@ -2662,7 +2662,7 @@ void SetupPlayers( void )
 
       locsleft=NUMSPAWNLOCATIONS;
       for(cnt=0;cnt<numplayers;)
-         {rand = (GameRandomNumber("net player spawn",0) % NUMSPAWNLOCATIONS);
+         {rand = (get_rng("net player spawn",0) % NUMSPAWNLOCATIONS);
          if (locsleft==0)
             {
             int x,y;
@@ -2686,7 +2686,7 @@ void SetupPlayers( void )
 	  {int i;
 		playertype *pstate;
 
-      BATTLE_It = GameRandomNumber("tag choose",0) % numplayers;
+      BATTLE_It = get_rng("tag choose",0) % numplayers;
 
 		PLAYER[BATTLE_It]->flags |= FL_DESIGNATED;
 		for(i=0;i<numplayers;i++)
@@ -5697,13 +5697,13 @@ void SetupGameLevel (void)
 
 	insetupgame=true;
 
-   InitializeRNG ();
+  srand(time(0));
 
-	if ((demoplayback==true) || (demorecord==true))
-      SetRNGindex ( 0 );
+	//if ((demoplayback==true) || (demorecord==true))
+  //    SetRNGindex ( 0 ); //FIXME?
 
-   if (gamestate.randomseed!=-1)
-      SetRNGindex ( gamestate.randomseed );
+   //if (gamestate.randomseed!=-1)
+   //   SetRNGindex ( gamestate.randomseed ); //FIXME?
 
 	if (tedlevel)
 		{
@@ -6011,11 +6011,11 @@ void SetupRandomActors(void)
 
 
  while(count<totalrandom)
-	{ locindex = (GameRandomNumber("rand loc index",0) % orig);
+	{ locindex = (get_rng("rand loc index",0) % orig);
 
 	  if (!used[locindex])
-       {randomtype = actorpresent[GameRandomNumber("SetupRandomActors",0) % index];
-		  ambush = (GameRandomNumber("rand actor",0) < 128);
+       {randomtype = actorpresent[get_rng("SetupRandomActors",0) % index];
+		  ambush = (get_rng("rand actor",0) < 128);
 		  i = randloc[locindex].x;
 		  j = randloc[locindex].y;
 		  tile = mapplanes[1][j*mapwidth + i];
@@ -6537,12 +6537,12 @@ void SetupStatics(void)
                case 56:
                   if ( gamestate.Product == ROTT_SHAREWARE )
                      {
-                     num = ( GameRandomNumber( "Random Weapon", 0 ) % 7 );
+                     num = ( get_rng( "Random Weapon", 0 ) % 7 );
                      tile = SharewareWeaponTiles[ num ];
                      }
                   else
                      {
-                     num = ( GameRandomNumber( "Random Weapon", 1 ) % 10 );
+                     num = ( get_rng( "Random Weapon", 1 ) % 10 );
                      tile = NormalWeaponTiles[ num ];
                      }
                   break;
@@ -6946,7 +6946,7 @@ void SetupStatics(void)
 							SpawnStatic(i,j,stat_collector,spawnz);
                      LASTSTAT->flags |= FL_COLORED;
                      LASTSTAT->hitpoints =
-                        ( GameRandomNumber("colors",0) % MAXPLAYERCOLORS );
+                        ( get_rng("colors",0) % MAXPLAYERCOLORS );
                      BATTLE_NumCollectorItems++;
                      }
 					break;
