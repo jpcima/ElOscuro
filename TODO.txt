@@ -92,7 +92,7 @@ rt_game.h
 lumpy.h
 rt_battl.h
 cin_main.c
-winrott.c
+DONE winrott.c // OK, but keep an eye on this one
 rt_in.h
 rt_menu.h
 modexlib.h
