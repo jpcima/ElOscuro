@@ -42,7 +42,7 @@ DONE engine.h
 DONE sndcards.h
 DONE rt_sc_a.h
 DONE myprint.h // Get rid of myprintf() and other rt_str.c functions
-_w_wad.h
+DONE _w_wad.h
 _z_zone.h
 _rt_stat.h
 rt_fc_a.h
