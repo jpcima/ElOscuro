@@ -33,7 +33,7 @@ DONE rt_rand.h
 DONE _rt_util.h
 DONE _rt_buil.h
 DONE rt_com.h
-DONE byteordr.h // To re-check when reviewing byteordr.c
+DONE byteordr.h //OK
 DONE rt_sqrt.c // Get rid of floating-point-workarounds
 DONE cin_util.c
 DONE WinRott.h
@@ -60,7 +60,7 @@ task_man.h
 DONE rt_msg.h //Need to rename functions and global variables
 cin_def.h
 w_wad.h
-byteordr.c
+DONE byteordr.c // OK
 _rt_ted.h
 rt_build.h
 rt_swift.h
