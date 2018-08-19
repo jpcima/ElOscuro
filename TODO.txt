@@ -4,7 +4,7 @@ DONE gmove.h
 DONE fli_glob.h
 DONE profile.h // Check how profiling works
 DONE _rt_msg.h
-DONE rt_crc.h
+DONE rt_crc.h // OK
 DONE _rt_scal.h
 Makefile.am
 DONE _rt_spba.h
@@ -85,7 +85,7 @@ rt_dmand.h
 _rt_game.h
 _rt_play.h
 audiolib
-rt_crc.c
+DONE rt_crc.c // OK
 rt_main.h
 rt_ted.h
 rt_game.h
