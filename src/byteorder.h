@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef void (*converter_t) (void*, int32_t);
 
-#define DECLARE_CONVERTER(type) void Cvt_##type(void *lmp, int32_t num);
+#define DECLARE_CONVERTER(type) void cvt_##type(void* lmp, int32_t num);
 
 DECLARE_CONVERTER (cfont_t);
 DECLARE_CONVERTER (font_t);
@@ -35,6 +35,5 @@ DECLARE_CONVERTER (patch_t);
 DECLARE_CONVERTER (pic_t);
 DECLARE_CONVERTER (transpatch_t);
 
-void CvtNull (void*, int32_t);
-converter_t CvtForType (int32_t);
+converter_t cvt_for_type (int32_t);
 

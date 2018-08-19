@@ -246,7 +246,7 @@ void CalcProjection ( void )
 
 //Hey, isn't this stuff already loaded in?
 //Why don't we make this a lump?
-   table=W_CacheLumpName("tables",PU_STATIC, CvtNull, 1);
+   table=W_CacheLumpName("tables",PU_STATIC, 0, 1);
    ptr=table;
 
 //
@@ -269,7 +269,7 @@ void CalcProjection ( void )
       pixelangle[centerx+i] =(short) -intang;
       frac+=(length*65536/centerx);
       }
-   table=W_CacheLumpName("tables",PU_CACHE, CvtNull, 1);
+   table=W_CacheLumpName("tables",PU_CACHE, 0, 1);
    SafeFree(pangle);
 }
 
@@ -474,7 +474,7 @@ void SetupScreen ( bool flip )
 
    if ( viewsize < 7 )
       {
-      shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, Cvt_pic_t, 1 );
+      shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
       //DrawTiledRegion( 0, 16, 320, 200 - 32, 0, 16, shape );
       DrawTiledRegion( 0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape );//bna++
       }

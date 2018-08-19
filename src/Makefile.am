@@ -2,7 +2,7 @@ SUBDIRS = audiolib
 
 bin_PROGRAMS = rott@SUFFIX@
 rott@SUFFIX@_SOURCES = \
-	byteordr.c \
+	byteorder.c \
 	cin_actr.c \
 	cin_efct.c \
 	cin_evnt.c \

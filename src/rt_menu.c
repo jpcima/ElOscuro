@@ -1367,7 +1367,7 @@ void DrawMenu
          else
             {
             IFont = ( cfont_t * )W_CacheLumpName( FontNames[ item_i->fontsize ],
-               PU_CACHE, Cvt_cfont_t, 1 );
+               PU_CACHE, cvt_cfont_t, 1 );
             if ( item_i->fontsize == mn_tinyfont )
                {
                DrawMenuBufIString( posx + 1, posy, item_i->names[ i ], 0 );
@@ -2434,7 +2434,7 @@ void HideCursor
          else
             {
             IFont = ( cfont_t * )W_CacheLumpName( FontNames[ item_i->fontsize ],
-               PU_CACHE, Cvt_cfont_t, 1 );
+               PU_CACHE, cvt_cfont_t, 1 );
             if ( item_i->fontsize == mn_tinyfont )
                {
                DrawMenuBufIString( posx + 1, posy, item_i->names[ which ], 0 );
@@ -2550,7 +2550,7 @@ void ShowCursor
          else
             {
             IFont = ( cfont_t * )W_CacheLumpName( FontNames[ item_i->fontsize ],
-               PU_CACHE, Cvt_cfont_t, 1 );
+               PU_CACHE, cvt_cfont_t, 1 );
             if ( item_i->fontsize == mn_tinyfont )
                {
                DrawMenuBufIString( posx + 1, posy, item_i->names[ which ], 0 );
@@ -2592,7 +2592,7 @@ void DrawOrderInfo
    // Screen shots are grabbed as pics
    if ( lumpname[ 0 ] == 'S' )
       {
-      VWB_DrawPic( 0, 0, ( pic_t * )W_CacheLumpNum( start + which, PU_CACHE, Cvt_pic_t, 1 ) );
+      VWB_DrawPic( 0, 0, ( pic_t * )W_CacheLumpNum( start + which, PU_CACHE, cvt_pic_t, 1 ) );
       }
    else
       {
@@ -2867,7 +2867,7 @@ bool CP_DisplayMsg
    redraw = true;
 
    IFont = ( cfont_t * )W_CacheLumpName( FontNames[ mn_smallfont ],
-      PU_CACHE, Cvt_cfont_t, 1 );
+      PU_CACHE, cvt_cfont_t, 1 );
 /*
    DrawSTMenuBuf( WindowX, L_Y, W_W, W_H, false );
    MenuBufCPrint( s );
@@ -3258,7 +3258,7 @@ void DrawStoredGame ( byte * pic, int episode, int area )
    int level;
    byte *shape;
 
-	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_CACHE, Cvt_font_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_CACHE, cvt_font_t, 1);
 	newfont1 = (font_t *)shape;
    CurrentFont = newfont1;
    EraseMenuBufRegion (74, 128, 85, 14);
@@ -4185,7 +4185,7 @@ void Message (char *string)
          i;
    byte *shape;
 
-	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_CACHE, Cvt_font_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_CACHE, cvt_font_t, 1);
 	newfont1 = (font_t *)shape;
    CurrentFont = newfont1;
    h = CurrentFont->height;
@@ -4298,7 +4298,7 @@ void DrawLoadSaveScreen (int loadsave)
    int i;
    byte *shape;
 
-	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_CACHE, Cvt_font_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_CACHE, cvt_font_t, 1);
 	newfont1 = (font_t *)shape;
    CurrentFont = newfont1;
 
@@ -4341,7 +4341,7 @@ void DrawLoadSaveScreenAlt (int loadsave)
    int i;
    byte *shape;
 
-	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_CACHE, Cvt_font_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_CACHE, cvt_font_t, 1);
 	newfont1 = (font_t *)shape;
    CurrentFont = newfont1;
 
@@ -4440,7 +4440,7 @@ int CalibrateJoystick
       PrintX = WindowX = 0;
       PrintY = WindowY = 50;
 
-      newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, Cvt_font_t, 1 );
+      newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, cvt_font_t, 1 );
       CurrentFont = newfont1;
       MenuBufCPrint( "MOVE JOYSTICK TO\nUPPER LEFT AND\nPRESS A BUTTON." );
 
@@ -4480,7 +4480,7 @@ int CalibrateJoystick
       PrintX = WindowX = 0;
       PrintY = WindowY = 50;
 
-      newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, Cvt_font_t, 1 );
+      newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, cvt_font_t, 1 );
       CurrentFont = newfont1;
       MenuBufCPrint( "MOVE JOYSTICK TO\nLOWER RIGHT AND\nPRESS A BUTTON." );
 
@@ -4993,7 +4993,7 @@ void DisplayInfo (int which)
    int num;
 
    num = W_GetNumForName ( "info1" ) + which;
-   p = (patch_t *) W_CacheLumpNum (num, PU_CACHE, Cvt_patch_t, 1);
+   p = (patch_t *) W_CacheLumpNum (num, PU_CACHE, cvt_patch_t, 1);
 
    x = (288 - p->width) >> 1;
 
@@ -5891,7 +5891,7 @@ bool SliderMenu
    ClearMenuBuf();
    SetMenuTitle( title );
 
-   newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, Cvt_font_t, 1);
+   newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, cvt_font_t, 1);
    CurrentFont = newfont1;
    PrintX = 25;
    PrintY = 62;
@@ -5901,7 +5901,7 @@ bool SliderMenu
    DrawMenuBufPropString( 263 - width, PrintY, right );
 
    block = W_GetNumForName( blockname );
-   shape = ( patch_t * )W_CacheLumpNum( block, PU_CACHE, Cvt_patch_t, 1 );
+   shape = ( patch_t * )W_CacheLumpNum( block, PU_CACHE, cvt_patch_t, 1 );
    blkx  = erasex - shape->leftoffset;
    eraseh =  shape->height;
    scale = ( erasew + shape->leftoffset - shape->width ) << 16;
@@ -6158,7 +6158,7 @@ void DrawViolenceLevel (void)
 
 //   DrawMenuBufItem (58, 24, W_GetNumForName ("blood"));
    IFont = ( cfont_t * )W_CacheLumpName( FontNames[ mn_largefont ],
-      PU_CACHE, Cvt_cfont_t, 1 );
+      PU_CACHE, cvt_cfont_t, 1 );
    DrawMenuBufIString( 58, 24, "HOW MUCH ", NORMALCOLOR );
    DrawMenuBufIString( PrintX, PrintY, "BLOOD", 51 );
    DrawMenuBufIString( 71, 37, "DO YOU WANT?", NORMALCOLOR );
@@ -6253,7 +6253,7 @@ void DrawViolenceLevelPWord
 //   DrawMenuBufPropString( PWORDX, PWORDY, "ENTER PASSWORD" );
 
    IFont = ( cfont_t * )W_CacheLumpName( FontNames[ mn_largefont ],
-      PU_CACHE, Cvt_cfont_t, 1 );
+      PU_CACHE, cvt_cfont_t, 1 );
    DrawMenuBufIString( PWORDX, PWORDY, "ENTER PASSWORD", NORMALCOLOR );
 
    DrawSTMenuBuf( PBOXX, PBOXY, PBOXW, PBOXH, false );
@@ -6282,7 +6282,7 @@ void DrawPWMenu
 
 //   CurrentFont = newfont1;
    IFont = ( cfont_t * )W_CacheLumpName( FontNames[ mn_largefont ],
-      PU_CACHE, Cvt_cfont_t, 1 );
+      PU_CACHE, cvt_cfont_t, 1 );
 
    if ( POK )
       {
@@ -6362,7 +6362,7 @@ void CP_PWMenu (void)
          SetMenuTitle ("Violence Password");
 
          IFont = ( cfont_t * )W_CacheLumpName( FontNames[ mn_largefont ],
-            PU_CACHE, Cvt_cfont_t, 1 );
+            PU_CACHE, cvt_cfont_t, 1 );
          DrawMenuBufIString( PWORDX - 24, PWORDY, "ENTER NEW PASSWORD", NORMALCOLOR );
 
 //         CurrentFont = newfont1;
@@ -6409,7 +6409,7 @@ void CP_PWMenu (void)
 //         DrawMenuBufPropString( PWORDX, PWORDY, "RETYPE PASSWORD" );
 
          IFont = ( cfont_t * )W_CacheLumpName( FontNames[ mn_largefont ],
-            PU_CACHE, Cvt_cfont_t, 1 );
+            PU_CACHE, cvt_cfont_t, 1 );
          DrawMenuBufIString( PWORDX, PWORDY, "RETYPE PASSWORD", NORMALCOLOR );
 
          DrawSTMenuBuf (PBOXX, PBOXY, PBOXW, PBOXH, false);
@@ -7178,7 +7178,7 @@ void CP_ModemGameMessage (int player  )
    ClearMenuBuf();
    SetMenuTitle ("Game Message");
 
-   newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, Cvt_font_t, 1);
+   newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, cvt_font_t, 1);
    CurrentFont = newfont1;
    if ( modemgame == false )
       {
@@ -8098,7 +8098,7 @@ void PrintBattleOption
    {
    if ( inmenu )
       {
-      IFont = ( cfont_t * )W_CacheLumpName( "itnyfont", PU_CACHE, Cvt_cfont_t, 1 );
+      IFont = ( cfont_t * )W_CacheLumpName( "itnyfont", PU_CACHE, cvt_cfont_t, 1 );
       DrawMenuBufIString( x + 1, y + 1, text, 0 );
       DrawMenuBufIString( x, y, text, ACTIVECOLOR );
       }
@@ -9531,7 +9531,7 @@ void CP_ErrorMsg
    WindowX = 0;
    WindowY = 40;
 
-   IFont = ( cfont_t * )W_CacheLumpName( FontNames[ font ], PU_CACHE, Cvt_cfont_t, 1 );
+   IFont = ( cfont_t * )W_CacheLumpName( FontNames[ font ], PU_CACHE, cvt_cfont_t, 1 );
 
    pos = 0;
    line = 0;
@@ -9836,7 +9836,7 @@ void SS_SetupMusicCardMenu
       WindowH = 158;
       PrintX = WindowX = 0;
       PrintY = WindowY = 65;
-      newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, Cvt_font_t, 1 );
+      newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, cvt_font_t, 1 );
       CurrentFont = newfont1;
       MenuBufCPrint( "Initializing card.\nPlease wait." );
       FlipMenuBuf();
@@ -9991,7 +9991,7 @@ void SS_SetupSoundBlaster
       WindowH = 158;
       PrintX = WindowX = 0;
       PrintY = WindowY = 65;
-      newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, Cvt_font_t, 1 );
+      newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, cvt_font_t, 1 );
       CurrentFont = newfont1;
       MenuBufCPrint( "Initializing card.\nPlease wait." );
       FlipMenuBuf();
@@ -10087,7 +10087,7 @@ void SS_SetupSoundCardMenu
          WindowH = 158;
          PrintX = WindowX = 0;
          PrintY = WindowY = 65;
-         newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, Cvt_font_t, 1 );
+         newfont1 = (font_t *)W_CacheLumpName( "newfnt1", PU_CACHE, cvt_font_t, 1 );
          CurrentFont = newfont1;
          MenuBufCPrint( "Initializing card.\nPlease wait." );
          FlipMenuBuf();

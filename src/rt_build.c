@@ -287,7 +287,7 @@ void   DrawPlanePosts (void)
             if (lastwall==-1)
                shape=menubuf;
             else
-               shape=W_CacheLumpNum(lastwall,PU_CACHE, Cvt_patch_t, 1);
+               shape=W_CacheLumpNum(lastwall,PU_CACHE, cvt_patch_t, 1);
             }
          DrawRotPost (height,shape+posts[i].texture,buf,posts[i].offset);
          }
@@ -439,7 +439,7 @@ void ClearMenuBuf ( void )
    if (MenuBufStarted==false)
       Error("Called ClearMenuBuf without menubuf started\n");
 
-   shape=W_CacheLumpName(MENUBACKNAME,PU_CACHE, Cvt_patch_t, 1);
+   shape=W_CacheLumpName(MENUBACKNAME,PU_CACHE, cvt_patch_t, 1);
    shape+=8;
    memcpy (menubuf,shape,TEXTUREW*TEXTUREHEIGHT);
 }
@@ -563,7 +563,7 @@ void PositionMenuBuf( int angle, int distance, bool drawbackground )
    DrawTransformedPlanes();
    DrawPlanePosts();
    oldfont=CurrentFont;
-   CurrentFont = (font_t *)W_CacheLumpName ("newfnt1", PU_CACHE, Cvt_font_t, 1);
+   CurrentFont = (font_t *)W_CacheLumpName ("newfnt1", PU_CACHE, cvt_font_t, 1);
    US_MeasureStr (&width, &height, "%s", titlestring);
    US_ClippedPrint ((320-width)>>1, MENUTITLEY-titleyoffset, titlestring);
    CurrentFont=oldfont;
@@ -705,7 +705,7 @@ void DrawMenuBufItem (int x, int y, int shapenum)
    if (MenuBufStarted==false)
       Error("Called DrawMenuBufItem without menubuf started\n");
 
-   shape = W_CacheLumpNum (shapenum, PU_CACHE, Cvt_patch_t, 1);
+   shape = W_CacheLumpNum (shapenum, PU_CACHE, cvt_patch_t, 1);
    p = (patch_t *)shape;
 
    if (((x-p->leftoffset)<0) || ((x-p->leftoffset+p->width)>=TEXTUREW))
@@ -768,7 +768,7 @@ void DrawIMenuBufItem (int x, int y, int shapenum, int color)
    if (MenuBufStarted==false)
       Error("Called DrawIMenuBufItem without menubuf started\n");
 
-   shape = W_CacheLumpNum (shapenum, PU_CACHE, Cvt_patch_t, 1);
+   shape = W_CacheLumpNum (shapenum, PU_CACHE, cvt_patch_t, 1);
    p = (patch_t *)shape;
 
    if (((x-p->leftoffset)<0) || ((x-p->leftoffset+p->width)>=TEXTUREW))
@@ -874,7 +874,7 @@ void EraseMenuBufRegion (int x, int y, int width, int height)
    if ((y<0) || (y+height>=TEXTUREHEIGHT))
       Error ("EraseMenuBufRegion: y is out of range\n");
 
-   shape=W_CacheLumpName(MENUBACKNAME,PU_CACHE, Cvt_patch_t, 1);
+   shape=W_CacheLumpName(MENUBACKNAME,PU_CACHE, cvt_patch_t, 1);
    shape+=8;
    shape+=(x*TEXTUREHEIGHT)+y;
    buffer = (byte*)menubuf+(x*TEXTUREHEIGHT)+y;
@@ -911,7 +911,7 @@ void DrawTMenuBufPic (int x, int y, int shapenum)
 
    shadingtable=colormap+(25<<8);
 
-   shape = W_CacheLumpNum (shapenum, PU_CACHE, Cvt_pic_t, 1);
+   shape = W_CacheLumpNum (shapenum, PU_CACHE, cvt_pic_t, 1);
    p = (pic_t *)shape;
 
    if ((x<0) || ((x+(p->width<<2))>=TEXTUREW))
@@ -955,7 +955,7 @@ void DrawTMenuBufItem (int x, int y, int shapenum)
    if (MenuBufStarted==false)
       Error("Called DrawTMenuBufItem without menubuf started\n");
 
-   shape = W_CacheLumpNum (shapenum, PU_CACHE, Cvt_patch_t, 1);
+   shape = W_CacheLumpNum (shapenum, PU_CACHE, cvt_patch_t, 1);
    p = (patch_t *)shape;
 
    shadingtable=colormap+(25<<8);
@@ -989,7 +989,7 @@ void DrawColoredMenuBufItem (int x, int y, int shapenum, int color)
    if (MenuBufStarted==false)
       Error("Called DrawColoredMenuBufItem without menubuf started\n");
 
-   shape = W_CacheLumpNum (shapenum, PU_CACHE, Cvt_patch_t, 1);
+   shape = W_CacheLumpNum (shapenum, PU_CACHE, cvt_patch_t, 1);
    p = (patch_t *)shape;
 
    shadingtable=playermaps[color]+(16<<8);
@@ -1025,7 +1025,7 @@ void DrawMenuBufPic (int x, int y, int shapenum)
    if (MenuBufStarted==false)
       Error("Called DrawMenuBufPic without menubuf started\n");
 
-   shape = W_CacheLumpNum (shapenum, PU_CACHE, Cvt_pic_t, 1);
+   shape = W_CacheLumpNum (shapenum, PU_CACHE, cvt_pic_t, 1);
    p = (pic_t *)shape;
 
    if ((x<0) || ((x+(p->width<<2))>=TEXTUREW))

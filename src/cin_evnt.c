@@ -305,14 +305,14 @@ void ParseBack ( eventtype * event )
       {
       lpic_t * lpic;
 
-      lpic = (lpic_t *)W_CacheLumpName(name,PU_CACHE, Cvt_lpic_t, 1);
+      lpic = (lpic_t *)W_CacheLumpName(name,PU_CACHE, cvt_lpic_t, 1);
       width = lpic->width;
       }
    else if (event->effecttype!=background_multi)
       {
       patch_t * patch;
 
-      patch = (patch_t *)W_CacheLumpName(name,PU_CACHE, Cvt_lpic_t, 1);
+      patch = (patch_t *)W_CacheLumpName(name,PU_CACHE, cvt_lpic_t, 1);
       width = patch->width;
       }
 

@@ -381,7 +381,7 @@ void DoGodMode (void)
 =
 ================
 */
-#include "byteordr.h"//bna++
+#include "byteorder.h"//bna++
 void DoWarp (void)
 {
 /*
@@ -441,7 +441,7 @@ void DoWarp (void)
    	//bna++ section
   if (( playstate == ex_stillplaying )&&(iGLOBAL_SCREENWIDTH > 320)){
 		pic_t *shape;
-		shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, Cvt_pic_t, 1 );
+		shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
 		DrawTiledRegion( 0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape );
 		DisableScreenStretch();//dont strech when we go BACK TO GAME
 		DrawPlayScreen(true);//repaint ammo and life stat
@@ -508,7 +508,7 @@ void DoJukeBox  (void)
    	//bna++ section
   if (( playstate == ex_stillplaying )&&(iGLOBAL_SCREENWIDTH > 320)){
 		pic_t *shape;
-		shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, Cvt_pic_t, 1 );
+		shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
 		DrawTiledRegion( 0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape );
 		DisableScreenStretch();//dont strech when we go BACK TO GAME
 		DrawPlayScreen(true);//repaint ammo and life stat

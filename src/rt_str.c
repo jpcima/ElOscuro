@@ -1390,23 +1390,23 @@ void US_DrawWindow (int x, int y, int w, int h)
    pic_t *Win9;
 
 	// Cache in windowing shapes
-	shape = W_CacheLumpNum (W_GetNumForName ("window1"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window1"), PU_CACHE, cvt_pic_t, 1);
 	Win1 = (pic_t *) shape;
-	shape = W_CacheLumpNum (W_GetNumForName ("window2"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window2"), PU_CACHE, cvt_pic_t, 1);
 	Win2 = (pic_t *) shape;
-	shape = W_CacheLumpNum (W_GetNumForName ("window3"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window3"), PU_CACHE, cvt_pic_t, 1);
 	Win3 = (pic_t *) shape;
-	shape = W_CacheLumpNum (W_GetNumForName ("window4"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window4"), PU_CACHE, cvt_pic_t, 1);
 	Win4 = (pic_t *) shape;
-	shape = W_CacheLumpNum (W_GetNumForName ("window5"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window5"), PU_CACHE, cvt_pic_t, 1);
 	Win5 = (pic_t *) shape;
-	shape = W_CacheLumpNum (W_GetNumForName ("window6"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window6"), PU_CACHE, cvt_pic_t, 1);
 	Win6 = (pic_t *) shape;
-	shape = W_CacheLumpNum (W_GetNumForName ("window7"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window7"), PU_CACHE, cvt_pic_t, 1);
 	Win7 = (pic_t *) shape;
-	shape = W_CacheLumpNum (W_GetNumForName ("window8"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window8"), PU_CACHE, cvt_pic_t, 1);
 	Win8 = (pic_t *) shape;
-	shape = W_CacheLumpNum (W_GetNumForName ("window9"), PU_CACHE, Cvt_pic_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("window9"), PU_CACHE, cvt_pic_t, 1);
 	Win9 = (pic_t *) shape;
 
    WindowX = x * 8;

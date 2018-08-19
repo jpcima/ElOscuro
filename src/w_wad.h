@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _w_wad_public
 #define _w_wad_public
 
-#include "byteordr.h"
+#include "byteorder.h"
 
 void    W_InitMultipleFiles (char **filenames); // Initialize multiple wads
 void    W_InitFile (char *filename);            // Init a single wad file

@@ -443,7 +443,7 @@ int main (int argc, char *argv[])
             {
             lbm_t * LBM;
 
-            LBM = (lbm_t *) W_CacheLumpName( "svendor", PU_CACHE, Cvt_lbm_t, 1);
+            LBM = (lbm_t *) W_CacheLumpName( "svendor", PU_CACHE, cvt_lbm_t, 1);
             VL_DecompressLBM (LBM,true);
             I_Delay(40);
             MenuFadeOut();
@@ -1055,7 +1055,7 @@ void Init_Tables (void)
    getcwd (CWD, 40);                      // get the current directory
 
    origpal=SafeMalloc(768);
-   memcpy (origpal, W_CacheLumpName("pal",PU_CACHE, CvtNull, 1), 768);
+   memcpy (origpal, W_CacheLumpName("pal",PU_CACHE, 0, 1), 768);
 
    FindEGAColors();
 
@@ -1073,15 +1073,15 @@ void Init_Tables (void)
 		*(origpal+(unsigned int)i) = (*(origpal+(unsigned int)i))>>2;
 
 	// Cache in fonts
-	shape = W_CacheLumpNum (W_GetNumForName ("smallfont"), PU_STATIC, Cvt_font_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("smallfont"), PU_STATIC, cvt_font_t, 1);
 	smallfont = (font_t *)shape;
 	CurrentFont = smallfont;
 
 	// Cache in tiny font
-	shape = W_CacheLumpNum (W_GetNumForName ("tinyfont"), PU_STATIC, Cvt_font_t, 1);
+	shape = W_CacheLumpNum (W_GetNumForName ("tinyfont"), PU_STATIC, cvt_font_t, 1);
 	tinyfont = (font_t *)shape;
 
-   intensitytable=W_CacheLumpNum(W_GetNumForName("menucmap"),PU_STATIC, CvtNull, 1);
+   intensitytable=W_CacheLumpNum(W_GetNumForName("menucmap"),PU_STATIC, 0, 1);
    fontcolor = egacolor[4];
 
    if (!quiet)
@@ -1483,7 +1483,7 @@ void GameLoop (void)
                char str[50];
                int width, height;
 
-               LBM = (lbm_t *) W_CacheLumpName( "deadboss", PU_CACHE, Cvt_lbm_t, 1);
+               LBM = (lbm_t *) W_CacheLumpName( "deadboss", PU_CACHE, cvt_lbm_t, 1);
                VL_DecompressLBM (LBM,false);
                MenuFadeOut();
                switch (gamestate.mapon)
@@ -1504,7 +1504,7 @@ void GameLoop (void)
 //                     Error("Boss died on an illegal level\n");
 //                     break;
                   }
-               s = W_CacheLumpNum (shape, PU_CACHE, Cvt_patch_t, 1);
+               s = W_CacheLumpNum (shape, PU_CACHE, cvt_patch_t, 1);
                p = (patch_t *)s;
                DrawNormalSprite ((320-p->origsize)>>1, (230-(p->height-p->topoffset))>>1, shape);
                switch (gamestate.mapon)
@@ -1752,9 +1752,9 @@ void QuitGame ( void )
       {
 #endif
 #if (SHAREWARE==0)
-      txtscn = (byte *) W_CacheLumpNum (W_GetNumForName ("regend"), PU_CACHE, CvtNull, 1);
+      txtscn = (byte *) W_CacheLumpNum (W_GetNumForName ("regend"), PU_CACHE, 0, 1);
 #else
-      txtscn = (byte *) W_CacheLumpNum (W_GetNumForName ("shareend"), PU_CACHE, CvtNull, 1);
+      txtscn = (byte *) W_CacheLumpNum (W_GetNumForName ("shareend"), PU_CACHE, 0, 1);
 #endif
 #if DOS
       for (k = 0; k < 23; k++)
@@ -1975,7 +1975,7 @@ void PauseLoop ( void )
    			//bna++ section
 		  if (( playstate == ex_stillplaying )&&(iGLOBAL_SCREENWIDTH > 320)){
 				pic_t *shape;
-				shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, Cvt_pic_t, 1 );
+				shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
 				DrawTiledRegion( 0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape );
 				DisableScreenStretch();//dont strech when we go BACK TO GAME
 				DrawPlayScreen(true);//repaint ammo and life stat
@@ -3437,7 +3437,7 @@ void PlayCinematic (void)
          DrawNormalSprite(0,30,W_GetNumForName("nicolas"));
          DrawNormalSprite(0,168,W_GetNumForName("oneyear"));
          FlipPage();
-         memcpy(&pal[0],W_CacheLumpName("nicpal",PU_CACHE, CvtNull, 1),768);
+         memcpy(&pal[0],W_CacheLumpName("nicpal",PU_CACHE, 0, 1),768);
          VL_NormalizePalette(&pal[0]);
          VL_FadeIn(0,255,pal,20);
          I_Delay (60);

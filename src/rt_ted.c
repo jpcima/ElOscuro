@@ -1047,7 +1047,7 @@ void DrawPreCache( void )
       else
          {
          pic_t * pic;
-         pic=(pic_t *)W_CacheLumpName("mmbk",PU_CACHE, Cvt_pic_t, 1);
+         pic=(pic_t *)W_CacheLumpName("mmbk",PU_CACHE, cvt_pic_t, 1);
          VWB_DrawPic (0, 0, pic);
 
          CheckHolidays();
@@ -1183,7 +1183,7 @@ void PreCache( void )
       ticdelay=CACHETICDELAY;
       for (i=1;i<cacheindex;i++)
 			{
-         dummy=W_CacheLumpNum(cachelist[i].lump,cachelist[i].cachelevel, CvtForType(cachelist[i].type), 1);
+         dummy=W_CacheLumpNum(cachelist[i].lump,cachelist[i].cachelevel, cvt_for_type(cachelist[i].type), 1);
          total+=W_LumpLength(cachelist[i].lump);
          newheap=Z_UsedHeap();
 			currentmem=(newheap*MAXLEDS)/maxheapsize;
@@ -1262,7 +1262,7 @@ void PreCache( void )
 DisableScreenStretch();
 
 	// Cache in fonts
-//	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_STATIC, Cvt_font_t, 1);
+//	shape = W_CacheLumpNum (W_GetNumForName ("newfnt1"), PU_STATIC, cvt_font_t, 1);
 //	bigfont = (font_t *)shape;
          CurrentFont = newfont1;//smallfont;
 
@@ -1310,7 +1310,7 @@ DisableScreenStretch();
       {
       for (i=1;i<cacheindex;i++)
          {
-			dummy=W_CacheLumpNum(cachelist[i].lump,cachelist[i].cachelevel, CvtForType(cachelist[i].type), 1);
+			dummy=W_CacheLumpNum(cachelist[i].lump,cachelist[i].cachelevel, cvt_for_type(cachelist[i].type), 1);
          DoLoadGameAction ();
          }
       ShutdownPreCache ();
