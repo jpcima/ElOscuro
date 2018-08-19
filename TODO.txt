@@ -34,7 +34,7 @@ DONE _rt_util.h
 DONE _rt_buil.h
 DONE rt_com.h
 DONE byteordr.h // To re-check when reviewing byteordr.c
-DONE rt_sqrt.c
+DONE rt_sqrt.c // Get rid of floating-point-workarounds
 DONE cin_util.c
 DONE WinRott.h
 DONE _rt_vid.h
@@ -44,7 +44,7 @@ DONE rt_sc_a.h
 DONE myprint.h // Get rid of myprintf() and other rt_str.c functions
 DONE _w_wad.h
 DONE _z_zone.h
-_rt_stat.h
+DONE _rt_stat.h
 rt_fc_a.h
 _rt_str.h
 Makefile_old
