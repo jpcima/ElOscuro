@@ -88,7 +88,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //******************************************************************************
 
 extern int G_weaponscale;
-extern bool iG_aimCross;
+extern bool g_aimcross;
 
 bool WriteSoundFile   = true;
 
@@ -516,7 +516,7 @@ bool ParseConfigFile (void)
       ReadBoolean("UseJump",&usejump);
 
       // Read in CrossHair
-      ReadBoolean("CrossHair",&iG_aimCross);
+      ReadBoolean("CrossHair",&g_aimcross);
 
       // Read in JoystickEnabled
       ReadBoolean("JoystickEnabled",&joystickenabled);
@@ -1759,7 +1759,7 @@ void WriteConfig (void)
    SafeWriteString(file,"\n;\n");
    SafeWriteString(file,"; 1 - CrossHair Enabled\n");
    SafeWriteString(file,"; 0 - CrossHair Disabled\n");
-   WriteParameter(file,"CrossHair        ", iG_aimCross);
+   WriteParameter(file,"CrossHair        ", g_aimcross);
 
    // Write out JoystickEnabled
 

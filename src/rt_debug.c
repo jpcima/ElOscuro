@@ -45,7 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "w_wad.h"
 
 extern int		iDemoNames;
-extern bool iG_aimCross;
+extern bool g_aimcross;
 
 
 extern void DisplayMessage   (int num,int position);
@@ -1490,11 +1490,11 @@ void CheckCode (int which)
 
          case AIMCROSS:
          case AIMCROSSALT:
-            if (iG_aimCross == 0) {
-			    iG_aimCross = 1;
+            if (g_aimcross == 0) {
+			    g_aimcross = 1;
 				AddMessage("Crosshair on",MSG_GAME);
 			}else{
-				iG_aimCross = 0;
+				g_aimcross = 0;
 				AddMessage("Crosshair off",MSG_GAME);
 			}
          break;

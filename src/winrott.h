@@ -23,16 +23,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdbool.h>
 #include <stdint.h>
 
-extern int32_t g_swidth;   // bna val 800
-extern int32_t g_sheight;  // bna val 600
+extern int32_t g_swidth;  // bna val 800
+extern int32_t g_sheight; // bna val 600
 extern int32_t g_sbwide;
-extern int32_t g_swidth_bytes;        // default screen width in bytes
+extern int32_t g_swidth_bytes; // default screen width in bytes
 extern int32_t g_healthx;
 extern int32_t g_healthy;
 extern int32_t g_ammox;
 extern int32_t g_ammoy;
 extern int32_t g_focal_width;
 
-void EnableScreenStretch (void);
-void DisableScreenStretch (void);
 void move_screen(bool, bool, bool, bool);
+void set_rott_screen_res (int32_t, int32_t);
+

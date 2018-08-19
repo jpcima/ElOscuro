@@ -43,7 +43,7 @@ static void StretchMemPicture ();
 // GLOBAL VARIABLES
 
 bool StretchScreen=0;//bná++
-extern bool iG_aimCross;
+extern bool g_aimcross;
 extern bool sdl_fullscreen;
 extern int g_xcenter;
 extern int g_ycenter;
@@ -799,7 +799,7 @@ void DrawCenterAim ()
 	int percenthealth = (locplayerstate->health * 10) / MaxHitpointsForCharacter(locplayerstate);
 	int color = percenthealth < 3 ? egacolor[RED] : percenthealth < 4 ? egacolor[YELLOW] : egacolor[GREEN];
 
-	if (iG_aimCross && !GamePaused){
+	if (g_aimcross && !GamePaused){
 		if (( ingame == true )&&(g_swidth>320)){
 			  if ((iG_playerTilt <0 )||(iG_playerTilt >g_sheight/2)){
 					iG_playerTilt = -(2048 - iG_playerTilt);

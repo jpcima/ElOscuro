@@ -82,6 +82,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cin_main.h"
 #include "rottnet.h"
 #include "rt_scale.h"
+#include "winrott.h"
 
 #include "music.h"
 #include "audiolib/fx_man.h"
@@ -153,7 +154,6 @@ void CheckCommandLineParameters( void );
 void PlayTurboGame( void );
 void Init_Tables (void);
 void CheckRemoteRidicule ( int scancode );
-void SetRottScreenRes (int Width, int Height);
 
 #ifndef DOS
 extern void crash_print (int);
@@ -164,7 +164,7 @@ extern int setup_homedir (void);
 //extern char G_argv[30][80];
 int G_weaponscale;
 extern int iDropDemo;
-extern bool iG_aimCross;
+extern bool g_aimcross;
 extern bool sdl_fullscreen;
 
 extern void ComSetTime ( void );
@@ -268,7 +268,7 @@ int main (int argc, char *argv[])
       GetMenuInfo ();
       }
 
-   SetRottScreenRes (g_swidth, g_sheight);
+   set_rott_screen_res (g_swidth, g_sheight);
    
 //   if (modemgame==true)
 //      {
@@ -848,7 +848,7 @@ void SetupWads( void )
       switch(arg)
       {
          case 0:
-            iG_aimCross = 1;
+            g_aimcross = 1;
             break;
          case 1:
             sdl_fullscreen = 1;

@@ -28,6 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "winrott.h"
 #include "rt_def.h"
+
+void EnableScreenStretch (void);
+void DisableScreenStretch (void);
 /*
 int g_swidth;//bna val 800
 int g_sheight;//bna val 600

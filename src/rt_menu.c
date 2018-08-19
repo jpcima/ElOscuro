@@ -5359,7 +5359,7 @@ void DrawExtOptionsMenu (void)
 }
 extern int inverse_mouse;
 extern bool usemouselook;
-extern bool iG_aimCross;
+extern bool g_aimcross;
 extern bool usejump;
 extern bool sdl_fullscreen;
 
@@ -5383,7 +5383,7 @@ void CP_ExtOptionsMenu (void)
 				 }
 				 DrawExtOptionsButtons (); 
 				 break;
-         case 2: iG_aimCross   ^= 1; DrawExtOptionsButtons (); break;
+         case 2: g_aimcross   ^= 1; DrawExtOptionsButtons (); break;
          case 3: usejump       ^= 1; DrawExtOptionsButtons (); break;
          case 4:
             if (SDL_WM_ToggleFullScreen(SDL_GetVideoSurface()))
@@ -5421,7 +5421,7 @@ void DrawExtOptionsButtons (void)
          {
             case 0: if (usemouselook  == 1) on = 1; break;
             case 1: if (inverse_mouse == -1)on = 1; break;
-            case 2: if (iG_aimCross   == 1) on = 1; break;
+            case 2: if (g_aimcross   == 1) on = 1; break;
             case 3: if (usejump       == 1) on = 1; break;
             case 4: if (sdl_fullscreen== 1) on = 1; break;
          }
