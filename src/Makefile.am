@@ -17,7 +17,7 @@ rott@SUFFIX@_SOURCES = \
 	rt_build.c \
 	rt_cfg.c \
 	rt_com.c \
-	rt_crc.c \
+	crc.c \
 	rt_debug.c \
 	rt_dmand.c \
 	rt_door.c \

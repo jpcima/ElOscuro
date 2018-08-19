@@ -59,7 +59,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_in.h"
 #include "z_zone.h"
 #include "w_wad.h"
-#include "rt_crc.h"
+#include "crc.h"
 #include "rt_sound.h"
 #include "rt_util.h"
 #include "rt_main.h"
@@ -1072,12 +1072,12 @@ void CheckVendor (void)
    if (access (filename, F_OK) == 0)
       {
       size = LoadFile(filename,(void **)&vendor);
-      filecrc = CalculateCRC (vendor, size);
+      filecrc = calculate_crc (vendor, size);
       SafeFree(vendor);
       lump=W_GetNumForName(VENDORLUMP);
       vendor = W_CacheLumpNum(lump,PU_CACHE, 0, 1);
       size=W_LumpLength(lump);
-      wadcrc = CalculateCRC (vendor, size);
+      wadcrc = calculate_crc (vendor, size);
       if (wadcrc != filecrc)
          saveout=true;
       }

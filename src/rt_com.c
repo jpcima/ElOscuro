@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_com.h"
 #include "rt_util.h"
 #include "rt_in.h"
-#include "rt_crc.h"
+#include "crc.h"
 #include "rt_playr.h"
 #include "isr.h"
 #include "rt_msg.h"
@@ -264,7 +264,7 @@ bool ReadPacket (void)
    if (rottcom->remotenode!=-1)
       {
       // calculate crc on packet
-      crc=CalculateCRC (&rottcom->data[0], rottcom->datalength-sizeof(word));
+      crc=calculate_crc (&rottcom->data[0], rottcom->datalength-sizeof(word));
 
       // get crc inside packet
       sentcrc=*((word *)(&rottcom->data[rottcom->datalength-sizeof(word)]));
@@ -330,7 +330,7 @@ void WritePacket (void * buffer, int len, int destination)
    memcpy((byte *)&(rottcom->data[0]),(byte *)buffer,len);
 
    // calculate CRC
-   crc=CalculateCRC (buffer, len);
+   crc=calculate_crc (buffer, len);
 
    // put CRC into realmode buffer packet
    *((word *)&rottcom->data[len])=crc;

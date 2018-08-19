@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "isr.h"
 #include "develop.h"
 
-#include "rt_crc.h"
+#include "crc.h"
 #include "rt_main.h"
 
 #define CHECKPERIOD 20
@@ -226,7 +226,7 @@ void W_CheckWADIntegrity ( void )
 // CRC disabled because it's not very useful these days
 
 #ifdef DOS
-   crc = CalculateCRC ((byte *)lumpinfo, numlumps*sizeof(lumpinfo_t) );
+   crc = calculate_crc ((byte *)lumpinfo, numlumps*sizeof(lumpinfo_t) );
 
    if (crc != WADCHECKSUM)
       {
@@ -532,7 +532,7 @@ void    *W_CacheLumpNum (int lump, int tag, converter_t converter, int numrec)
                 Debug("Invoking endian converter on %p, %i records.\n", lumpcache[lump], numrec);
                 if (converter) converter(lumpcache[lump], numrec);
 
-                *( (word *) ((byte *)lumpcache[lump]+length) ) = CalculateCRC (lumpcache[lump], length);
+                *( (word *) ((byte *)lumpcache[lump]+length) ) = calculate_crc (lumpcache[lump], length);
                 }
 #else
                 Z_Malloc (W_LumpLength (lump), tag, &lumpcache[lump]);
@@ -558,7 +558,7 @@ void    *W_CacheLumpNum (int lump, int tag, converter_t converter, int numrec)
 
                   length=W_LumpLength(lump);
                   storedcrc = *( (word *) ((byte *)lumpcache[lump]+length) );
-                  crc = CalculateCRC (lumpcache[lump], length);
+                  crc = calculate_crc (lumpcache[lump], length);
                   if (crc!=storedcrc)
                      Error("Data corruption lump=%ld\n",lump);
                   }

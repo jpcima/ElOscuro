@@ -23,5 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdint.h>
 
-int32_t updatecrc (int32_t, int32_t);
-uint16_t CalculateCRC (uint8_t*, uint32_t);
+uint16_t calculate_crc (uint8_t*, uint32_t);
+int32_t update_crc (int32_t, int32_t);
+

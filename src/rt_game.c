@@ -52,7 +52,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_cfg.h"
 #include "rt_sound.h"
 #include "version.h"
-#include "rt_crc.h"
+#include "crc.h"
 #include "modexlib.h"
 #include "engine.h"
 #include "rt_com.h"
@@ -4751,7 +4751,7 @@ long DoCheckSum (byte *source, int size, long csum)
    checksum = csum;
 
    for (i = 0; i < size; i++)
-      checksum=updatecrc(checksum,*(source+i));
+      checksum=update_crc(checksum,*(source+i));
 
    return checksum;
 }
