@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #include "rt_def.h"
-#include "_z_zone.h"
 #include "z_zone.h"
 #include "rt_util.h"
 #include "develop.h"
@@ -38,6 +37,37 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #if (DEVELOPMENT == 1)
 #include "rt_main.h"
 #endif
+
+#define MINFRAGMENT 64
+#define DPMI_INT 0x31
+#define MAXMEMORYSIZE 9000000
+#define LEVELZONESIZE 250000
+
+// memory storage data types
+#define MEMORYPRETAG  (0x1a2b3c4d)
+#define MEMORYPOSTTAG (0x9f8e7d6b)
+
+typedef struct memblock_s
+{
+#if (MEMORYCORRUPTIONTEST == 1)
+  int pretag;
+#endif
+  int size;     // including the header and possibly tiny fragments
+  void** user;  // NULL if a free block
+  int tag;      // purgelevel
+  struct memblock_s* next;
+  struct memblock_s* prev;
+#if (MEMORYCORRUPTIONTEST==1)
+  int posttag;
+#endif
+} memblock_t;
+
+typedef struct
+{
+  int size;              // total bytes malloced, including header
+  memblock_t blocklist;  // start / end cap for linked list
+  memblock_t *rover;
+} memzone_t;
 
 int lowmemory=0;
 
