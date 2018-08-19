@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "rt_playr.h"
 #include "watcom.h"
-//double dTopYZANGLELIMIT; in winrott.c
+//double g_top_yz_anglelimit; in winrott.c
 #define TopYZANGLELIMIT  (44*FINEANGLES/360)//bna added
 #define YZANGLELIMIT  (80*FINEANGLES/360)//bna--(30*FINEANGLES/360)
 /*

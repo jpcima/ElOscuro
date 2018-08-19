@@ -251,7 +251,7 @@ void     CheckWeaponChange (objtype * ob);
 void     PlayerMissileAttack(objtype* );
 void     Cmd_Use(objtype*);
 //void     ComError (char *error, ...);
-int      FinddTopYZANGLELIMITvalue(objtype *ob);
+int      Findg_top_yz_anglelimitvalue(objtype *ob);
 
 statetype s_free = {false,0,0,T_Free,0,&s_free};
 statetype s_inelevator = {false,0,420,T_Player,0,&s_player};
@@ -4154,7 +4154,7 @@ void SetNormalHorizon (objtype * ob)
 ===================
 */
 extern int iG_playerTilt;
-extern double dTopYZANGLELIMIT;
+extern double g_top_yz_anglelimit;
 void PlayerTiltHead (objtype * ob)
 {
 	playertype * pstate;
@@ -4299,7 +4299,7 @@ void PlayerTiltHead (objtype * ob)
 //SetTextMode();
 
 	if (yzangle != 512){
-		FinddTopYZANGLELIMITvalue(ob);
+		Findg_top_yz_anglelimitvalue(ob);
 	}
 
 
@@ -4308,9 +4308,9 @@ void PlayerTiltHead (objtype * ob)
        yzangle=HORIZONYZOFFSET+YZANGLELIMIT;
 /*   else if (yzangle-HORIZONYZOFFSET<-TopYZANGLELIMIT)//bnafix
        yzangle=HORIZONYZOFFSET-TopYZANGLELIMIT;//bnafix
-dTopYZANGLELIMIT*/
-   else if (yzangle-HORIZONYZOFFSET<-dTopYZANGLELIMIT)//bnafix
-       yzangle=HORIZONYZOFFSET-dTopYZANGLELIMIT;//bnafix
+g_top_yz_anglelimit*/
+   else if (yzangle-HORIZONYZOFFSET<-g_top_yz_anglelimit)//bnafix
+       yzangle=HORIZONYZOFFSET-g_top_yz_anglelimit;//bnafix
    ob->yzangle=yzangle-HORIZONYZOFFSET;
    Fix(ob->yzangle);
 
@@ -4321,12 +4321,12 @@ dTopYZANGLELIMIT*/
 //----------------------------------------------------------------------
 // bna added function
 // if a player is to close to wall, looking down max
-//,this func limit the dTopYZANGLELIMIT value when
+//,this func limit the g_top_yz_anglelimit value when
 // facing a wall 
 #define SMALLANGLE 90
 //there is small angles where didnt work
 //so we check for them to = 90/2048 = aprox, 15 degrees
-int FinddTopYZANGLELIMITvalue(objtype *ob)
+int Findg_top_yz_anglelimitvalue(objtype *ob)
 {/*
 
 
@@ -4346,7 +4346,7 @@ checky = ob->tiley;
 */
 
    //use lowest down angle		   	   	
-	dTopYZANGLELIMIT = (26*FINEANGLES/360);
+	g_top_yz_anglelimit = (26*FINEANGLES/360);
    
 	if (ob->angle < 256 || ob->angle > 1792) {
 	   if ((tilemap[ob->tilex + 1][ob->tiley])!=0){
@@ -4370,7 +4370,7 @@ checky = ob->tiley;
 
 
    //use middle down angle
-   dTopYZANGLELIMIT = (42*FINEANGLES/360);
+   g_top_yz_anglelimit = (42*FINEANGLES/360);
 
    if ((ob->angle > 768-SMALLANGLE)&&(ob->angle <= 768)) { 
    	   if ((tilemap[ob->tilex -1][ob->tiley])!=0){//ob->tiley-1
@@ -4414,7 +4414,7 @@ checky = ob->tiley;
    }
 
    //use max down angle
-   dTopYZANGLELIMIT = (90*FINEANGLES/360);
+   g_top_yz_anglelimit = (90*FINEANGLES/360);
    return 1;
 }
 // bna added function end

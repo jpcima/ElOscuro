@@ -338,7 +338,7 @@ void SetMessage
    int32_t length;
    bool found;
 
-   if (iGLOBAL_SCREENWIDTH >= 640){
+   if (g_swidth >= 640){
 		CurrentFont = newfont1;//smallfont;
    }else{
 		CurrentFont = smallfont;
@@ -472,7 +472,7 @@ void UpdateMessages
 void DisplayMessage   (int32_t num,int32_t position)
    {
    PrintX = 1;
-   if (iGLOBAL_SCREENWIDTH > 320){
+   if (g_swidth > 320){
 		PrintY = 2 + ( position * (9*2) );
    }else{
 		PrintY = 2 + ( position * (9*1) );
@@ -518,11 +518,11 @@ void DisplayMessage   (int32_t num,int32_t position)
       case MSG_MODEM:
          fontcolor = egacolor[ LIGHTBLUE ];
          DrawIString( PrintX, PrintY, "Message>", Messages[ num ].flags );
-		 if ( iGLOBAL_SCREENWIDTH == 320) {
+		 if ( g_swidth == 320) {
 			PrintX += 8 * 8;
-		 }else if ( iGLOBAL_SCREENWIDTH == 640) {
+		 }else if ( g_swidth == 640) {
 			PrintX += 8 * 8*2;
-		 }else if ( iGLOBAL_SCREENWIDTH == 800) {
+		 }else if ( g_swidth == 800) {
 			PrintX += 8 * 8*2;
 		 }
 
@@ -591,11 +591,11 @@ void RestoreMessageBackground
                shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );//w=32 h=8
 			   	   //SetTextMode (  );
                //DrawTiledRegion( 0, y, 320, 9, 0, y, shape );KILLS_HEIGHT bna--
-				DrawTiledRegion( 0, y, iGLOBAL_SCREENWIDTH, 9, 0, y, shape );
-				DrawTiledRegion( 0, y+8, iGLOBAL_SCREENWIDTH, 9, 0, y, shape );
-				DrawTiledRegion( 0, y+16, iGLOBAL_SCREENWIDTH, 9, 0, y, shape );
+				DrawTiledRegion( 0, y, g_swidth, 9, 0, y, shape );
+				DrawTiledRegion( 0, y+8, g_swidth, 9, 0, y, shape );
+				DrawTiledRegion( 0, y+16, g_swidth, 9, 0, y, shape );
 
-               //DrawTiledRegion( 0, y, iGLOBAL_SCREENWIDTH, 212, 0, y, shape );
+               //DrawTiledRegion( 0, y, g_swidth, 212, 0, y, shape );
                }
             if ( viewsize == 0 )
                {

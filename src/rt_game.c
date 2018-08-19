@@ -425,7 +425,7 @@ void DrawPlayScreen (bool bufferofsonly)
 
    if ( SHOW_TOP_STATUS_BAR() )
       {
-	   if (iGLOBAL_SCREENWIDTH == 640) {
+	   if (g_swidth == 640) {
 		   //use this as dummy pic to fill out missing bar
 		  shape = ( pic_t * ) W_CacheLumpName( "bottbar", PU_CACHE, cvt_pic_t, 1 );
 		  //GameMemToScreen( shape, 0, 0, bufferofsonly );
@@ -438,7 +438,7 @@ void DrawPlayScreen (bool bufferofsonly)
 				 ( byte * )&erase->data, 2, true, bufferofsonly );
 		  shape = ( pic_t * )W_CacheLumpName( "stat_bar", PU_CACHE, cvt_pic_t, 1 );
 		  GameMemToScreen( shape, 0, 0, bufferofsonly );
-	   }else if (iGLOBAL_SCREENWIDTH == 800) {
+	   }else if (g_swidth == 800) {
 		   //use this as dummy pic to fill out missing bar
 		  shape = ( pic_t * ) W_CacheLumpName( "bottbar", PU_CACHE, cvt_pic_t, 1 );
 		  GameMemToScreen( shape, 0, 0, bufferofsonly );
@@ -452,7 +452,7 @@ void DrawPlayScreen (bool bufferofsonly)
 				 ( byte * )&erase->data, 2, true, bufferofsonly );
 		  shape = ( pic_t * )W_CacheLumpName( "stat_bar", PU_CACHE, cvt_pic_t, 1 );
 		  GameMemToScreen( shape, 0, 0, bufferofsonly );
-	   }else if (iGLOBAL_SCREENWIDTH == 320) {
+	   }else if (g_swidth == 320) {
 		  
 		  //SetTextMode (  );
 		  shape = ( pic_t * )W_CacheLumpName( "stat_bar", PU_CACHE, cvt_pic_t, 1 );
@@ -473,21 +473,21 @@ void DrawPlayScreen (bool bufferofsonly)
          {
 		  ShowKillsYoffset = KILLS_HEIGHT;
 		  //shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
-		  //DrawTiledRegion( 0, 584, iGLOBAL_SCREENWIDTH, 32-16, 0, 16, shape );//bna++
+		  //DrawTiledRegion( 0, 584, g_swidth, 32-16, 0, 16, shape );//bna++
 	   
 
-	//	     health_y = iGLOBAL_HEALTH_Y;
+	//	     health_y = g_healthy;
  //  if ( SHOW_KILLS() )
    //   {
      // health_y -= KILLS_HEIGHT;
-          //GameMemToScreen( shape, 0, (iGLOBAL_SCREENHEIGHT-40)+16, bufferofsonly );
+          //GameMemToScreen( shape, 0, (g_sheight-40)+16, bufferofsonly );
 
          //GameMemToScreen( shape, 0, 160, bufferofsonly );bna++
          }
       //else 
          {
 
-			if (iGLOBAL_SCREENWIDTH == 640) {
+			if (g_swidth == 640) {
 				  //bna fix - not to good? but no one has 286 any more
 				  //statusbar dosent cover hole screen, because its a lump picture width max 320
 				  //first write dummy shape and next over it
@@ -501,7 +501,7 @@ void DrawPlayScreen (bool bufferofsonly)
 				 DrawPPic( 324, (224*2)+17-ShowKillsYoffset, 8 >> 2, 16,
 					 ( byte * )&erase->data, 2, true, bufferofsonly );
 
-			}else if (iGLOBAL_SCREENWIDTH == 800) {
+			}else if (g_swidth == 800) {
 				 GameMemToScreen( shape, 800-320, 584-ShowKillsYoffset, bufferofsonly );
 				 //copy next shape to mem
 				 GameMemToScreen( shape, 300, 584-ShowKillsYoffset, bufferofsonly );
@@ -525,12 +525,12 @@ void DrawPlayScreen (bool bufferofsonly)
       if ( demoplayback )
       {
 			 shape = ( pic_t * )W_CacheLumpName( "demo", PU_CACHE, cvt_pic_t, 1 );
-			 if (iGLOBAL_SCREENWIDTH == 640) {
+			 if (g_swidth == 640) {
 				 //DrawPPic( 148, 185, shape->width, shape->height,
 				 //   ( byte * )&shape->data, 1, true, bufferofsonly );bna
 				 DrawPPic( 148*2, 465, shape->width, shape->height,
 					( byte * )&shape->data, 1, true, bufferofsonly );
-			 }else if (iGLOBAL_SCREENWIDTH == 800) {
+			 }else if (g_swidth == 800) {
 				 DrawPPic( 380, 585, shape->width, shape->height,
 					( byte * )&shape->data, 1, true, bufferofsonly );
 			 }else{
@@ -846,10 +846,10 @@ void DrawKills
 //	 SetTextMode (  );
    // Draw all the other losers
 	//#define KILLS_Y      176
-    iKILLS_Y = iGLOBAL_SCREENHEIGHT - 24;
+    iKILLS_Y = g_sheight - 24;
 	//draw blank status  pic->width = 8;pic->height = 24
     pic = blankfragpic;
-    for (temp = iGLOBAL_SCREENWIDTH-pic->width-24;temp > pic->width; temp -= pic->width){	
+    for (temp = g_swidth-pic->width-24;temp > pic->width; temp -= pic->width){	
 		  DrawPPic( temp, iKILLS_Y, pic->width, pic->height,
 			 (byte *)&pic->data, 1, true, bufferofsonly );
 
@@ -927,7 +927,7 @@ void DrawKills
       // Advance to next position
 		xpos += KILLS_WIDTH;
 
-      if ( xpos >= iGLOBAL_SCREENWIDTH )
+      if ( xpos >= g_swidth )
          {
          break;
          }
@@ -935,7 +935,7 @@ void DrawKills
 
    for( rank = BATTLE_NumberOfTeams; rank <= MAXKILLBOXES; rank++ )
       {
-      if ( xpos >= iGLOBAL_SCREENWIDTH )
+      if ( xpos >= g_swidth )
          {
          break;
          }
@@ -983,7 +983,7 @@ void DrawPlayers
    // Draw all the losers 
    CurrentFont = tinyfont;
 
-	xpos = (iGLOBAL_SCREENWIDTH  - min( numplayers, MAXKILLBOXES ) * KILLS_WIDTH ) / 2;
+	xpos = (g_swidth  - min( numplayers, MAXKILLBOXES ) * KILLS_WIDTH ) / 2;
 //SetTextMode (  );//PLAYERSTATE
    for( team = 0; team < BATTLE_NumberOfTeams; team++ )
       {
@@ -1044,12 +1044,12 @@ void DrawPlayers
                xpos += KILLS_WIDTH;
                }
             }
-         if ( xpos >= iGLOBAL_SCREENWIDTH )
+         if ( xpos >= g_swidth )
             {
             break;
             }
          }
-      if ( xpos >= iGLOBAL_SCREENWIDTH )
+      if ( xpos >= g_swidth )
          {
          break;
          }
@@ -2016,7 +2016,7 @@ void DrawBarHealth
       return;
       }
 
-   health_y = iGLOBAL_HEALTH_Y;
+   health_y = g_healthy;
    if ( SHOW_KILLS() )
       {
       health_y -= KILLS_HEIGHT;
@@ -2029,7 +2029,7 @@ void DrawBarHealth
 
    if ( playstate == ex_died )
       {
-      DrawPPic( iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16, ( byte * )&erase->data,
+      DrawPPic( g_healthx, health_y, 8 >> 2, 16, ( byte * )&erase->data,
          10, true, bufferofsonly );
 
       return;
@@ -2047,26 +2047,26 @@ void DrawBarHealth
 
    if ( oldpercenthealth < 4 )
       {
-      DrawPPic( iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16,
+      DrawPPic( g_healthx, health_y, 8 >> 2, 16,
          ( byte * )&health[ 0 ]->data, oldpercenthealth,
          true, bufferofsonly );
       }
    else if ( oldpercenthealth < 5 )
       {
-      DrawPPic( iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16,
+      DrawPPic( g_healthx, health_y, 8 >> 2, 16,
          (byte *)&health[ 1 ]->data, oldpercenthealth,
          true, bufferofsonly );
       }
    else
       {
-      DrawPPic( iGLOBAL_HEALTH_X, health_y, 8 >> 2, 16,
+      DrawPPic( g_healthx, health_y, 8 >> 2, 16,
          ( byte * )&health[ 2 ]->data, oldpercenthealth,
          true, bufferofsonly );
       }
 
    if ( oldpercenthealth < 10 )
       {
-      DrawPPic( iGLOBAL_HEALTH_X + ( 8 * oldpercenthealth ), health_y,
+      DrawPPic( g_healthx + ( 8 * oldpercenthealth ), health_y,
          8 >> 2, 16, ( byte * )&erase->data, 10 - oldpercenthealth,
          true, bufferofsonly );
       }
@@ -2092,13 +2092,13 @@ void DrawBarAmmo
       return;
       }
 
-   ammo_y = iGLOBAL_AMMO_Y;
+   ammo_y = g_ammoy;
    if ( SHOW_KILLS() )
       {
       ammo_y -= KILLS_HEIGHT;
       }
 
-   DrawPPic ( iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16, ( byte * )&erase->data,
+   DrawPPic ( g_ammox, ammo_y + 1, 8 >> 2, 16, ( byte * )&erase->data,
       10, false, bufferofsonly );
 
    if ( !ARMED( player->dirchoosetime ) )
@@ -2110,25 +2110,25 @@ void DrawBarAmmo
        ( gamestate.BattleOptions.Ammo == bo_infinite_shots )
       )
       {
-      DrawPPic( iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16,
+      DrawPPic( g_ammox - 16, ammo_y, 24 >> 2, 16,
          ( byte * )&ammo[ 0 ]->data, 1, true, bufferofsonly);
 
-      DrawPPic( iGLOBAL_AMMO_X - 32, ammo_y + 1, 8 >> 2, 16,
+      DrawPPic( g_ammox - 32, ammo_y + 1, 8 >> 2, 16,
          ( byte * )&erase->data, 2, true, bufferofsonly );
       }
 #if (SHAREWARE == 0)
    else if ( locplayerstate->new_weapon == wp_dog )
       {
-      DrawPPic( iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16,
+      DrawPPic( g_ammox - 16, ammo_y, 24 >> 2, 16,
          ( byte * )&ammo[12]->data, 1, true, bufferofsonly );
 
-      DrawPPic( iGLOBAL_AMMO_X - 32, ammo_y + 1, 8 >> 2, 16,
+      DrawPPic( g_ammox - 32, ammo_y + 1, 8 >> 2, 16,
          ( byte * )&erase->data, 2, true, bufferofsonly );
       }
 #endif
    else
       {
-      DrawPPic( iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16,
+      DrawPPic( g_ammox, ammo_y + 1, 8 >> 2, 16,
          ( byte * )&ammo[ locplayerstate->new_weapon]->data,
          locplayerstate->ammo, false, bufferofsonly );
       }
@@ -2248,8 +2248,8 @@ void DrawStats
 //      DrawTiledRegion( 0, 160, 320, 24, shape );
 //      }
 
-   health_y = iGLOBAL_HEALTH_Y;
-   ammo_y   = iGLOBAL_AMMO_Y;
+   health_y = g_healthy;
+   ammo_y   = g_ammoy;
 
    if ( SHOW_KILLS() )
       {
@@ -2274,17 +2274,17 @@ void DrawStats
 
    if ( oldpercenthealth < 4 )
       {
-      SingleDrawPPic( iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16,
+      SingleDrawPPic( g_healthx - 16, health_y, 8 >> 2, 16,
          ( byte * )&health[ 3 ]->data, oldpercenthealth, true);
       }
    else if ( oldpercenthealth < 5 )
       {
-      SingleDrawPPic( iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16,
+      SingleDrawPPic( g_healthx - 16, health_y, 8 >> 2, 16,
          ( byte * )&health[ 4 ]->data, oldpercenthealth, true );
       }
    else
       {
-      SingleDrawPPic( iGLOBAL_HEALTH_X - 16, health_y, 8 >> 2, 16,
+      SingleDrawPPic( g_healthx - 16, health_y, 8 >> 2, 16,
          ( byte * )&health[ 5 ]->data, oldpercenthealth, true );
       }
 
@@ -2296,19 +2296,19 @@ void DrawStats
          )
 
         {
-         SingleDrawPPic( iGLOBAL_AMMO_X - 16, ammo_y, 24 >> 2, 16,
+         SingleDrawPPic( g_ammox - 16, ammo_y, 24 >> 2, 16,
             ( byte * )&ammo[13]->data, 1, true );
          }
 #if (SHAREWARE == 0)
       else if ( locplayerstate->new_weapon == wp_dog )
          {
-         SingleDrawPPic( iGLOBAL_AMMO_X - 16, ammo_y + 1, 24 >> 2, 16,
+         SingleDrawPPic( g_ammox - 16, ammo_y + 1, 24 >> 2, 16,
             ( byte * )&ammo[25]->data, 1, true );
          }
 #endif
       else
          {
-         SingleDrawPPic( iGLOBAL_AMMO_X, ammo_y + 1, 8 >> 2, 16,
+         SingleDrawPPic( g_ammox, ammo_y + 1, 8 >> 2, 16,
             ( byte * )&ammo[13 + locplayerstate->new_weapon]->data,
             locplayerstate->ammo, false );
          }
@@ -2365,22 +2365,22 @@ void DrawPause (void)
    {
 	  bufferofs = bufftemp;
       p = (pic_t *) W_CacheLumpNum (W_GetNumForName ("paused"), PU_CACHE, cvt_pic_t, 1);
-      DrawPauseXY( (iGLOBAL_SCREENWIDTH-(p->width<<2) ) >>1, (iGLOBAL_SCREENHEIGHT-p->height)>>1);//bna++
+      DrawPauseXY( (g_swidth-(p->width<<2) ) >>1, (g_sheight-p->height)>>1);//bna++
       //DrawPauseXY( (320-(p->width<<2) ) >>1, (200-p->height)>>1);
 /*
 	  //buf = (byte *) SafeMalloc (64000);
 	  w = p->width;
 	  h = p->height;
-	  x = (iGLOBAL_SCREENWIDTH-((p->width)<<2) ) >>1;
-	  y = (iGLOBAL_SCREENHEIGHT-(p->height))>>1;
+	  x = (g_swidth-((p->width)<<2) ) >>1;
+	  y = (g_sheight-(p->height))>>1;
 
-	  x1 = (iGLOBAL_SCREENWIDTH-((p->width*2)<<2) ) >>1;
-	  y1 = (iGLOBAL_SCREENHEIGHT-(p->height*2))>>1;
+	  x1 = (g_swidth-((p->width*2)<<2) ) >>1;
+	  y1 = (g_sheight-(p->height*2))>>1;
 
-	  source = bufferofs + (iGLOBAL_SCREENWIDTH*y)+x;
-	  target = bufferofs + (iGLOBAL_SCREENWIDTH*y1)+x1;
+	  source = bufferofs + (g_swidth*y)+x;
+	  target = bufferofs + (g_swidth*y1)+x1;
 	  
-	 // memcpy(tmpPICbuf,bufftemp,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
+	 // memcpy(tmpPICbuf,bufftemp,g_swidth*g_sheight);
 
 	  bufferofs = bufftemp;//(byte *)tmpPICbuf;//buf;//write picture in tmpbuf
 	  VL_MemToScreen ((byte *)&p->data, p->width, p->height,x, y);
@@ -2388,7 +2388,7 @@ void DrawPause (void)
 	  DrawEpisodeLevel (x,y);
 
 	  
-	  //VL_MemStrechedToScreen ((byte *)&p->data, p->width, p->height,(iGLOBAL_SCREENWIDTH-((p->width*2)<<2) ) >>1, (iGLOBAL_SCREENHEIGHT-(p->height*2))>>1);
+	  //VL_MemStrechedToScreen ((byte *)&p->data, p->width, p->height,(g_swidth-((p->width*2)<<2) ) >>1, (g_sheight-(p->height*2))>>1);
       //DrawEpisodeLevel (x,y);
 	  
 	  //VL_MemToScreen ((byte *)&p->data, p->width, p->height,0, 0);
@@ -2398,8 +2398,8 @@ void DrawPause (void)
 	  //buf = bufftemp;
 	  //b = tmpPICbuf ;
 
-	  source = bufferofs + (iGLOBAL_SCREENWIDTH*y)+x+(w*4);
-	  target = bufferofs + (iGLOBAL_SCREENWIDTH*y1)+x+(2*w*4);
+	  source = bufferofs + (g_swidth*y)+x+(w*4);
+	  target = bufferofs + (g_swidth*y1)+x+(2*w*4);
 
 	  //first strech lines in x direction
 	  for (y=0;y<h;y++){
@@ -2409,19 +2409,19 @@ void DrawPause (void)
 			*target-- = *source--;
 		}
 		target=c;source=t2;
-		target += iGLOBAL_SCREENWIDTH;
-		source += iGLOBAL_SCREENWIDTH;
+		target += g_swidth;
+		source += g_swidth;
 	  }
 	  //strech then lines in y direction
-	  source -= ((iGLOBAL_SCREENWIDTH*(y/2))+(w*4));//bufferofs + (iGLOBAL_SCREENWIDTH*y)+x+(iGLOBAL_SCREENWIDTH*(y));
-	  target = (source+(iGLOBAL_SCREENWIDTH*(y))+1);//bufferofs + (iGLOBAL_SCREENWIDTH*y)+x+(iGLOBAL_SCREENWIDTH*(y1));
+	  source -= ((g_swidth*(y/2))+(w*4));//bufferofs + (g_swidth*y)+x+(g_swidth*(y));
+	  target = (source+(g_swidth*(y))+1);//bufferofs + (g_swidth*y)+x+(g_swidth*(y1));
 
 	  for (y=0;y<h;y++){
 		memcpy(target,source,(w*4*2));
-		memcpy(target+iGLOBAL_SCREENWIDTH,source,(w*4*2));
+		memcpy(target+g_swidth,source,(w*4*2));
 
-		target -= iGLOBAL_SCREENWIDTH*2;
-		source -= iGLOBAL_SCREENWIDTH;
+		target -= g_swidth*2;
+		source -= g_swidth;
 	  }
 
 / *
@@ -2429,24 +2429,24 @@ void DrawPause (void)
         c=target;t2=source;
 		for (x=0;x<w*4;x++){
 			*target = *source;
-			*(target+++iGLOBAL_SCREENWIDTH) = *source;
+			*(target+++g_swidth) = *source;
 			*target = *source;
-			*(target+++iGLOBAL_SCREENWIDTH) = *source;
+			*(target+++g_swidth) = *source;
 			source++;
 		}
 		target=c;source=t2;
-		target += iGLOBAL_SCREENWIDTH*2;
-		source += iGLOBAL_SCREENWIDTH;
+		target += g_swidth*2;
+		source += g_swidth;
 	  }
 */
 
-//	  memcpy( bufftemp,tmpPICbuf,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
+//	  memcpy( bufftemp,tmpPICbuf,g_swidth*g_sheight);
 
    }
    else
    {
       p = (pic_t *) W_CacheLumpNum (W_GetNumForName ("wait"), PU_CACHE, cvt_pic_t, 1);
-      DrawPauseXY( (iGLOBAL_SCREENWIDTH-(p->width<<2) ) >>1, (iGLOBAL_SCREENHEIGHT-p->height)>>1);//bna++
+      DrawPauseXY( (g_swidth-(p->width<<2) ) >>1, (g_sheight-p->height)>>1);//bna++
       //DrawPauseXY( (320-(p->width<<2) ) >>1, (200-p->height)>>1);
    }
 //   VH_UpdateScreen () ;
@@ -2892,13 +2892,13 @@ void ScreenShake (void)
          break;
 
          case 2:
-            displayofs += 3*iGLOBAL_SCREENBWIDE;
+            displayofs += 3*g_sbwide;
 			move_screen(false, true, true, false);
 			DrawPlayScreen(true);//repaint ammo and life stat
          break;
 
          case 3:
-            displayofs -= 3*iGLOBAL_SCREENBWIDE;
+            displayofs -= 3*g_sbwide;
 			move_screen(false, true, false, true);
 			DrawPlayScreen(true);//repaint ammo and life stat
          break;

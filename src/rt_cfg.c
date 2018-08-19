@@ -532,8 +532,8 @@ bool ParseConfigFile (void)
       ReadBoolean("FullScreen", &sdl_fullscreen);
       
       // Read in resolution
-      ReadInt("ScreenWidth", &iGLOBAL_SCREENWIDTH);
-      ReadInt("ScreenHeight", &iGLOBAL_SCREENHEIGHT);
+      ReadInt("ScreenWidth", &g_swidth);
+      ReadInt("ScreenHeight", &g_sheight);
 
       // Read in ViewSize
 
@@ -543,11 +543,11 @@ bool ParseConfigFile (void)
 
       ReadInt("Weaponscale",&G_weaponscale);//bna added
 	   if ((G_weaponscale <150)||(G_weaponscale>600)){
-		   if (iGLOBAL_SCREENWIDTH == 320){
+		   if (g_swidth == 320){
 				G_weaponscale=168;
-		   }else if (iGLOBAL_SCREENWIDTH == 640){
+		   }else if (g_swidth == 640){
 				G_weaponscale=299;		
-		   }else if (iGLOBAL_SCREENWIDTH == 800) {
+		   }else if (g_swidth == 800) {
 				G_weaponscale=376;
 		   }	   
 	   }
@@ -1792,8 +1792,8 @@ void WriteConfig (void)
    SafeWriteString(file,"\n;\n");
    SafeWriteString(file,"; Screen Resolution, supported resolutions: \n");
    SafeWriteString(file,"; 320x200, 640x480 and 800x600\n");
-   WriteParameter(file,"ScreenWidth      ",iGLOBAL_SCREENWIDTH);
-   WriteParameter(file,"ScreenHeight     ",iGLOBAL_SCREENHEIGHT);
+   WriteParameter(file,"ScreenWidth      ",g_swidth);
+   WriteParameter(file,"ScreenHeight     ",g_sheight);
 
    // Write out ViewSize
 
@@ -1810,11 +1810,11 @@ void WriteConfig (void)
    G_weaponscale = (weaponscale * 168 )/65536;
 
    if ((G_weaponscale <150)||(G_weaponscale>600)){
-	   if (iGLOBAL_SCREENWIDTH == 320){
+	   if (g_swidth == 320){
 			G_weaponscale=168;
-	   }else if (iGLOBAL_SCREENWIDTH == 640){
+	   }else if (g_swidth == 640){
 			G_weaponscale=299;		
-	   }else if (iGLOBAL_SCREENWIDTH == 800) {
+	   }else if (g_swidth == 800) {
 			G_weaponscale=376;
 	   }	   
    }

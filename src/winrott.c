@@ -4,23 +4,23 @@
 #include "winrott.h"
 #include "modexlib.h"
 
-int iGLOBAL_SCREENWIDTH = 640;  //bna val 800
-int iGLOBAL_SCREENHEIGHT = 480; //bna val 600
-int iGLOBAL_SCREENBWIDE;
-int iG_SCREENWIDTH;             // default screen width in bytes
+int g_swidth = 640;  //bna val 800
+int g_sheight = 480; //bna val 600
+int g_sbwide;
+int g_swidth_bytes;             // default screen width in bytes
 
-int iGLOBAL_HEALTH_X;
-int iGLOBAL_HEALTH_Y;
-int iGLOBAL_AMMO_X;
-int iGLOBAL_AMMO_Y;
+int g_healthx;
+int g_healthy;
+int g_ammox;
+int g_ammoy;
 
-int iGLOBAL_FOCALWIDTH;
-double dGLOBAL_FPFOCALWIDTH;
+int g_focal_width;
+double g_fpfocal_width;
 
-double dTopYZANGLELIMIT;
+double g_top_yz_anglelimit;
 
-int iG_X_center;
-int iG_Y_center;
+int g_xcenter;
+int g_ycenter;
 
 bool iG_aimCross = 0;
 
@@ -34,59 +34,59 @@ void
 SetRottScreenRes (int Width, int Height)
 {
 
-  iGLOBAL_SCREENWIDTH = Width;
-  iGLOBAL_SCREENHEIGHT = Height;
+  g_swidth = Width;
+  g_sheight = Height;
 
-  iGLOBAL_SCREENBWIDE = iGLOBAL_SCREENWIDTH * (96 / 320);
-  iG_SCREENWIDTH = iGLOBAL_SCREENWIDTH * (96 / 320);; // default screen width in bytes
+  g_sbwide = g_swidth * (96 / 320);
+  g_swidth_bytes = g_swidth * (96 / 320);; // default screen width in bytes
 
-  if (iGLOBAL_SCREENWIDTH == 320)
+  if (g_swidth == 320)
     {
-      iGLOBAL_FOCALWIDTH = 160;
-      dGLOBAL_FPFOCALWIDTH = 160.0;
-      iGLOBAL_HEALTH_X = 20;
-      iGLOBAL_HEALTH_Y = 185;
-      iGLOBAL_AMMO_X = 300;
-      iGLOBAL_AMMO_Y = 184;
+      g_focal_width = 160;
+      g_fpfocal_width = 160.0;
+      g_healthx = 20;
+      g_healthy = 185;
+      g_ammox = 300;
+      g_ammoy = 184;
 
-      dTopYZANGLELIMIT = (44 * FINEANGLES / 360);;
+      g_top_yz_anglelimit = (44 * FINEANGLES / 360);;
     }
-  if (iGLOBAL_SCREENWIDTH == 640)
+  if (g_swidth == 640)
     {
-      iGLOBAL_FOCALWIDTH = 180;
-      dGLOBAL_FPFOCALWIDTH = 180.0;
-      iGLOBAL_HEALTH_X = 40;    //20*2;
-      iGLOBAL_HEALTH_Y = 466;   //(185*2)+16;
-      iGLOBAL_AMMO_X = 600;     //300*2;
-      iGLOBAL_AMMO_Y = 464;     //480-16;
+      g_focal_width = 180;
+      g_fpfocal_width = 180.0;
+      g_healthx = 40;    //20*2;
+      g_healthy = 466;   //(185*2)+16;
+      g_ammox = 600;     //300*2;
+      g_ammoy = 464;     //480-16;
 
-      dTopYZANGLELIMIT = (42 * FINEANGLES / 360);;
+      g_top_yz_anglelimit = (42 * FINEANGLES / 360);;
     }
-  if (iGLOBAL_SCREENWIDTH == 800)
+  if (g_swidth == 800)
     {
-      iGLOBAL_FOCALWIDTH = 200;
-      dGLOBAL_FPFOCALWIDTH = 200.0;
-      iGLOBAL_HEALTH_X = 40;    //20*2;
-      iGLOBAL_HEALTH_Y = 585;   //(185/200)*600;
-      iGLOBAL_AMMO_X = 750;     //(300/320)*800;
-      iGLOBAL_AMMO_Y = 584;     //600-16;
+      g_focal_width = 200;
+      g_fpfocal_width = 200.0;
+      g_healthx = 40;    //20*2;
+      g_healthy = 585;   //(185/200)*600;
+      g_ammox = 750;     //(300/320)*800;
+      g_ammoy = 584;     //600-16;
 
-      dTopYZANGLELIMIT = (90 * FINEANGLES / 360);;
+      g_top_yz_anglelimit = (90 * FINEANGLES / 360);;
     }
 }
 
 void
 move_screen (bool up, bool down, bool left, bool right)
 {
-  uint8_t *b = ((uint8_t *) bufferofs) + (((iGLOBAL_SCREENHEIGHT - viewheight) / 2) * iGLOBAL_SCREENWIDTH) + ((iGLOBAL_SCREENWIDTH - viewwidth) / 2);
+  uint8_t *b = ((uint8_t *) bufferofs) + (((g_sheight - viewheight) / 2) * g_swidth) + ((g_swidth - viewwidth) / 2);
   if (viewsize == 8)
     {
-      b += 8 * iGLOBAL_SCREENWIDTH;
+      b += 8 * g_swidth;
     }
 
   int start_x = 3;              // Take 3 pixels to the right
   int start_y = 3;              // Take 3 lines down
-  int start_offset = start_y * iGLOBAL_SCREENWIDTH;
+  int start_offset = start_y * g_swidth;
   if ((down && right) || (up && left))
     {
       start_offset += start_x;
@@ -96,14 +96,14 @@ move_screen (bool up, bool down, bool left, bool right)
     {
       if (left)
         {
-          for (uint8_t * y_center = b; y_center < b + ((viewheight - start_y) * iGLOBAL_SCREENWIDTH); y_center += iGLOBAL_SCREENWIDTH)
+          for (uint8_t * y_center = b; y_center < b + ((viewheight - start_y) * g_swidth); y_center += g_swidth)
             {
               memcpy (y_center, y_center + start_offset, viewwidth - start_x);
             }
         }
       if (right)
         {
-          for (uint8_t * y_center = b; y_center < b + ((viewheight - start_y) * iGLOBAL_SCREENWIDTH); y_center += iGLOBAL_SCREENWIDTH)
+          for (uint8_t * y_center = b; y_center < b + ((viewheight - start_y) * g_swidth); y_center += g_swidth)
             {
               memcpy (y_center + start_x, y_center + start_offset, viewwidth - start_x);
             }
@@ -113,14 +113,14 @@ move_screen (bool up, bool down, bool left, bool right)
     {
       if (left)
         {
-          for (uint8_t * y_center = b + ((viewheight - start_y - 1) * iGLOBAL_SCREENWIDTH); y_center > b; y_center -= iGLOBAL_SCREENWIDTH)
+          for (uint8_t * y_center = b + ((viewheight - start_y - 1) * g_swidth); y_center > b; y_center -= g_swidth)
             {
               memcpy (y_center + start_offset, y_center + start_x, viewwidth - start_x);
             }
         }
       if (right)
         {
-          for (uint8_t * y_center = b + ((viewheight - start_y - 1) * iGLOBAL_SCREENWIDTH); y_center > b; y_center -= iGLOBAL_SCREENWIDTH)
+          for (uint8_t * y_center = b + ((viewheight - start_y - 1) * g_swidth); y_center > b; y_center -= g_swidth)
             {
               memcpy (y_center + start_offset, y_center, viewwidth - start_x);
             }

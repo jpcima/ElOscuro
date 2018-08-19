@@ -1509,8 +1509,8 @@ void SetUpControlPanel (void)
    int Yres = 400;
 
    //dont work in 800x600 until we get a better screen schrinker
-  //  int Xres = iGLOBAL_SCREENWIDTH;//640;
- //  int Yres = iGLOBAL_SCREENHEIGHT;//400;
+  //  int Xres = g_swidth;//640;
+ //  int Yres = g_sheight;//400;
 
   Xres = 640;
    Yres = 400;
@@ -1538,24 +1538,24 @@ void SetUpControlPanel (void)
 
 
     
-	  if (iGLOBAL_SCREENWIDTH == 320) { 
+	  if (g_swidth == 320) { 
 		  for (i=0;i<Xres;i+=2)	{	  
 			  b=(byte *)bufferofs+i;
-			  for (j=0;j<100;j++,s++,b+=(iGLOBAL_SCREENWIDTH<<1))
+			  for (j=0;j<100;j++,s++,b+=(g_swidth<<1))
 				 *s=*b;
 		  }
 	  }	  
-	  if (iGLOBAL_SCREENWIDTH >= 640) { 
+	  if (g_swidth >= 640) { 
 		  for (i=0;i<Xres;i+=4)	{		  
 			  b=(byte *)bufferofs+i;//schrink screen to 1/2 size
-			  for (j=0;j<(Yres/4);j++,s++,b+=(iGLOBAL_SCREENWIDTH<<1)*2)
+			  for (j=0;j<(Yres/4);j++,s++,b+=(g_swidth<<1)*2)
 				 *s=*b;
 			  }
 	  }/*
-      if (iGLOBAL_SCREENWIDTH == 800) { 	 
+      if (g_swidth == 800) { 	 
 		  for (i=0;i<Xres;i+=8)		{	  
 			  b=(byte *)bufferofs+i;//schrink screen to 1/3 size
-			  for (j=0;j<(Yres/8);j++,s++,b+=(iGLOBAL_SCREENWIDTH<<1)*3)
+			  for (j=0;j<(Yres/8);j++,s++,b+=(g_swidth<<1)*3)
 				 *s=*b;
 		  }
 
@@ -3451,11 +3451,11 @@ void QuickSaveGame (void)
 #ifdef DOS
       VGAREADMAP(i&3);
       b=(byte *)bufferofs+(i>>2);
-      for (j=0;j<100;j++,s++,b+=iGLOBAL_SCREENBWIDE<<1)
+      for (j=0;j<100;j++,s++,b+=g_sbwide<<1)
          *s=*b;
 #else
       b=(byte *)bufferofs+i;
-      for (j=0;j<100;j++,s++,b+=(iGLOBAL_SCREENWIDTH<<1))
+      for (j=0;j<100;j++,s++,b+=(g_swidth<<1))
          *s=*b;
 #endif
       }

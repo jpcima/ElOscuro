@@ -101,14 +101,14 @@ void VW_DrawClippedString (int x, int y, const char *string)
       source = ((byte *)CurrentFont)+CurrentFont->charofs[ch];
       while (width--)
          {
-         if ((x>=0) && (x<iGLOBAL_SCREENWIDTH))
+         if ((x>=0) && (x<g_swidth))
             {
             y=oy;
             VGAWRITEMAP(x&3);
             height = ht;
             while (height--)
                {
-               if ((y>=0) && (y<iGLOBAL_SCREENHEIGHT))
+               if ((y>=0) && (y<g_sheight))
                   {
                   if (*source>0)
 #ifdef DOS
@@ -1457,7 +1457,7 @@ void US_DrawWindow (int x, int y, int w, int h)
 void US_CenterWindow (int w, int h)
 {
    //HDG US_DrawWindow (((MaxX / 8) - w) / 2,  ((MaxY / 8) - h) / 2, w, h);
-   US_DrawWindow (((iGLOBAL_SCREENWIDTH / 8) - w) / 2,((iGLOBAL_SCREENHEIGHT / 8) - h) / 2, w, h);
+   US_DrawWindow (((g_swidth / 8) - w) / 2,((g_sheight / 8) - h) / 2, w, h);
 }
 
 
@@ -1523,7 +1523,7 @@ void DrawIntensityChar  ( char ch )
 
    mask = 1 << ( px & 3 );
 
-   if ((iGLOBAL_SCREENWIDTH <= 320)||(StretchScreen == true)){
+   if ((g_swidth <= 320)||(StretchScreen == true)){
 	   while( width-- )
 	   {
 		  VGAMAPMASK( mask );
@@ -1561,10 +1561,10 @@ void DrawIntensityChar  ( char ch )
 			 if ( pix != 0xFE )
 				{
 				*dest = GetIntensityColor( pix );
-				*(dest+iGLOBAL_SCREENWIDTH) = GetIntensityColor( pix );
+				*(dest+g_swidth) = GetIntensityColor( pix );
 
 				*(dest+1) = GetIntensityColor( pix );
-				*(dest+1+iGLOBAL_SCREENWIDTH) = GetIntensityColor( pix );
+				*(dest+1+g_swidth) = GetIntensityColor( pix );
 				}
 
 			 source++;

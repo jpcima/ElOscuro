@@ -439,10 +439,10 @@ void DoWarp (void)
    ShutdownMenuBuf();
 
    	//bna++ section
-  if (( playstate == ex_stillplaying )&&(iGLOBAL_SCREENWIDTH > 320)){
+  if (( playstate == ex_stillplaying )&&(g_swidth > 320)){
 		pic_t *shape;
 		shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
-		DrawTiledRegion( 0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape );
+		DrawTiledRegion( 0, 16, g_swidth, g_sheight - 32, 0, 16, shape );
 		DisableScreenStretch();//dont strech when we go BACK TO GAME
 		DrawPlayScreen(true);//repaint ammo and life stat
 		VW_UpdateScreen ();//update screen
@@ -491,7 +491,7 @@ void DoWarp (void)
 void DoJukeBox  (void)
 
    {
-	if (iGLOBAL_SCREENWIDTH > 320) {
+	if (g_swidth > 320) {
 		EnableScreenStretch();//bna++ shut on streech mode
 	}
    StopWind();
@@ -506,10 +506,10 @@ void DoJukeBox  (void)
    ShutdownMenuBuf();
 
    	//bna++ section
-  if (( playstate == ex_stillplaying )&&(iGLOBAL_SCREENWIDTH > 320)){
+  if (( playstate == ex_stillplaying )&&(g_swidth > 320)){
 		pic_t *shape;
 		shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
-		DrawTiledRegion( 0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape );
+		DrawTiledRegion( 0, 16, g_swidth, g_sheight - 32, 0, 16, shape );
 		DisableScreenStretch();//dont strech when we go BACK TO GAME
 		DrawPlayScreen(true);//repaint ammo and life stat
 		VW_UpdateScreen ();//update screen

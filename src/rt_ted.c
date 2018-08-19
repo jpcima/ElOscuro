@@ -1143,7 +1143,7 @@ void PreCache( void )
    byte *tempbuf;
 
    double Gs;
-   Gs = (iGLOBAL_SCREENWIDTH*100/320);
+   Gs = (g_swidth*100/320);
    Gs = Gs / 100;
 
 //SetTextMode (  );
@@ -1189,16 +1189,16 @@ void PreCache( void )
 			currentmem=(newheap*MAXLEDS)/maxheapsize;
          while (lastmem<=currentmem)
             {//SetTextMode (  );
-   			if ( iGLOBAL_SCREENWIDTH == 320) {
+   			if ( g_swidth == 320) {
 				DrawNormalSprite (PRECACHEBARX+PRECACHELED1X+(lastmem<<2),
                               PRECACHEBARY+PRECACHELED1Y,
                               W_GetNumForName ("led1"));//led1 progressbar
-			}else if ( iGLOBAL_SCREENWIDTH == 640) {
+			}else if ( g_swidth == 640) {
 				DrawNormalSprite (72+(Gs*(lastmem<<2)),446,W_GetNumForName ("led1"));//led1 progressbar
 				DrawNormalSprite (72+(Gs*(lastmem<<2)),446+3,W_GetNumForName ("led1"));//led1 progressbar
 				DrawNormalSprite (72+3+(Gs*(lastmem<<2)),446,W_GetNumForName ("led1"));//led1 progressbar
 				DrawNormalSprite (72+3+(Gs*(lastmem<<2)),446+3,W_GetNumForName ("led1"));//led1 progressbar
-			}else if ( iGLOBAL_SCREENWIDTH == 800) {
+			}else if ( g_swidth == 800) {
 				DrawNormalSprite (91+(Gs*(lastmem<<2)),559,W_GetNumForName ("led1"));//led1 progressbar
 				DrawNormalSprite (91+(Gs*(lastmem<<2)),559+3,W_GetNumForName ("led1"));//led1 progressbar
 				DrawNormalSprite (91+3+(Gs*(lastmem<<2)),559,W_GetNumForName ("led1"));//led1 progressbar
@@ -1212,17 +1212,17 @@ void PreCache( void )
          while (lastcache<=currentcache)
             {
 
-   			if ( iGLOBAL_SCREENWIDTH == 320) {
+   			if ( g_swidth == 320) {
 				DrawNormalSprite (PRECACHEBARX+PRECACHELED2X+(lastcache<<2),
                               PRECACHEBARY+PRECACHELED2Y,
                               W_GetNumForName ("led2"));//led2 progressbar
-			}else if ( iGLOBAL_SCREENWIDTH == 640) {
+			}else if ( g_swidth == 640) {
 				DrawNormalSprite (72+(Gs*(lastcache<<2)),458,W_GetNumForName ("led2"));//led2 progressbar
 				DrawNormalSprite (72+(Gs*(lastcache<<2)),458+3,W_GetNumForName ("led2"));//led2 progressbar
 				DrawNormalSprite (72+3+(Gs*(lastcache<<2)),458,W_GetNumForName ("led2"));//led2 progressbar
 				DrawNormalSprite (72+3+(Gs*(lastcache<<2)),458+3,W_GetNumForName ("led2"));//led2 progressbar
 			
-			}else if ( iGLOBAL_SCREENWIDTH == 800) {
+			}else if ( g_swidth == 800) {
 				DrawNormalSprite (91+(Gs*(lastcache<<2)),573,W_GetNumForName ("led2"));//led2 progressbar
 				DrawNormalSprite (91+(Gs*(lastcache<<2)),573+3,W_GetNumForName ("led2"));//led2 progressbar
 				DrawNormalSprite (91+3+(Gs*(lastcache<<2)),573,W_GetNumForName ("led2"));//led2 progressbar
@@ -1257,8 +1257,8 @@ void PreCache( void )
          char buf[30];//byte * shape;
 		double WHratio = 16200/200;
 		WHratio = WHratio/100;
-///	iGLOBAL_SCREENWIDTH = 640;
-//	iGLOBAL_SCREENHEIGHT = 480;
+///	g_swidth = 640;
+//	g_sheight = 480;
 DisableScreenStretch();
 
 	// Cache in fonts
@@ -1268,8 +1268,8 @@ DisableScreenStretch();
 
          strcpy( buf, "Press Any Key" );
          US_MeasureStr (&width, &height, "%s", &buf[ 0 ] );
-         PrintX = (iGLOBAL_SCREENWIDTH-(width)) / 2;
-         PrintY = WHratio*iGLOBAL_SCREENHEIGHT;//162;
+         PrintX = (g_swidth-(width)) / 2;
+         PrintY = WHratio*g_sheight;//162;
          //VWB_TBar (PrintX-2, PrintY-2, width+4, height+4);
          US_BufPrint (&buf[0]);
 

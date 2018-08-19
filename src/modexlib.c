@@ -45,8 +45,8 @@ static void StretchMemPicture ();
 bool StretchScreen=0;//bná++
 extern bool iG_aimCross;
 extern bool sdl_fullscreen;
-extern int iG_X_center;
-extern int iG_Y_center;
+extern int g_xcenter;
+extern int g_ycenter;
 char 	   *iG_buf_center;
   
 int    linewidth;
@@ -182,7 +182,7 @@ void VL_SetLineWidth (unsigned width)
 
    offset = 0;
 
-   for (i=0;i<iGLOBAL_SCREENHEIGHT;i++)
+   for (i=0;i<g_sheight;i++)
       {
       ylookup[i]=offset;
       offset += linewidth;
@@ -202,7 +202,7 @@ void VL_SetVGAPlaneMode ( void )
     GraphicsMode();
     VL_DePlaneVGA ();
     VL_SetLineWidth (48);
-    screensize=208*iGLOBAL_SCREENBWIDE*2;//bna++ *2
+    screensize=208*g_sbwide*2;//bna++ *2
     page1start=0xa0200;
     page2start=0xa0200+screensize;
     page3start=0xa0200+(2u*screensize);
@@ -440,7 +440,7 @@ void GraphicsMode ( void )
 //    sdl_surface = SDL_SetVideoMode (320, 200, 8, flags);
     if (sdl_fullscreen)
         flags = SDL_FULLSCREEN;
-    sdl_surface = SDL_SetVideoMode (iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, flags);    
+    sdl_surface = SDL_SetVideoMode (g_swidth, g_sheight, 8, flags);    
 	if (sdl_surface == NULL)
 	{
 		Error ("Could not set video mode\n");
@@ -508,18 +508,18 @@ void VL_SetVGAPlaneMode ( void )
 // set up lookup tables
 //
 //bna--   linewidth = 320;
-   linewidth = iGLOBAL_SCREENWIDTH;
+   linewidth = g_swidth;
 
    offset = 0;
 
-   for (i=0;i<iGLOBAL_SCREENHEIGHT;i++)
+   for (i=0;i<g_sheight;i++)
       {
       ylookup[i]=offset;
       offset += linewidth;
       }
 
 //    screensize=MAXSCREENHEIGHT*MAXSCREENWIDTH;
-    screensize=iGLOBAL_SCREENHEIGHT*iGLOBAL_SCREENWIDTH;
+    screensize=g_sheight*g_swidth;
 
 
 
@@ -529,13 +529,13 @@ void VL_SetVGAPlaneMode ( void )
     displayofs = page1start;
     bufferofs = page2start;
 
-	iG_X_center = iGLOBAL_SCREENWIDTH / 2;
-	iG_Y_center = (iGLOBAL_SCREENHEIGHT / 2)+10 ;//+10 = move aim down a bit
+	g_xcenter = g_swidth / 2;
+	g_ycenter = (g_sheight / 2)+10 ;//+10 = move aim down a bit
 
-	iG_buf_center = bufferofs + (screensize/2);//(iG_Y_center*iGLOBAL_SCREENWIDTH);//+iG_X_center;
+	iG_buf_center = bufferofs + (screensize/2);//(g_ycenter*g_swidth);//+g_xcenter;
 
-	bufofsTopLimit =  bufferofs + screensize - iGLOBAL_SCREENWIDTH;
-	bufofsBottomLimit = bufferofs + iGLOBAL_SCREENWIDTH;
+	bufofsTopLimit =  bufferofs + screensize - g_swidth;
+	bufofsBottomLimit = bufferofs + g_swidth;
 
     // start stretched
     EnableScreenStretch();
@@ -665,7 +665,7 @@ void VL_ClearVideo (byte color)
   VGAMAPMASK(15);
   memset((byte *)(0xa000<<4),color,0x10000);
 #else
-  memset (sdl_surface->pixels, color, iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
+  memset (sdl_surface->pixels, color, g_swidth*g_sheight);
 #endif
 }
 
@@ -737,14 +737,14 @@ void EnableScreenStretch(void)
 {
    int i,offset;
    
-   if (iGLOBAL_SCREENWIDTH <= 320 || StretchScreen) return;
+   if (g_swidth <= 320 || StretchScreen) return;
    
    if (unstretch_sdl_surface == NULL)
    {
       /* should really be just 320x200, but there is code all over the
          places which crashes then */
       unstretch_sdl_surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-         iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT, 8, 0, 0, 0, 0);
+         g_swidth, g_sheight, 8, 0, 0, 0, 0);
    }
 	
    displayofs = unstretch_sdl_surface->pixels +
@@ -758,7 +758,7 @@ void EnableScreenStretch(void)
 
 void DisableScreenStretch(void)
 {
-   if (iGLOBAL_SCREENWIDTH <= 320 || !StretchScreen) return;
+   if (g_swidth <= 320 || !StretchScreen) return;
 	
    displayofs = sdl_surface->pixels +
 	(displayofs - (byte *)unstretch_sdl_surface->pixels);
@@ -783,8 +783,8 @@ static void StretchMemPicture ()
   
   dest.x = 0;
   dest.y = 0;
-  dest.w = iGLOBAL_SCREENWIDTH;
-  dest.h = iGLOBAL_SCREENHEIGHT;
+  dest.w = g_swidth;
+  dest.h = g_sheight;
   SDL_SoftStretch(unstretch_sdl_surface, &src, sdl_surface, &dest);
 }
 
@@ -800,31 +800,31 @@ void DrawCenterAim ()
 	int color = percenthealth < 3 ? egacolor[RED] : percenthealth < 4 ? egacolor[YELLOW] : egacolor[GREEN];
 
 	if (iG_aimCross && !GamePaused){
-		if (( ingame == true )&&(iGLOBAL_SCREENWIDTH>320)){
-			  if ((iG_playerTilt <0 )||(iG_playerTilt >iGLOBAL_SCREENHEIGHT/2)){
+		if (( ingame == true )&&(g_swidth>320)){
+			  if ((iG_playerTilt <0 )||(iG_playerTilt >g_sheight/2)){
 					iG_playerTilt = -(2048 - iG_playerTilt);
 			  }
-			  if (iGLOBAL_SCREENWIDTH == 640){ x = iG_playerTilt;iG_playerTilt=x/2; }
-			  iG_buf_center = bufferofs + ((iG_Y_center-iG_playerTilt)*iGLOBAL_SCREENWIDTH);//+iG_X_center;
+			  if (g_swidth == 640){ x = iG_playerTilt;iG_playerTilt=x/2; }
+			  iG_buf_center = bufferofs + ((g_ycenter-iG_playerTilt)*g_swidth);//+g_xcenter;
 
-			  for (x=iG_X_center-10;x<=iG_X_center-4;x++){
+			  for (x=g_xcenter-10;x<=g_xcenter-4;x++){
 				  if ((iG_buf_center+x < bufofsTopLimit)&&(iG_buf_center+x > bufofsBottomLimit)){
 					 *(iG_buf_center+x) = color;
 				  }
 			  }
-			  for (x=iG_X_center+4;x<=iG_X_center+10;x++){
+			  for (x=g_xcenter+4;x<=g_xcenter+10;x++){
 				  if ((iG_buf_center+x < bufofsTopLimit)&&(iG_buf_center+x > bufofsBottomLimit)){
 					 *(iG_buf_center+x) = color;
 				  }
 			  }
 			  for (x=10;x>=4;x--){
-				  if (((iG_buf_center-(x*iGLOBAL_SCREENWIDTH)+iG_X_center) < bufofsTopLimit)&&((iG_buf_center-(x*iGLOBAL_SCREENWIDTH)+iG_X_center) > bufofsBottomLimit)){
-					 *(iG_buf_center-(x*iGLOBAL_SCREENWIDTH)+iG_X_center) = color;
+				  if (((iG_buf_center-(x*g_swidth)+g_xcenter) < bufofsTopLimit)&&((iG_buf_center-(x*g_swidth)+g_xcenter) > bufofsBottomLimit)){
+					 *(iG_buf_center-(x*g_swidth)+g_xcenter) = color;
 				  }
 			  }
 			  for (x=4;x<=10;x++){
-				  if (((iG_buf_center+(x*iGLOBAL_SCREENWIDTH)+iG_X_center) < bufofsTopLimit)&&((iG_buf_center+(x*iGLOBAL_SCREENWIDTH)+iG_X_center) > bufofsBottomLimit)){
-					 *(iG_buf_center+(x*iGLOBAL_SCREENWIDTH)+iG_X_center) = color;
+				  if (((iG_buf_center+(x*g_swidth)+g_xcenter) < bufofsTopLimit)&&((iG_buf_center+(x*g_swidth)+g_xcenter) > bufofsBottomLimit)){
+					 *(iG_buf_center+(x*g_swidth)+g_xcenter) = color;
 				  }
 			  }
 		}

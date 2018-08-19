@@ -667,9 +667,9 @@ void DrawFullMap( void )
 #endif
 
 #ifdef DOS
-      for (mapy=0;mapy<mapheight;mapy++,buf+=iGLOBAL_SCREENBWIDE)
+      for (mapy=0;mapy<mapheight;mapy++,buf+=g_sbwide)
 #else
-      for (mapy=0;mapy<mapheight;mapy++,buf+=iGLOBAL_SCREENWIDTH)
+      for (mapy=0;mapy<mapheight;mapy++,buf+=g_swidth)
 #endif
          {
          if ((mapx==player->tilex ) && (mapy==player->tiley))
@@ -1063,7 +1063,7 @@ EnableScreenStretch();//bna++
   if ( playstate == ex_stillplaying )	  {//bna++
 	   pic_t *shape;
 	   shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
-	   DrawTiledRegion( 0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape );//bna++
+	   DrawTiledRegion( 0, 16, g_swidth, g_sheight - 32, 0, 16, shape );//bna++
 	   DisableScreenStretch();//dont strech when we go BACK TO GAME
 	   VW_UpdateScreen ();
 	   DrawPlayScreen(true);//repaint ammo and life stat

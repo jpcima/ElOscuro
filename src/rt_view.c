@@ -168,7 +168,7 @@ void UpdatePeriodicLighting (void);
 */
 void ResetFocalWidth ( void )
 {
-   focalwidth=iGLOBAL_FOCALWIDTH;//FOCALWIDTH;
+   focalwidth=g_focal_width;//FOCALWIDTH;
    SetViewDelta();
 }
 
@@ -181,7 +181,7 @@ void ResetFocalWidth ( void )
 */
 void ChangeFocalWidth ( int amount )
 {
-   focalwidth=iGLOBAL_FOCALWIDTH+amount;//FOCALWIDTH+amount;
+   focalwidth=g_focal_width+amount;//FOCALWIDTH+amount;
    SetViewDelta();
 }
 
@@ -196,17 +196,17 @@ void ChangeFocalWidth ( int amount )
 
 void SetViewDelta ( void )
 {
-//iGLOBAL_SCREENHEIGHT
-//iGLOBAL_SCREENWIDTH
+//g_sheight
+//g_swidth
 //
 // calculate scale value for vertical height calculations
 // and sprite x calculations
 //
-	if ( iGLOBAL_SCREENWIDTH == 320) {
+	if ( g_swidth == 320) {
 		scale = (centerx*focalwidth)/(160);
-	}else if ( iGLOBAL_SCREENWIDTH == 640) {
+	}else if ( g_swidth == 640) {
 		scale = (centerx*focalwidth)/(160);
-	}else if ( iGLOBAL_SCREENWIDTH == 800) {
+	}else if ( g_swidth == 800) {
 		scale = (centerx*focalwidth)/(160);
 	}
 //
@@ -302,7 +302,7 @@ void SetViewSize
    }
 */
 
-	if ( iGLOBAL_SCREENWIDTH == 640) {
+	if ( g_swidth == 640) {
 		height = 0;//we use height as dummy cnt
 		viewsizes[height++]= 380; viewsizes[height++]= 336;
         viewsizes[height++]= 428; viewsizes[height++]= 352;
@@ -315,7 +315,7 @@ void SetViewSize
         viewsizes[height++]= 640; viewsizes[height++]= 464;
         viewsizes[height++]= 640; viewsizes[height++]= 480;
         viewsizes[height++]= 640; viewsizes[height++]= 480;
-	}else if ( iGLOBAL_SCREENWIDTH == 800) {
+	}else if ( g_swidth == 800) {
 		height = 0;
 		viewsizes[height++]= 556; viewsizes[height++]= 488;
         viewsizes[height++]= 588; viewsizes[height++]= 504;
@@ -343,7 +343,7 @@ void SetViewSize
    viewwidth  = viewsizes[ size << 1 ];         // must be divisable by 16
    viewheight = viewsizes[ ( size << 1 ) + 1 ]; // must be even
 
-   maxheight = iGLOBAL_SCREENHEIGHT;
+   maxheight = g_sheight;
    topy      = 0;
 
    // Only keep the kills flag
@@ -384,10 +384,10 @@ void SetViewSize
    //   SetTextMode (  );
    //   viewheight=viewheight;
    height = viewheight;
-   if ( height > 168*iGLOBAL_SCREENHEIGHT/200 )
+   if ( height > 168*g_sheight/200 )
    {
         // Prevent weapon from being scaled too big
-	    height = 168*iGLOBAL_SCREENHEIGHT/200;
+	    height = 168*g_sheight/200;
    }
 
    weaponscale = ( height << 16 ) / 168;//( height << 16 ) = 170 * 65536
@@ -396,10 +396,10 @@ void SetViewSize
    centerx     = viewwidth >> 1;
    centery     = viewheight >> 1;
    centeryfrac = (centery << 16);
-   yzangleconverter = ( 0xaf85 * viewheight ) / iGLOBAL_SCREENHEIGHT;
+   yzangleconverter = ( 0xaf85 * viewheight ) / g_sheight;
 
    // Center the view horizontally
-   screenx = ( iGLOBAL_SCREENWIDTH - viewwidth ) >> 1;
+   screenx = ( g_swidth - viewwidth ) >> 1;
 
    if ( viewheight >= maxheight )
       {
@@ -476,7 +476,7 @@ void SetupScreen ( bool flip )
       {
       shape =  ( pic_t * )W_CacheLumpName( "backtile", PU_CACHE, cvt_pic_t, 1 );
       //DrawTiledRegion( 0, 16, 320, 200 - 32, 0, 16, shape );
-      DrawTiledRegion( 0, 16, iGLOBAL_SCREENWIDTH, iGLOBAL_SCREENHEIGHT - 32, 0, 16, shape );//bna++
+      DrawTiledRegion( 0, 16, g_swidth, g_sheight - 32, 0, 16, shape );//bna++
       }
 
    if ( viewsize == 0 )

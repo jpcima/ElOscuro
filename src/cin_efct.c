@@ -252,8 +252,8 @@ void ScaleFilmPost (byte * src, byte * buf)
       bottomscreen = topscreen + (cin_invscale*length);
       cin_yl = (topscreen+FRACTIONUNIT-1)>>FRACTIONBITS;
       cin_yh = (bottomscreen-FRACTIONUNIT)>>FRACTIONBITS;
-      if (cin_yh >= iGLOBAL_SCREENHEIGHT)
-         cin_yh = iGLOBAL_SCREENHEIGHT-1;
+      if (cin_yh >= g_sheight)
+         cin_yh = g_sheight-1;
       if (cin_yl < 0)
          cin_yl = 0;
       if (cin_yl <= cin_yh)
@@ -351,10 +351,10 @@ void DrawCinematicBackground ( backevent * back )
    pic=(lpic_t *)W_CacheLumpName(back->name,PU_CACHE, cvt_lpic_t, 1);
 
    height = pic->height;
-   if (height+back->yoffset>iGLOBAL_SCREENHEIGHT)
-      height=iGLOBAL_SCREENHEIGHT-back->yoffset;
+   if (height+back->yoffset>g_sheight)
+      height=g_sheight-back->yoffset;
 
-   if (height!=iGLOBAL_SCREENHEIGHT)
+   if (height!=g_sheight)
       DrawClearBuffer ();
 
    plane = 0;
@@ -369,9 +369,9 @@ void DrawCinematicBackground ( backevent * back )
       VGAWRITEMAP(plane);
 
 #ifdef DOS
-      for (i=plane;i<iGLOBAL_SCREENWIDTH;i+=4,offset+=4,buf++)
+      for (i=plane;i<g_swidth;i+=4,offset+=4,buf++)
 #else
-      for (i=0;i<iGLOBAL_SCREENWIDTH;i++,offset++,buf++)
+      for (i=0;i<g_swidth;i++,offset++,buf++)
 #endif
          {
          if (offset>=back->backdropwidth)
@@ -403,10 +403,10 @@ void DrawCinematicMultiBackground ( backevent * back )
    int height;
 
    height = back->height;
-   if (height+back->yoffset>iGLOBAL_SCREENHEIGHT)
-      height=iGLOBAL_SCREENHEIGHT-back->yoffset;
+   if (height+back->yoffset>g_sheight)
+      height=g_sheight-back->yoffset;
 
-   if (height!=iGLOBAL_SCREENHEIGHT)
+   if (height!=g_sheight)
       DrawClearBuffer ();
 
    plane = 0;
@@ -421,9 +421,9 @@ void DrawCinematicMultiBackground ( backevent * back )
       VGAWRITEMAP(plane);
 
 #ifdef DOS
-      for (i=plane;i<iGLOBAL_SCREENWIDTH;i+=4,offset+=4,buf++)
+      for (i=plane;i<g_swidth;i+=4,offset+=4,buf++)
 #else
-      for (i=0;i<iGLOBAL_SCREENWIDTH;i++,offset++,buf++)
+      for (i=0;i<g_swidth;i++,offset++,buf++)
 #endif
          {
          if (offset>=back->backdropwidth)
@@ -475,9 +475,9 @@ void DrawCinematicBackdrop ( backevent * back )
       VGAWRITEMAP(plane);
 
 #ifdef DOS
-      for (i=plane;i<iGLOBAL_SCREENWIDTH;i+=4,offset+=4,buf++)
+      for (i=plane;i<g_swidth;i+=4,offset+=4,buf++)
 #else
-      for (i=0;i<iGLOBAL_SCREENWIDTH;i++,offset++,buf++)
+      for (i=0;i<g_swidth;i++,offset++,buf++)
 #endif
          {
          if (offset>=back->backdropwidth)
@@ -549,7 +549,7 @@ void DrawCinematicSprite ( spriteevent * sprite )
 // calculate edges of the shape
 //
    x1 = (xcent+(tx*cin_invscale))>>FRACTIONBITS;
-   if (x1 >= iGLOBAL_SCREENWIDTH)
+   if (x1 >= g_swidth)
       return;               // off the right side
    tx+=p->width;
    x2 = ((xcent+(tx*cin_invscale)) >>FRACTIONBITS) - 1 ;
@@ -565,7 +565,7 @@ void DrawCinematicSprite ( spriteevent * sprite )
       }
    else
       frac=0;
-   x2 = x2 >= iGLOBAL_SCREENWIDTH ? (iGLOBAL_SCREENWIDTH-1) : x2;
+   x2 = x2 >= g_swidth ? (g_swidth-1) : x2;
 
    cin_texturemid = (((p->origsize>>1)+p->topoffset)<<FRACTIONBITS)+(FRACTIONUNIT>>1);
    cin_sprtopoffset = (cin_ycenter<<16) - FixedMul(cin_texturemid,cin_invscale);
@@ -681,9 +681,9 @@ void DrawClearBuffer ( void )
 {
 #ifdef DOS
   VGAMAPMASK(15);
-  memset((byte *)bufferofs,0,iGLOBAL_SCREENBWIDE*iGLOBAL_SCREENHEIGHT);
+  memset((byte *)bufferofs,0,g_sbwide*g_sheight);
 #else
-  memset((byte *)bufferofs,0,iGLOBAL_SCREENWIDTH*iGLOBAL_SCREENHEIGHT);
+  memset((byte *)bufferofs,0,g_swidth*g_sheight);
 #endif
 }
 
@@ -879,7 +879,7 @@ void ProfileDisplay ( void )
    int i;
    int plane;
    byte src[200];
-   int width = StretchScreen? 320:iGLOBAL_SCREENWIDTH;
+   int width = StretchScreen? 320:g_swidth;
 
    DrawClearBuffer ();
 
@@ -919,7 +919,7 @@ void DrawPostPic ( int lumpnum )
    int i;
    int plane;
    int height;
-   int width = StretchScreen? 320:iGLOBAL_SCREENWIDTH;
+   int width = StretchScreen? 320:g_swidth;
 
    pic=(lpic_t *)W_CacheLumpNum(lumpnum,PU_CACHE, cvt_lpic_t, 1);
 

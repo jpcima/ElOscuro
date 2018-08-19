@@ -29,8 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "winrott.h"
 #include "rt_def.h"
 /*
-int iGLOBAL_SCREENWIDTH;//bna val 800
-int iGLOBAL_SCREENHEIGHT;//bna val 600
+int g_swidth;//bna val 800
+int g_sheight;//bna val 600
 
 
 #define MAXSCREENHEIGHT    600//     200*2

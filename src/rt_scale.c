@@ -148,7 +148,7 @@ void SetLightLevel (int height)
       }
    if (fog)
       {
-      i=((height*200/iGLOBAL_SCREENHEIGHT)>>normalshade)+minshade;
+      i=((height*200/g_sheight)>>normalshade)+minshade;
       if (i>maxshade) i=maxshade;
       shadingtable=colormap+(i<<8);
       }
@@ -1168,7 +1168,7 @@ void DrawScreenSizedSprite (int lump)
 	     //a new buffer (size=800x600) and slowed the game down so ?
 
 		 // if its the gasmask, paint black patches at hires
-		 if ((lump == G_gmasklump)&&(iGLOBAL_SCREENWIDTH>320)) { 
+		 if ((lump == G_gmasklump)&&(g_swidth>320)) { 
 			src = ((p->collumnofs[frac>>SFRACBITS])+shape);
 			offset=*(src++);
 			length=*(src++);
@@ -1178,13 +1178,13 @@ void DrawScreenSizedSprite (int lump)
 			dc_yh = ((bottomscreen-1)>>SFRACBITS);//=540      viewwidth =800
 			//paint upper black patch in gasmask
 			for (cnt=b;cnt<b+viewwidth;cnt++){
-				for (Ycnt=cnt;Ycnt<cnt+(dc_yl*iGLOBAL_SCREENWIDTH);Ycnt+=iGLOBAL_SCREENWIDTH){
+				for (Ycnt=cnt;Ycnt<cnt+(dc_yl*g_swidth);Ycnt+=g_swidth){
 				 *Ycnt = 36;
 				}
 			}
 			//paint lower black patch in gasmask
-			for (cnt=b+(dc_yh*iGLOBAL_SCREENWIDTH);cnt<b+(dc_yh*iGLOBAL_SCREENWIDTH)+viewwidth;cnt++){
-				for (Ycnt=cnt;Ycnt<b+(viewheight*iGLOBAL_SCREENWIDTH);Ycnt+=iGLOBAL_SCREENWIDTH){
+			for (cnt=b+(dc_yh*g_swidth);cnt<b+(dc_yh*g_swidth)+viewwidth;cnt++){
+				for (Ycnt=cnt;Ycnt<b+(viewheight*g_swidth);Ycnt+=g_swidth){
 				 *Ycnt = 36;
 				}
 			}
@@ -1322,9 +1322,9 @@ void DrawNormalSprite (int x, int y, int shapenum)
    shape = W_CacheLumpNum (shapenum, PU_CACHE, cvt_patch_t, 1);
    p = (patch_t *)shape;
 
-   if (((x-p->leftoffset)<0) || ((x-p->leftoffset+p->width)>iGLOBAL_SCREENWIDTH))
+   if (((x-p->leftoffset)<0) || ((x-p->leftoffset+p->width)>g_swidth))
       Error ("DrawNormalSprite: x is out of range x=%d\n",x-p->leftoffset+p->width);
-   if (((y-p->topoffset)<0) || ((y-p->topoffset+p->height)>iGLOBAL_SCREENHEIGHT))
+   if (((y-p->topoffset)<0) || ((y-p->topoffset+p->height)>g_sheight))
       Error ("DrawNormalSprite: y is out of range y=%d\n",y-p->topoffset+p->height);
 
    startx=x-p->leftoffset;
@@ -1370,7 +1370,7 @@ void R_DrawColumn (byte * buf)
 	while (count--) {
 		//*dest = test++;
 		*dest = shadingtable[dc_source[(frac>>SFRACBITS)]];
-		dest += iGLOBAL_SCREENWIDTH;
+		dest += g_swidth;
 		frac += fracstep;
 	}
 }
@@ -1388,7 +1388,7 @@ void R_TransColumn (byte * buf)
 	while (count--)
 	{
 		*dest = shadingtable[*dest];
-		dest += iGLOBAL_SCREENWIDTH;
+		dest += g_swidth;
 	}
 }
 
@@ -1412,7 +1412,7 @@ void R_DrawWallColumn (byte * buf)
 	while (count--) {
 		//*dest = 6;
 		*dest = shadingtable[dc_source[(((unsigned)frac)>>26)]];
-		dest += iGLOBAL_SCREENWIDTH;
+		dest += g_swidth;
 		frac += fracstep;
 	}
 }
@@ -1436,7 +1436,7 @@ void R_DrawClippedColumn (byte * buf)
 
 	while (count--) {
 		*dest = shadingtable[dc_source[(((unsigned)frac)>>SFRACBITS)]];
-		dest += iGLOBAL_SCREENWIDTH;
+		dest += g_swidth;
 		frac += fracstep;
 	}
 }
@@ -1455,7 +1455,7 @@ void R_DrawSolidColumn (int color, byte * buf)
 	while (count--)
 	{
 		*dest = (byte)color;
-		dest += iGLOBAL_SCREENWIDTH;
+		dest += g_swidth;
 	}
 }
 
