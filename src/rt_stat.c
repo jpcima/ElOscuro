@@ -42,12 +42,45 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_rand.h"
 #include "rt_menu.h"
 #include "rt_sound.h"
-#include "_rt_stat.h"
 #include "rt_net.h"
 #include "rt_view.h"
 #include "isr.h"
 
+void AddStatic (statobj_t*);
+void AddAnimStatic (statobj_t*);
+void PreCacheStaticSounds (int);
 
+#define SOLIDCOLORTICTIME    1
+#define SOLIDCOLORINCREMENT  1
+#define MAXFIRECOLOR         248
+#define INITIALFIRECOLOR     246
+#define IsLight(x,y)  ((x >= 0) && (x <= 127) && (y >= 0) && (y <= 127) && \
+                      (sprites[x][y]) && (sprites[x][y]->flags & FL_LIGHT))
+
+typedef struct
+{
+  int tictime;
+  int numanims;
+  char firstlump[9];
+} awallinfo_t;
+
+typedef struct sas
+{
+  int x;
+  int y;
+  int z;
+  int flags;
+  signed char ticcount;
+  int hitpoints;
+  short int shapenum;
+  signed char ammo;
+  signed char count;
+  signed char itemnumber;
+  short int areanumber;
+  short int whichstat;
+  byte numanims;
+  int linked_to;
+} saved_stat_type;
 
 /*
 =============================================================================
