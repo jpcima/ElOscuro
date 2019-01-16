@@ -1,7 +1,7 @@
 /*
 Copyright (C) 1994-1995 Apogee Software, Ltd.
 Copyright (C) 2002-2015 icculus.org, GNU/Linux port
-Copyright (C) 2018 Marc-Alexandre Espiaut
+Copyright (C) 2018-2019 Marc-Alexandre Espiaut
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -20,7 +20,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 #include <stdint.h>
-	
+
+//TODO: Get rid of these functions. They are only useful as a workaround
+//to circumvent CPUs incapable of floating-point calculation.
+//Every floating point calculation should be done using double, without
+//the need of these old functions.
+
+/**
+ * Reimplementation of the multiplication function from the watcom library
+ *
+ * The 32-bit integer it split in two parts. The upper part is
+ * the interger, and the lower part is the fractionnal.
+ *
+ * @param a A 32-bit signed integer
+ * @param b A 32-bit signed integer
+ * @return The multiplication of a by b
+ */
 int32_t
 FixedMul (int32_t a, int32_t b)
 {
@@ -28,6 +43,18 @@ FixedMul (int32_t a, int32_t b)
   return (scratch1 >> 16) & 0xffffffff;
 }
 
+/**
+ * Reimplementation of the multiplication shift function from
+ * the watcom library
+ *
+ * The 32-bit integer it split in two parts. The upper part is
+ * the interger, and the lower part is the fractionnal.
+ *
+ * @param a A 32-bit signed integer
+ * @param b A 32-bit signed integer
+ * @param shift A 32-bit signed integer, shifting value
+ * @return The multiplication of a by b shifted by shift
+ */
 int32_t
 FixedMulShift (int32_t a, int32_t b, int32_t shift)
 {
@@ -38,6 +65,16 @@ FixedMulShift (int32_t a, int32_t b, int32_t shift)
   return (((uint64_t) z) >> shift) & 0xffffffff;
 }
 
+/**
+ * Reimplementation of the division function from the watcom library
+ *
+ * The 32-bit integer it split in two parts. The upper part is
+ * the interger, and the lower part is the fractionnal.
+ *
+ * @param a A 32-bit signed integer
+ * @param b A 32-bit signed integer
+ * @return The division of a by b
+ */
 int32_t
 FixedDiv2 (int32_t a, int32_t b)
 {
@@ -48,6 +85,17 @@ FixedDiv2 (int32_t a, int32_t b)
   return (z) & 0xffffffff;
 }
 
+/**
+ * Reimplementation of the scale function from the watcom library
+ *
+ * The 32-bit integer it split in two parts. The upper part is
+ * the interger, and the lower part is the fractionnal.
+ *
+ * @param orig A 32-bit signed integer
+ * @param factor A 32-bit signed integer
+ * @param divisor A 32-bit signed integer
+ * @return The scale of orig by factor, divided by divisor
+ */
 int32_t
 FixedScale (int32_t orig, int32_t factor, int32_t divisor)
 {
