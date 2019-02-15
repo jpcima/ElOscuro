@@ -45,7 +45,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_in.h"
 #include "rt_util.h"
 #include "rt_game.h"
-#include "random.h"
 #include "z_zone.h"
 #include "rt_swift.h"
 #include "engine.h"
@@ -667,13 +666,13 @@ void SpawnGunSmoke(int x, int y, int z, int angle, int bullethole)
 		chance = 20;
 	 }
 
-	if (get_rng("Wall ricochet check",0)<chance)
-	 {int rand;
+	if ((rand()%256)<chance)
+	 {int rnd;
 
-	  rand = get_rng("Spawn Ricochet Sound in SpawnGunSmoke",0);
-	  if (rand < 80)
+	  rnd = (rand()%256);
+	  if (rnd < 80)
 		 SD_PlaySoundRTP(SD_RICOCHET1SND,new->x,new->y);
-	  else if (rand < 160)
+	  else if (rnd < 160)
 		 SD_PlaySoundRTP(SD_RICOCHET2SND,new->x,new->y);
 	  else
 		 SD_PlaySoundRTP(SD_RICOCHET3SND,new->x,new->y);
@@ -694,7 +693,7 @@ void  SpawnBlood(objtype * ob, int angle)
 
 void  SpawnMetalSparks(objtype * ob, int angle)
    {
-   int rand,dispx=0,dispy=0;
+   int rnd,dispx=0,dispy=0;
 
 
    if (ob->which == ACTOR)
@@ -706,15 +705,15 @@ void  SpawnMetalSparks(objtype * ob, int angle)
    SpawnInertActor(ob->x-(costable[angle]>>3)+dispx,
                    ob->y+(sintable[angle]>>3)+dispy,ob->z);
 
-   if (get_rng("Spawn Metal Sparks",0)<128)
+   if (rand()%2)
 	  NewState(new,&s_hitmetalactor1);
 	else
 	  NewState(new,&s_hitmetalwall1);
 
-	rand = get_rng("Spawn Ricochet Sound",0);
-	if (rand < 80)
+	rnd = (rand()%256);
+	if (rnd < 80)
 	 SD_PlaySoundRTP(SD_RICOCHET1SND,new->x,new->y);
-	else if (rand < 160)
+	else if (rnd < 160)
 	 SD_PlaySoundRTP(SD_RICOCHET2SND,new->x,new->y);
 	else
 	 SD_PlaySoundRTP(SD_RICOCHET3SND,new->x,new->y);
@@ -1048,7 +1047,7 @@ void DogAttack(objtype*ob)
    objtype *temp;
    int dx,dy,dz;
 
-   SD_PlaySoundRTP(SD_DOGMODEBITE1SND+(get_rng("DogAttack",0)>>7),ob->x,ob->y);
+   SD_PlaySoundRTP(SD_DOGMODEBITE1SND+((rand()%256)>>7),ob->x,ob->y);
    for(temp=firstareaactor[ob->areanumber];temp;temp=temp->nextinarea)
       {
 
@@ -1289,7 +1288,7 @@ void BatAttack(objtype*ob)
 		 }
 		temp->flags |= FL_NOFRICTION;
 		SD_PlaySoundRTP(SD_EXCALIHITSND,ob->x,ob->y);
-		if ((gamestate.violence == vl_excessive) && (get_rng("Bat Gibs",0) < 150))
+		if ((gamestate.violence == vl_excessive) && ((rand()%256) < 150))
 		  {temp->flags |= FL_HBM;
 			DamageThing(temp,50);
 		  }
@@ -1306,14 +1305,14 @@ void BatAttack(objtype*ob)
 		  }
 	  }
 	else // find target to hit grenade back at
-	  {int rand;
+	  {int rnd;
 
-		rand = get_rng("bat/grenade target",0);
-		if (rand < 80)
+		rnd = (rand()%256);
+		if (rnd < 80)
 		  {grenadetarget = (objtype*)(temp->whatever); // hit back at george
          GetMomenta(grenadetarget,ob,&(temp->momentumx),&(temp->momentumy),&(temp->momentumz),0x3000);
 		  }
-		else if (rand < 160) // hit back at first eligible
+		else if (rnd < 160) // hit back at first eligible
 		  {
 
 			for(temp2 = firstareaactor[ob->areanumber];temp2;temp2 = temp2->nextinarea)
@@ -1328,7 +1327,7 @@ void BatAttack(objtype*ob)
 				}
 		  }
 		else // hit wherever
-		  {ob->angle += (rand >> 1);
+		  {ob->angle += (rnd >> 1);
 			Fix(ob->angle);
 			ob->momentumx = ob->momentumy = 0;
 			ParseMomentum(ob,ob->angle);
@@ -3378,7 +3377,7 @@ keys:
 		if (pstate->health == MaxHitpointsForCharacter(pstate))
 			return;
       SD_PlaySoundRTP (SD_GETHEALTH2SND,ob->x, ob->y);
-		heal = 25 + (get_rng("GetBonus",0) >> 2);
+		heal = 25 + ((rand()%256) >> 2);
 		HealPlayer (heal,ob);
       LocalBonusMessage("You drank from the healing basin.");
 
@@ -3524,7 +3523,7 @@ keys:
        break;
 
 	case stat_random:
-		switch (get_rng("GetBonus",0)>>6)
+		switch ((rand()%256)>>6)
 			{
 			case 0:
 				check->itemnumber=stat_godmode;
@@ -5319,24 +5318,24 @@ void CheckSpecialSounds(objtype *ob, playertype *pstate)
       pstate->soundtime++;
       if (pstate->soundtime > (2*VBLCOUNTER))
          {
-         int rand;
+         int rnd;
 
-         rand = get_rng("player special sound",0);
+         rnd = (rand()%256);
          shift = (pstate->soundtime>>5);
-         if ((rand << shift) > 3500)
+         if ((rnd << shift) > 3500)
             {
             int sound;
 
             pstate->soundtime = 0;
 
-            rand = get_rng("player god scare",0);
+            rnd = (rand()%256);
 
             if (ob->flags & FL_GODMODE)
                {
                sound = SD_GODMODE1SND;
-               if (rand < 160)
+               if (rnd < 160)
                   sound++;
-               if (rand < 80)
+               if (rnd < 80)
                   sound ++;
                SD_PlaySoundRTP(sound,ob->x,ob->y);
                }
@@ -5346,7 +5345,7 @@ void CheckSpecialSounds(objtype *ob, playertype *pstate)
                     )
                {
                sound = SD_DOGMODEPANTSND;
-               if (rand < 128)
+               if (rnd < 128)
                   sound += 2;
                NewState(ob,&s_doglick);
                pstate->attackframe = pstate->weaponframe =
@@ -5378,11 +5377,11 @@ void CheckSpecialSounds(objtype *ob, playertype *pstate)
       pstate->soundtime ++;
       if (pstate->soundtime > (2*VBLCOUNTER))
          {
-         int rand;
+         int rnd;
 
-         rand = get_rng("player cough sound",0);
+         rnd = (rand()%256);
          shift = (pstate->soundtime>>5);
-         if ((rand << shift) > 2000)
+         if ((rnd << shift) > 2000)
             {
             pstate->soundtime = 0;
             if ((pstate->player == 1) || (pstate->player == 3))
@@ -5426,24 +5425,24 @@ void CheckSpecialSounds(objtype *ob, playertype *pstate)
       pstate->soundtime++;
       if (pstate->soundtime > (2*VBLCOUNTER))
          {
-         int rand;
+         int rnd;
 
-         rand = get_rng("player special sound",0);
+         rnd = (rand()%256);
          shift = (pstate->soundtime>>5);
-         if ((rand << shift) > 3500)
+         if ((rnd << shift) > 3500)
             {
             int sound;
 
             pstate->soundtime = 0;
 
-            rand = get_rng("player god scare",0);
+            rnd = (rand()%256);
 
             if (ob->flags & FL_GODMODE)
                {
                sound = SD_GODMODE1SND;
-               if (rand < 160)
+               if (rnd < 160)
                   sound++;
-               if (rand < 80)
+               if (rnd < 80)
                   sound ++;
                SD_PlaySoundRTP(sound,ob->x,ob->y);
                }
@@ -5451,7 +5450,7 @@ void CheckSpecialSounds(objtype *ob, playertype *pstate)
             else if (!pstate->batblast)
                {
                sound = SD_DOGMODEPANTSND;
-               if (rand < 128)
+               if (rnd < 128)
                   sound += 2;
                NewState(ob,&s_doglick);
                pstate->attackframe = pstate->weaponframe =
@@ -5483,11 +5482,11 @@ void CheckSpecialSounds(objtype *ob, playertype *pstate)
       pstate->soundtime ++;
       if (pstate->soundtime > (2*VBLCOUNTER))
          {
-         int rand;
+         int rnd;
 
-         rand = get_rng("player cough sound",0);
+         rnd = (rand()%256);
          shift = (pstate->soundtime>>5);
-         if ((rand << shift) > 2000)
+         if ((rnd << shift) > 2000)
             {
             pstate->soundtime = 0;
             if ((pstate->player == 1) || (pstate->player == 3))

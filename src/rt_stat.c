@@ -39,7 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_main.h"
 #include "w_wad.h"
 #include "rt_main.h"
-#include "random.h"
 #include "rt_menu.h"
 #include "rt_sound.h"
 #include "rt_net.h"
@@ -1325,7 +1324,6 @@ void SpawnStatic (int tilex, int tiley, int mtype, int zoffset)
            {
            temp->flags &= ~FL_ACTIVE;
            temp->numanims = 0;
-           get_rng("SpawnStatic",mtype);
            }
         }
 
@@ -1334,7 +1332,7 @@ void SpawnStatic (int tilex, int tiley, int mtype, int zoffset)
         if (temp->numanims)
            {
            if (!onetimer)
-              temp->count = (int)(((int)get_rng("SpawnStatic",mtype) % stats[mtype].numanims) + 1);
+              temp->count = (int)((rand() % stats[mtype].numanims) + 1);
            else
               temp->count = 0;
            }

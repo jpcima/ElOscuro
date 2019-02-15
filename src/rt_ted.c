@@ -56,7 +56,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "isr.h"
 #include "rt_floor.h"
 #include "rt_game.h"
-#include "random.h"
 #include "rt_cfg.h"
 #include "develop.h"
 #include "modexlib.h"
@@ -1097,7 +1096,7 @@ void DrawPreCache( void )
 
       PrintY = PRECACHESTRINGY;
 
-      num = (get_rng ("PreCacheString", 0)) % MAXSILLYSTRINGS;
+      num = rand() % MAXSILLYSTRINGS;
 
       if ((dopefish==true) || (tedlevel == true))
          strcpy (temp, &(CacheStrings[num][0]));
@@ -2325,7 +2324,7 @@ void SetupSwitches( void )
 
 
 void RespawnPlayerobj(objtype *ob)
-{int rand,numchecked=0;
+{int rnd,numchecked=0;
  int oldsetupgame,nx,ny,ndir;
  playertype *pstate;
 
@@ -2333,23 +2332,23 @@ void RespawnPlayerobj(objtype *ob)
 
  if (gamestate.battlemode != battle_CaptureTheTriad)
      {
-      rand = (get_rng("playerobj respawn",0) % NUMSPAWNLOCATIONS);
+      rnd = rand() % NUMSPAWNLOCATIONS;
 
       while(numchecked < NUMSPAWNLOCATIONS)
          {
-         if (!actorat[SPAWNLOC[rand].x][SPAWNLOC[rand].y])
-            {RevivePlayerobj(SPAWNLOC[rand].x,SPAWNLOC[rand].y,SPAWNLOC[rand].dir,ob);
+         if (!actorat[SPAWNLOC[rnd].x][SPAWNLOC[rnd].y])
+            {RevivePlayerobj(SPAWNLOC[rnd].x,SPAWNLOC[rnd].y,SPAWNLOC[rnd].dir,ob);
             return;
             }
          numchecked ++;
-         rand = (rand + 1) % NUMSPAWNLOCATIONS;
+         rnd = (rnd + 1) % NUMSPAWNLOCATIONS;
          }
 #if (DEVELOPMENT == 1)
       SoftError("\nno spawn locations available, using FindEmptyTile");
 #endif
-      nx = SPAWNLOC[rand].x;
-      ny = SPAWNLOC[rand].y;
-      ndir = SPAWNLOC[rand].dir;
+      nx = SPAWNLOC[rnd].x;
+      ny = SPAWNLOC[rnd].y;
+      ndir = SPAWNLOC[rnd].dir;
      }
  else
      {nx = TEAM[pstate->team].tilex;
@@ -2447,26 +2446,26 @@ void AssignTeams(void)
 void SetupTeams(void)
 {
 
-  int i,j,rand,sx,sy,ntilex,ntiley,dir,
+  int i,j,rnd,sx,sy,ntilex,ntiley,dir,
       maxdist,currdist,spawnindex,cnt;
   int locspawned[MAXSPAWNLOCATIONS] = {0};
 
   if (gamestate.battlemode == battle_CaptureTheTriad)
-        {rand = (get_rng("net player spawn",0) % NUMSPAWNLOCATIONS);
+        {rnd = rand() % NUMSPAWNLOCATIONS;
 
          for(i=0;i<NUMSPAWNLOCATIONS;i++)
-           {sx = SPAWNLOC[rand].x;
-            sy = SPAWNLOC[rand].y;
-            dir = SPAWNLOC[rand].dir;
+           {sx = SPAWNLOC[rnd].x;
+            sy = SPAWNLOC[rnd].y;
+            dir = SPAWNLOC[rnd].dir;
 
             if (CheckTile(sx,sy) && (!IsPlatform(sx,sy)) &&
                (Number_of_Empty_Tiles_In_Area_Around(sx,sy) > TEAM[0].nummembers)
                )
-               {SetupSpecificFlagTeamAt(0,rand);
+               {SetupSpecificFlagTeamAt(0,rnd);
                break;
                }
 
-            rand = (rand + 1)%NUMSPAWNLOCATIONS;
+            rnd = (rnd + 1)%NUMSPAWNLOCATIONS;
             }
 
          if (i == NUMSPAWNLOCATIONS)
@@ -2502,18 +2501,18 @@ void SetupTeams(void)
        if (numteams > NUMSPAWNLOCATIONS)
           Error("More teams than spawn locations !");
        //cnt =0;
-       //for(rand = 0;rand < NUMSPAWNLOCATIONS;rand++)
+       //for(rnd = 0;rnd < NUMSPAWNLOCATIONS;rnd++)
        for(cnt=0;cnt<numteams;)
           {
-          rand = (get_rng("team spawn",0) % NUMSPAWNLOCATIONS);
+          rnd = rand() % NUMSPAWNLOCATIONS;
 
-          if (locspawned[rand])
+          if (locspawned[rnd])
             continue;
 
 
-          sx = SPAWNLOC[rand].x;
-          sy = SPAWNLOC[rand].y;
-          dir = SPAWNLOC[rand].dir;
+          sx = SPAWNLOC[rnd].x;
+          sy = SPAWNLOC[rnd].y;
+          dir = SPAWNLOC[rnd].dir;
 
           if (Number_of_Empty_Tiles_In_Area_Around(sx,sy) < TEAM[cnt].nummembers)
              {
@@ -2524,12 +2523,12 @@ void SetupTeams(void)
              }
 
           badcount = 0;
-          //Debug("\n\nSpawn Location %d",rand);
+          //Debug("\n\nSpawn Location %d",rnd);
           //Debug("\n-----------------");
           TEAM[cnt].tilex = sx;
           TEAM[cnt].tiley = sy;
           TEAM[cnt].dir = dir;
-          locspawned[rand]=1;
+          locspawned[rnd]=1;
           cnt++;
 
           }
@@ -2657,25 +2656,25 @@ void SetupPlayers( void )
 
 	else
       {
-      int rand,cnt,locspawned[MAXSPAWNLOCATIONS]={0};
+      int rnd,cnt,locspawned[MAXSPAWNLOCATIONS]={0};
       int locsleft;
 
       locsleft=NUMSPAWNLOCATIONS;
       for(cnt=0;cnt<numplayers;)
-         {rand = (get_rng("net player spawn",0) % NUMSPAWNLOCATIONS);
+         {rnd = rand() % NUMSPAWNLOCATIONS;
          if (locsleft==0)
             {
             int x,y;
 
-            x=SPAWNLOC[rand].x;
-            y=SPAWNLOC[rand].y;
+            x=SPAWNLOC[rnd].x;
+            y=SPAWNLOC[rnd].y;
             FindEmptyTile(&x,&y);
-            SpawnPlayerobj(x,y,SPAWNLOC[rand].dir,cnt);
+            SpawnPlayerobj(x,y,SPAWNLOC[rnd].dir,cnt);
             cnt++;
             }
-         else if (!locspawned[rand])
-            {SpawnPlayerobj(SPAWNLOC[rand].x,SPAWNLOC[rand].y,SPAWNLOC[rand].dir,cnt);
-            locspawned[rand]=1;
+         else if (!locspawned[rnd])
+            {SpawnPlayerobj(SPAWNLOC[rnd].x,SPAWNLOC[rnd].y,SPAWNLOC[rnd].dir,cnt);
+            locspawned[rnd]=1;
             locsleft--;
             cnt++;
             }
@@ -2686,7 +2685,7 @@ void SetupPlayers( void )
 	  {int i;
 		playertype *pstate;
 
-      BATTLE_It = get_rng("tag choose",0) % numplayers;
+      BATTLE_It = rand() % numplayers;
 
 		PLAYER[BATTLE_It]->flags |= FL_DESIGNATED;
 		for(i=0;i<numplayers;i++)
@@ -5697,8 +5696,6 @@ void SetupGameLevel (void)
 
 	insetupgame=true;
 
-  srand(time(0));
-
 	//if ((demoplayback==true) || (demorecord==true))
   //    SetRNGindex ( 0 ); //FIXME?
 
@@ -6011,11 +6008,11 @@ void SetupRandomActors(void)
 
 
  while(count<totalrandom)
-	{ locindex = (get_rng("rand loc index",0) % orig);
+	{ locindex = rand() % orig;
 
 	  if (!used[locindex])
-       {randomtype = actorpresent[get_rng("SetupRandomActors",0) % index];
-		  ambush = (get_rng("rand actor",0) < 128);
+       {randomtype = actorpresent[rand() % index];
+		  ambush = rand()%2;
 		  i = randloc[locindex].x;
 		  j = randloc[locindex].y;
 		  tile = mapplanes[1][j*mapwidth + i];
@@ -6537,12 +6534,12 @@ void SetupStatics(void)
                case 56:
                   if ( gamestate.Product == ROTT_SHAREWARE )
                      {
-                     num = ( get_rng( "Random Weapon", 0 ) % 7 );
+                     num = rand()%7;
                      tile = SharewareWeaponTiles[ num ];
                      }
                   else
                      {
-                     num = ( get_rng( "Random Weapon", 1 ) % 10 );
+                     num = rand()%10;
                      tile = NormalWeaponTiles[ num ];
                      }
                   break;
@@ -6946,7 +6943,7 @@ void SetupStatics(void)
 							SpawnStatic(i,j,stat_collector,spawnz);
                      LASTSTAT->flags |= FL_COLORED;
                      LASTSTAT->hitpoints =
-                        ( get_rng("colors",0) % MAXPLAYERCOLORS );
+                        ( rand() % MAXPLAYERCOLORS );
                      BATTLE_NumCollectorItems++;
                      }
 					break;

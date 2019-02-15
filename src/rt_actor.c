@@ -39,7 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_main.h"
 #include "rt_playr.h"
 #include "rt_util.h"
-#include "random.h"
 #include "rt_menu.h"
 #include "rt_swift.h"
 #include "_rt_acto.h"
@@ -774,11 +773,9 @@ void LoadActors(byte *buffer,int size)
 
 int RandomSign(void)
    {
-   if (get_rng("random sign",0) < 128)
+   if (rand()%2)
       return -1;
    return 1;
-
-
    }
 
 
@@ -1476,7 +1473,7 @@ void ConsiderAlternateActor(objtype *ob,classtype which)
    {
    if (((which >= lowguardobj) && (which <= blitzguardobj)) ||
 		 (which == dfiremonkobj))
-		{if (get_rng("SpawnStand",which) < 128)
+		{if (rand()%2)
 			{switch(which)
 				{case lowguardobj:
                ob->shapeoffset =  W_GetNumForName("MARSHOO1") -
@@ -1558,7 +1555,7 @@ void StandardEnemyInit(objtype *ob,int dir)
 
 void ConsiderOutfittingBlitzguard(objtype *ob)
    {
-   if ((get_rng("wiley blitzguard",0) < WILEYBLITZCHANCE) &&
+   if (((rand()%256) < WILEYBLITZCHANCE) &&
        (gamestate.difficulty >= gd_medium)
       )
       {
@@ -1601,7 +1598,7 @@ void SpawnStand (classtype which, int tilex, int tiley, int dir, int ambush)
 
  #endif
 
- if ((which == lowguardobj) && (get_rng("SpawnStand",which) < 128))
+ if ((which == lowguardobj) && (rand()%2))
     which = blitzguardobj;
 
 
@@ -1688,7 +1685,7 @@ if (gamestate.Product == ROTT_SUPERCD)
 
  #endif
 
- if ((which == lowguardobj) && (get_rng("SpawnStand",which) < 128))
+ if ((which == lowguardobj) && (rand()%2))
     which = blitzguardobj;
 
 
@@ -1939,7 +1936,7 @@ void SpawnGroundExplosion(int x, int y, int z)
 {
    SpawnInertActor(x,y,z);
    NewState(new,&s_grexplosion1);
-   new->temp2 = get_rng("SpawnGroundExplosion",0)>>2;
+   new->temp2 = (rand()%256)>>2;
 
 }
 #endif
@@ -2019,7 +2016,7 @@ void SpawnSpear(int tilex,int tiley,int up)
 
       SpawnNewObj(tilex,tiley,&s_spearup1,spearobj);
 
-   count = (int)(get_rng("Spawn Spear",0) % 16);
+   count = rand() % 16;
    for(i=0,tstate = new->state;i<count;i++,tstate=tstate->next);
    NewState(new,tstate);
 
@@ -2038,7 +2035,7 @@ void SpawnSpring(int tilex,int tiley)
    if (iconvalue == 3)
       {
       SpawnNewObj(tilex,tiley,&s_autospring1,springobj);
-      new->ticcount = (get_rng("Spawn Spring",0) % new->ticcount)+1;
+      new->ticcount = (rand() % new->ticcount)+1;
       new->temp1 = iconvalue;
       }
    else
@@ -2234,7 +2231,7 @@ void SpawnBlade(int tilex, int tiley,int dir,int upordown,int moving)
   }
 
 
- count = (int)(get_rng("SpawnBlade",0) % 16);
+ count = rand() % 16;
  for(nstate=new->state,i=0;i<count;nstate = nstate->next,i++);
  NewState(new,nstate);
 
@@ -2276,7 +2273,7 @@ void SpawnCrushingColumn(int tilex, int tiley, int upordown)
 	new->z = 0;
   }
 
- count = (int)(get_rng("SpawnCrushingColumn",0) % 8);
+ count = rand() % 8;
  for(nstate=new->state,i=0;i<count;nstate = nstate->next,i++)
 	{if ((!upordown) && (nstate->condition & SF_UP))
 		new->temp1 += (((nstate->tictime>>1) + 1)<<2);
@@ -2297,7 +2294,7 @@ void SpawnFirejet(int tilex, int tiley, int dir, int upordown)
    statetype *tstate;
 
 
-   statecount = (int)(get_rng("SpawnFirejet",0) % 22);
+   statecount = rand() % 22;
 
    if (upordown)
       {
@@ -2679,7 +2676,7 @@ void MissileHit (objtype *ob,void *hitwhat)
    tempactor = (objtype*)hitwhat;
    owner = (objtype*)(ob->whatever);
 
-   random = get_rng("MissileHit",0);
+   random = (rand()%256);
    ocl = ob->obclass;
    if (tempactor)
       {
@@ -3322,7 +3319,7 @@ void SpawnScreenEye(objtype *ob)
    {
    SpawnNewObj(ob->tilex,ob->tiley,&s_eye1,inertobj);
    new->targettiley = 0;
-   new->targettilex = get_rng("eye position",0) + 20;
+   new->targettilex = (rand()%256) + 20;
    SCREENEYE = new;
    //RemoveFromArea(new);
    new->flags |= FL_ABP;
@@ -3337,7 +3334,7 @@ void SpawnScreenEye(objtype *ob)
 
 void SpawnSuperFatalityGibs(objtype *ob,objtype *attacker)
    {
-   int crazygibs = (get_rng("crazy gibs",0) % 6) + 4;
+   int crazygibs = (rand() % 6) + 4;
    int i;
 
 
@@ -3406,7 +3403,7 @@ bool Vicious_Annihilation(objtype *ob, objtype *attacker)
          int numgibs;
          objtype *prevlast;
 
-         numgibs = (get_rng("excessive guts",0) & 7) + 4;
+         numgibs = ((rand()%256) & 7) + 4;
          //SoftError("\nnumgibs = %d,gamestate.difficulty = %d",numgibs,gamestate.difficulty);
          prevlast = LASTACTOR;
          MISCVARS->fulllightgibs = true;
@@ -3415,7 +3412,7 @@ bool Vicious_Annihilation(objtype *ob, objtype *attacker)
          for(prevlast = prevlast->next;prevlast;prevlast = prevlast->next)
             prevlast->momentumz += (prevlast->momentumz >> 1);
 
-         if ((get_rng("super gib chance",0) < 100) ||
+         if (((rand()%256) < 100) ||
              (ludicrousgibs == true)
             )
             {
@@ -3620,7 +3617,7 @@ void BeginEnemyHurt(objtype *ob)
       else
          {
          if ((ob->obclass == triadenforcerobj) &&
-             (get_rng("george pain chance",0) <
+             ((rand()%256) <
               (50 + (gamestate.difficulty<<6))
              )
             )
@@ -3634,7 +3631,7 @@ void BeginEnemyHurt(objtype *ob)
          if (LOW_VIOLENCE_PAIN_SHOULD_BE_SET(ob))
             SET_PAIN_SHAPEOFFSET(ob);
 
-         if (get_rng("Collision",0) < 128)
+         if (rand()%2)
             NewState(ob,temp);
          else
             NewState(ob,M_S(COLLIDE2));
@@ -3708,12 +3705,12 @@ void T_BossExplosions(objtype*ob)
 		  statetype *nstate;
 
 		  ob->temp1 --;
-		  randtime = get_rng("Boss Explosion Time",0);
+		  randtime = (rand()%256);
 		  ob->dirchoosetime = 10;
 		  if (randtime < 128)
 			ob->dirchoosetime >>= 1;
-		  randangle = (get_rng("Boss Explosion Angle",0) << 3);
-		  randdist = (get_rng("Boss Explosion Distance",0) << 7)+0x4000;
+		  randangle = ((rand()%256) << 3);
+		  randdist = ((rand()%256) << 7)+0x4000;
 		  sound = SD_EXPLODEFLOORSND;
 		  if (randtime < 128)
 			 {nstate = &s_explosion1;
@@ -3736,13 +3733,13 @@ void T_BossExplosions(objtype*ob)
 
 gib_t RandomGutsType(void)
    {
-   int rand = get_rng("gut random",0);
+   int rnd = (rand()%256);
 
 
-   if (rand < 128)
+   if (rnd < 128)
       return gt_organ;
 
-   //if (rand < 160)
+   //if (rnd < 160)
       return gt_rib;
 
    //return gt_pinkorgan;
@@ -3772,9 +3769,9 @@ void SpawnParticles(objtype*ob,int which,int numparticles)
    for(i=0;i<numparticles;i++)
       {
       int ordertemp;	/* DDOI - Watcom evaluates the mult order diff */
-      randphi = (get_rng("particle generate phi",0) << 3);
-      // randadj = RandomSign() * (get_rng("rand gib adjust",0) >> 4);
-      ordertemp = (get_rng("rand gib adjust",0) >> 4);
+      randphi = ((rand()%256) << 3);
+      // randadj = RandomSign() * ((rand()%256) >> 4);
+      ordertemp = ((rand()%256) >> 4);
       randadj = RandomSign() * ordertemp;
 
 
@@ -3782,13 +3779,13 @@ void SpawnParticles(objtype*ob,int which,int numparticles)
       if (ob->z > (nominalheight - 32))
          randphi &= ((ANGLES/2) - 1);
 
-      randtheta = (get_rng("particle generate theta",0) << 3);
+      randtheta = ((rand()%256) << 3);
       nspeed = MISCVARS->gibspeed;
 
 
       if (which == RANDOM)
          {
-         if (get_rng("random gib",0) < 128)
+         if (rand()%2)
             gibtype = RandomGutsType();
          else
             gibtype = gt_sparks;
@@ -3950,7 +3947,7 @@ void BloodDrip(objtype *ob,int tilex,int tiley)
    x = FixedMul(y - ob->y,scale) + ob->x;
    }
 
- ob->temp2 = (get_rng("BloodDrip",0) << 9) + 0xc000;
+ ob->temp2 = ((rand()%256) << 9) + 0xc000;
  ob->temp1 = (ob->z<<16);
  SetFinePosition(ob,x,y);
  ob->shapeoffset = 0;
@@ -3993,10 +3990,10 @@ void T_ParticleGenerate(objtype*ob)
  else
 	{
     SetGibSpeed(0x3000);
-    SpawnParticles(ob,gt_sparks,(get_rng("particle count",0) % 10) + 7);
+    SpawnParticles(ob,gt_sparks,(rand() % 10) + 7);
     ResetGibSpeed();
 	 ob->dirchoosetime = 10;
-	 if (get_rng("particle generator choose time",0) < 128)
+	 if (rand()%2)
 		ob->dirchoosetime >>= 1;
 	}
 
@@ -4048,12 +4045,12 @@ void T_Particle(objtype*ob)
 
 #if (SHAREWARE==0)
     if ((ob->flags & FL_EYEBALL) && (dx < 0x20000) && (dy < 0x20000) &&
-        (dz < 64) && (get_rng("eye chance",0) < 15) &&
+        (dz < 64) && ((rand()%256) < 15) &&
         (SCREENEYE == NULL) && (locplayerstate->weapon != wp_dog)
        )
 #else
     if ((ob->flags & FL_EYEBALL) && (dx < 0x20000) && (dy < 0x20000) &&
-        (dz < 64) && (get_rng("eye chance",0) < 15) &&
+        (dz < 64) && ((rand()%256) < 15) &&
         (SCREENEYE == NULL)
        )
 #endif
@@ -4090,7 +4087,7 @@ void KillActor(objtype*ob)
 
  //GivePoints(starthitpoints[gamestate.difficulty][ob->obclass]*5);
  if ((ocl == highguardobj) &&
-	  (get_rng("Drop mp40 chance",0) < 25))
+	  ((rand()%256) < 25))
     {
     DropItemInEmptyTile(stat_mp40,ob->tilex,ob->tiley);
     }
@@ -4282,7 +4279,7 @@ void T_Blood(objtype*ob)
 	  return;
 	 }
 
-  ob->dirchoosetime = 35 + (get_rng("blood time",0) % 20);
+  ob->dirchoosetime = 35 + (rand() % 20);
   NewState(ob,&s_deadblood1);
 
 }
@@ -4344,7 +4341,7 @@ void ActorDeath(objtype*ob)
             }
          }
       /*
-      else if ((get_rng("blood spray",0) < 300) && areabyplayer[ob->areanumber])
+      else if (((rand()%256) < 300) && areabyplayer[ob->areanumber])
          {ob->shapeoffset = 0;
          ob->temp2 = ob->temp3 = 0;
          ob->temp1 = 10;
@@ -4368,7 +4365,7 @@ void BeginPostPainAction(objtype *ob)
       if (LOW_VIOLENCE_DEATH_IS_SET(ob))
          RESET_DEATH_SHAPEOFFSET(ob);
 
-      if (get_rng("T_Collide",0) < 128)
+      if (rand()%2)
          NewState(ob,&s_strikerollright1);
       else
          NewState(ob,&s_strikerollleft1);
@@ -4392,7 +4389,7 @@ void BeginPostPainAction(objtype *ob)
    if (
       (ob->obclass == blitzguardobj) &&
       (gamestate.violence == vl_excessive) &&
-      (get_rng("blitzplead",0) < 128) &&
+      (rand()%2) &&
       (MISCVARS->NUMBEGGINGKEVINS == 0) &&
       (ob->flags & FL_TARGET) &&
 
@@ -4488,7 +4485,7 @@ void T_Plead(objtype*ob)
    {
    if (!(ob->dirchoosetime & 31))
       {
-      int random = get_rng("blitz plead sound",0);
+      int random = (rand()%256);
       if (random < 80)
          SD_PlaySoundRTP(SD_BLITZPLEADSND,ob->x,ob->y);
       else if (random < 160)
@@ -4505,11 +4502,11 @@ void T_Plead(objtype*ob)
  SET_DEATH_SHAPEOFFSET(ob);
  NewState(ob,&s_blitzfakedie1);
  ob->flags &= ~FL_PLEADING;
- ob->dirchoosetime = (get_rng("blitz fake time",0) >> 2) + 70;
+ ob->dirchoosetime = ((rand()%256) >> 2) + 70;
  handle = SD_PlaySoundRTP(SD_BLITZOUCHSND,ob->x,ob->y);
  SD_SetSoundPitch (handle,-500);
  ob->temp1 = 0;
- ob->temp1 = (get_rng("blitz visible rise",0) < 60);
+ ob->temp1 = ((rand()%256) < 60);
 
 }
 
@@ -4740,7 +4737,7 @@ void Stagger(objtype*ob)
    int randadj;
 
 
-   randadj = (int)(get_rng("Stagger",1) >> 3);
+   randadj = (int)((rand()%256) >> 3);
 
    if (!ob->dirchoosetime)
       {
@@ -4789,7 +4786,7 @@ void SplitMissile(objtype*ob)
 
    if (missobj == ob)
       {
-      if (get_rng("split misscam",0)<128)
+      if (rand()%2)
          missobj = LASTACTOR;
       else
          missobj = LASTACTOR->prev;
@@ -5128,7 +5125,7 @@ actors:
                else
                   return false;
                }
-            random = get_rng("empower darkmonk",0);
+            random = (rand()%256);
 #if (SHAREWARE == 0)
 
             if (ocl == p_kesobj)
@@ -5431,7 +5428,7 @@ void SpawnFirewall(objtype*ob,int which,int newz)
         new->whatever = ob->whatever;
         new->dirchoosetime = 2;
         new->flags |= (FL_NEVERMARK|FL_ABP|FL_NOFRICTION);
-        count = (int)(get_rng("SpawFireWall",0) & 15);
+        count = (int)((rand()%256) & 15);
 
         for(frame = &s_fireunit1,j=0;j<count;frame = frame->next,j++);
 
@@ -5677,24 +5674,24 @@ void SpawnSneaky(int tilex,int tiley)
 
 void RespawnEluder(void)
    {
-   int rand,count;
+   int rnd,count;
    int nx,ny;
 
-   rand = (get_rng("eluder respawn",0) % NUMSPAWNLOCATIONS);
+   rnd = (rand() % NUMSPAWNLOCATIONS);
 
    for(count=0;count < NUMSPAWNLOCATIONS;count++)
       {
-      if (!actorat[SPAWNLOC[rand].x][SPAWNLOC[rand].y])
+      if (!actorat[SPAWNLOC[rnd].x][SPAWNLOC[rnd].y])
          {
-         SpawnCollector(SPAWNLOC[rand].x,SPAWNLOC[rand].y);
+         SpawnCollector(SPAWNLOC[rnd].x,SPAWNLOC[rnd].y);
          return;
          }
-      rand= ((rand + 1) % NUMSPAWNLOCATIONS);
+      rnd= ((rnd + 1) % NUMSPAWNLOCATIONS);
 
       }
 
-   nx = SPAWNLOC[rand].x;
-   ny = SPAWNLOC[rand].y;
+   nx = SPAWNLOC[rnd].x;
+   ny = SPAWNLOC[rnd].y;
    FindEmptyTile(&nx,&ny);
    SpawnCollector(nx,ny);
    }
@@ -5944,7 +5941,7 @@ void T_CollectorFindDoor(objtype*ob)
    ob->targettilex = ((dptr->tilex + (xoffset)) << TILESHIFT) + HALFGLOBAL1; \
    ob->targettiley = ((dptr->tiley + (yoffset)) << TILESHIFT) + HALFGLOBAL1; \
    ob->temp2 = newdir;                                                     \
-   if (get_rng("collector door search",0) < 100)                  \
+   if ((rand()%256) < 100)                  \
       return;                                                              \
    }
 //==========================================================================
@@ -6025,7 +6022,7 @@ void T_CollectorWander(objtype*ob)
       {
       dirtype bestdir,tempdir;
 
-      bestdir = angletodir[get_rng("collector theta",0) << 3];
+      bestdir = angletodir[(rand()%256) << 3];
 
       for(tempdir = bestdir;tempdir != dirorder[bestdir][PREV];tempdir = dirorder[tempdir][NEXT])
          {
@@ -6037,7 +6034,7 @@ void T_CollectorWander(objtype*ob)
          ActorMovement(ob);
          if (ob->momentumx || ob->momentumy)
             {
-            ob->temp1 = (get_rng("collector choose time",0) >> 2);
+            ob->temp1 = ((rand()%256) >> 2);
             return;
             }
          }
@@ -7895,7 +7892,7 @@ void T_EsauWait(objtype*ob)
    else if ((!ob->dirchoosetime) && (CheckLine(ob,PLAYER[0],SHOOT)))
       {
       NewState(ob,&s_dariandefend1);
-      ob->dirchoosetime = (get_rng("T_EsauWait",0) % 35) + 17;//35;
+      ob->dirchoosetime = (rand() % 35) + 17;//35;
       return;
       }
    }
@@ -7931,7 +7928,7 @@ void T_EsauRise(objtype*ob)
       else
          MISCVARS->EPOP[ob->temp3].x = MISCVARS->EPOP[ob->temp3].y = 0;
 
-      ob->dirchoosetime= (get_rng("T_EsauRise",0) % 35) + 17;
+      ob->dirchoosetime= (rand() % 35) + 17;
       MISCVARS->ESAU_HIDING = false;
       MISCVARS->ESAU_SHOOTING = true;
       ob->flags |= FL_SHOOTABLE;
@@ -8030,7 +8027,7 @@ void T_EsauChase(objtype*ob)
             dist = (dx>dy)?dx:dy;
             chance = 400/dist;
             }
-         if (get_rng("T_EsauChase",0) <chance)
+         if ((rand()%256) <chance)
             {
             if ((temp=M_S(AIM)) != NULL)
                {
@@ -8381,7 +8378,7 @@ void SelectTouchDir (objtype *ob)
       d[2]=south;
 
 
-   if (get_rng("SelectTouchDir",0)<128)
+   if (rand()%2)
       {
       tdir=d[1];
       d[1]=d[2];
@@ -8400,7 +8397,7 @@ void SelectTouchDir (objtype *ob)
 
 
 
-   if (get_rng("SelectTouchDir",ob->obclass)>128)   //randomly determine direction of search
+   if ((rand()%256)>128)   //randomly determine direction of search
       {
       for (tdir=north;tdir<=west;tdir++)
          {
@@ -8488,7 +8485,7 @@ void T_HeinrichChase(objtype*ob)
 		  else
            chance = 2400/dist;
 
-		  if (get_rng("T_HeinrichChase",0) <chance)
+		  if ((rand()%256) <chance)
           {tpoint dummy,*dptr=&dummy;
 
            if (Near(ob,PLAYER[0],2))
@@ -8995,7 +8992,7 @@ void T_OrobotChase(objtype*ob)
          if ((!Near(ob,PLAYER[0],3)) && inrange)
             {
             SD_PlaySoundRTP(SD_NMEREADYSND,ob->x,ob->y);
-            if ((ob->hitpoints < 2000) && (get_rng("NME special attack",0) < 120))
+            if ((ob->hitpoints < 2000) && ((rand()%256) < 120))
                {
                int next,prev;
 
@@ -9268,8 +9265,8 @@ void T_NME_Explode(objtype*ob)
 
 	  op = FixedMul(GRAVITY,(head->z-25)<<16) << 1;
 	  head->momentumz = -FixedSqrtHP(op);
-	  head->momentumx = (get_rng("NME head momx",0) << 2);
-	  head->momentumy = (get_rng("NME head momy",0) << 2);
+	  head->momentumx = ((rand()%256) << 2);
+	  head->momentumy = ((rand()%256) << 2);
      head->hitpoints = 0;
      head->flags |= FL_DYING;
 	  NewState(head,&s_shootinghead);
@@ -9294,7 +9291,7 @@ void T_NME_HeadShoot(objtype*ob)
 
  /*if (ob->momentumz < 0)
   {for(i=0;i<3;i++)
-	 {randtheta = (get_rng("NME spark drop",0) << 3);
+	 {randtheta = ((rand()%256) << 3);
 	  SpawnNewObj(ob->tilex,ob->tiley,&s_particle1,inertobj);
 	  new->temp2 = 1;
 	  offx = FixedMul(0x400,costable[randtheta]);
@@ -9399,14 +9396,14 @@ void T_NME_SpinFire(objtype*ob)
   }
 
  if (ob->temp3 < 20)
-	{//randphi = (get_rng("NME generate phi",0) << 3) & ((ANGLES/2) -1);
-	 if (get_rng("NME generate theta",0) < 128)
-		 randtheta = (get_rng("NME generate theta",0)>>4);
+	{//randphi = ((rand()%256) << 3) & ((ANGLES/2) -1);
+	 if (rand()%2)
+		 randtheta = ((rand()%256)>>4);
 	 else
-		 randtheta = -(get_rng("NME generate theta",0)>>4);
+		 randtheta = -((rand()%256)>>4);
 	 dx = PLAYER[0]->x-ob->x;
 	 dy = ob->y-PLAYER[0]->y;
-	 if (get_rng("bcraft shoot up/down",0) < 128)
+	 if (rand()%2)
 	  dz = 5;
 	 else
 	  dz = -5;
@@ -9892,7 +9889,7 @@ void T_SnakeFinale(objtype*ob)
          ob->dirchoosetime --;
       else
          {
-         ob->dirchoosetime = (get_rng("snake finale choose",0) % 7) + 15;
+         ob->dirchoosetime = (rand() % 7) + 15;
          SetGibSpeed(0x3000);
          SpawnParticles(ob,RANDOM,30);
          SpawnParticles(ob,gt_spit,20);
@@ -10052,7 +10049,7 @@ void T_DarkmonkLandAndFire(objtype*ob)
 		return;
 	  }
   if (Near(ob,PLAYER[0],3))
-	 {if (get_rng("darkmonkland",0)<128)
+	 {if (rand()%2)
 		NewState(ob,&s_darkmonkbball1);
 	  else
 		{ob->angle = AngleBetween(ob,PLAYER[0]);
@@ -10123,7 +10120,7 @@ void T_DarkmonkChase(objtype*ob)
 		  else
 			  chance = 400/dist;//300/dist;
 
-		  if (get_rng("T_DarkMonkChase",0) < chance)
+		  if ((rand()%256) < chance)
 			 {NewState(ob,&s_dmlandandfire);
 			  return;
 			 }
@@ -10316,7 +10313,7 @@ void A_GunShoot(objtype*ob)
 	  }
 	savedangle = ob->angle;
 	ob->angle = atan2_appx(dx,dy);
-	RayShoot(ob,damage,get_rng("A_GunShoot Accuracy",0) % 20);
+	RayShoot(ob,damage,rand() % 20);
 	ob->angle = savedangle;
 	SD_PlaySoundRTP(SD_BIGEMPLACEFIRESND,ob->x,ob->y);
   }
@@ -10368,13 +10365,13 @@ void A_4WayGunShoot(objtype*ob)
 
       savedangle = ob->angle;
       ob->angle = 0;
-      RayShoot(ob,damage,get_rng("A_4WayGunShoot Accuracy",0) % 20);
+      RayShoot(ob,damage,rand() % 20);
       ob->angle = ANG90;
-      RayShoot(ob,damage,get_rng("A_4WayGunShoot Accuracy",0) % 20);
+      RayShoot(ob,damage,rand() % 20);
       ob->angle = ANG180;
-      RayShoot(ob,damage,get_rng("A_4WayGunShoot Accuracy",0) % 20);
+      RayShoot(ob,damage,rand() % 20);
       ob->angle = ANG270;
-      RayShoot(ob,damage,get_rng("A_4WayGunShoot Accuracy",0) % 20);
+      RayShoot(ob,damage,rand() % 20);
       ob->angle = savedangle;
       }
    }
@@ -10399,7 +10396,7 @@ void A_Drain (objtype *ob)
 
 	else
       {
-      damage = (get_rng("A_Drain",ob->obclass) >> 3);
+      damage = ((rand()%256) >> 3);
       DamageThing (PLAYER[0],damage);
       ob->hitpoints += damage;
       if (ob->hitpoints > starthitpoints[gamestate.difficulty][ob->obclass])
@@ -10722,26 +10719,26 @@ void DamageStaticObject(statobj_t*tempstat,int damage)
 
                if (tempstat->itemnumber == stat_bonusbarrel)
                   {
-                  int rand = get_rng("DamageThing",0);
+                  int rnd = (rand()%256);
 
-                  if (rand < 80)
+                  if (rnd < 80)
                      {
-                     if (rand & 1)
+                     if (rnd & 1)
                         SpawnStatic(tempstat->tilex,tempstat->tiley,stat_monkmeal,-1);
                      else
                         SpawnStatic(tempstat->tilex,tempstat->tiley,stat_priestporridge,-1);
                      gamestate.healthtotal ++;
                      }
-                  else if (rand < 160)
+                  else if (rnd < 160)
                      {
-                     if (rand & 1)
+                     if (rnd & 1)
                         SpawnStatic(tempstat->tilex,tempstat->tiley,stat_lifeitem1,-1);
                      else
                         SpawnStatic(tempstat->tilex,tempstat->tiley,stat_lifeitem3,-1);
                      }
                   else
                      {
-                     if (rand & 1)
+                     if (rnd & 1)
                         SpawnStatic(tempstat->tilex,tempstat->tiley,stat_mp40,-1);
                      else
                         {
@@ -11106,7 +11103,7 @@ void AvoidPlayerMissile(objtype*ob)
    if (PLAYER0MISSILE == NULL)
       return;
 
-   if (get_rng("scott missile avoid",0) > 160)
+   if ((rand()%256) > 160)
       return;
 
    if (ob->momentumz)
@@ -11231,7 +11228,7 @@ void T_Chase (objtype *ob)
 		  else
 				chance = 300/dist;
 
-		  if (get_rng("T_Chase",ocl) <chance)
+		  if ((rand()%256) <chance)
 			 {if ((ocl == b_heinrichobj) && (Near(ob,PLAYER[0],4)))
 				 goto cdoor;
 
@@ -11252,7 +11249,7 @@ void T_Chase (objtype *ob)
 
 			  if ((temp=M_S(AIM)) != NULL)
 				 {if ((ob->flags & FL_HASAUTO) && (!ob->temp3))
-					 ob->temp3 = (get_rng("T_Chase FL_HASAUTO",ocl) % 5) + 3;
+					 ob->temp3 = (rand() % 5) + 3;
 				  ob->target = PLAYER[0];
 				  NewState(ob,temp);
 				  return;
@@ -11532,7 +11529,7 @@ int EnvironmentDamage(objtype *ob)
             break;
 
          case wallfireobj:
-            damage = ((get_rng("wallfire damage",0) >>3) + 10);
+            damage = (((rand()%256) >>3) + 10);
             break;
 
          case crushcolobj:
@@ -11612,7 +11609,7 @@ void T_AutoPath (objtype *ob)
      if (ocl == wallopobj)
 		  {//if (ob->temp3)
 			 // Error("may be writing over temp3");
-			ob->temp3 = (get_rng("T_WallPath",0)%4) + 1;
+			ob->temp3 = (rand()%4) + 1;
 			align = &s_wallalign;
 			wait = &s_wallwait;
 		  }
@@ -11753,7 +11750,7 @@ void A_Shoot (objtype *ob)
 
    accuracy=(WHICHACTOR<<4)+((gamestate.difficulty) << 6);
 
-	num = get_rng("A_Shoot3",ob->obclass);
+	num = (rand()%256);
 
 	if (num<128) num=128; // Don't let accuracy fall below 50% original
 
@@ -11894,7 +11891,7 @@ void  A_MissileWeapon(objtype *ob)
 
 		  dx = PLAYER[0]->x-ob->x;
 		  dy = ob->y-PLAYER[0]->y;
-		  if (get_rng("bcraft shoot up/down",0) < 128)
+		  if (rand()%2)
 			 dz = 10;
 		  else
 			 dz = -10;
@@ -12077,7 +12074,7 @@ void SelectDodgeDir (objtype *ob)
 		dirtry[4] = tdir;
 	}
 
-	if (get_rng("SelectDogeDir",ob->obclass) < 128)
+	if (rand()%2)
 	{
 		tdir = dirtry[1];
 		dirtry[1] = dirtry[2];
@@ -12117,7 +12114,7 @@ void SelectDodgeDir (objtype *ob)
    {                                                    \
    next = dirorder[trydir][NEXT];                       \
    prev = dirorder[trydir][PREV];                       \
-   if (get_rng("actor choose dir",0) < 128)    \
+   if (rand()%2)    \
       {                                                 \
       dirtype temp = next;                              \
                                                         \
@@ -12257,7 +12254,7 @@ void SelectChaseDir (objtype *ob)
       dtry2=tdir;
       }
 
-	if (get_rng("chase minor",0) < 80)
+	if ((rand()%256) < 80)
       {
       tdir=dtry1;
       dtry1=dtry2;
@@ -12312,7 +12309,7 @@ void SelectChaseDir (objtype *ob)
 
 	if ((dtry1!=nodir) || (dtry2!=nodir))
       {
-      if (get_rng("actor choose dir",0) < 128)
+      if (rand()%2)
          whichway = NEXT;
       else
          whichway = PREV;
@@ -12557,17 +12554,17 @@ void FirstSighting (objtype *ob)
       }
    else if ((temp = M_S(CHASE)) != NULL)
       {
-      int rand;
+      int rnd;
 
       NewState(ob,temp);
       sound = BAS[ob->obclass].see;
-      rand = get_rng("FirstSighting low",0);
-      if ((ob->obclass > lowguardobj) && (ob->obclass <= blitzguardobj) && (rand < 128)) //hack for alternate
+      rnd = (rand()%256);
+      if ((ob->obclass > lowguardobj) && (ob->obclass <= blitzguardobj) && (rnd < 128)) //hack for alternate
          sound++;
-         //if ((ob->obclass == lowguardobj) && (rand < 80))
+         //if ((ob->obclass == lowguardobj) && (rnd < 80))
          //sound ++;
       else if (ob->obclass == lowguardobj)
-         {if (rand < 128)
+         {if (rnd < 128)
          {if ((PLAYERSTATE[0].player == 1) || (PLAYERSTATE[0].player == 3))
             sound++;
          }
@@ -13020,7 +13017,7 @@ void ShootActor(objtype * shooter, objtype * target, int damage, int accuracy, i
 				}
 //      SoftError("ShootActor: damage=%ld dist=%ld\n",damage,dist);
 
-			if ((get_rng("disembowel",0)<64) && (gamestate.violence == vl_excessive))
+			if (((rand()%256)<64) && (gamestate.violence == vl_excessive))
 			  {
 			  int temp;
 			  temp=target->temp1;
@@ -13122,7 +13119,7 @@ void RayShoot (objtype * shooter, int damage, int accuracy)
    if ((shooter->areanumber==player->areanumber) && (Near(shooter,player,3)))
       SetIllumination(2);
 
-	offset = ((get_rng("RayShoot",0)-128)>>MAXSHOOTSHIFT);
+	offset = (((rand()%256)-128)>>MAXSHOOTSHIFT);
 	offset = FixedMulShift(accuracy,offset,8);
 
 	if (offset>MAXSHOOTOFFSET)
@@ -13133,7 +13130,7 @@ void RayShoot (objtype * shooter, int damage, int accuracy)
 
 	angle=(shooter->angle+offset)&(FINEANGLES-1);
 
-   offset = ((get_rng("RayShoot",1)-128)>>MAXSHOOTSHIFT);
+   offset = (((rand()%256)-128)>>MAXSHOOTSHIFT);
 	offset = FixedMulShift(accuracy,offset,8);
 
 	if (offset>MAXSHOOTOFFSET)
@@ -13526,7 +13523,7 @@ void T_Wind
 		WindPitch += WindPitchRate;
 		if ( WindPitch == WindDestPitch )
 			{
-			WindDestPitch = ( get_rng( "Wind Pitch", 0 ) - 128 ) << 3;
+			WindDestPitch = ( (rand()%256) - 128 ) << 3;
 			WindPitchRate = 1;
 			if ( WindDestPitch < WindPitch )
 				{

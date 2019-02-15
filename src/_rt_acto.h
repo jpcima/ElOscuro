@@ -180,15 +180,15 @@ enum {
       else                                                    \
          {                                                    \
          MISCVARS->SOUNDTIME = 5*VBLCOUNTER;                  \
-         if (get_rng("boss sound check",0)<160)      \
+         if ((rand()%256)<160)      \
             {                                                 \
-            int rand,sound;                                   \
+            int rnd,sound;                                   \
                                                               \
-            rand = get_rng("boss sounds",0);         \
+            rnd = (rand()%256);         \
             sound = BAS[ob->obclass].operate;                 \
-            if (rand < 160)                                   \
+            if (rnd < 160)                                   \
                sound ++;                                      \
-            if (rand < 80)                                    \
+            if (rnd < 80)                                    \
                sound ++;                                      \
                                                               \
             SD_PlaySoundRTP(sound,ob->x,ob->y);               \

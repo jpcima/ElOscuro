@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_menu.h"
 #include "rt_playr.h"
 #include "rt_util.h"
-#include "random.h"
 #include "watcom.h"
 #include <stdio.h>
 #include <stdlib.h>

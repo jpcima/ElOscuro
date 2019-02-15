@@ -23,8 +23,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <time.h>
 
+void
+initialize_rng ()
+{
+  srand(time(NULL));
+}
+
 int32_t
-get_rng (int8_t* string, int32_t value)
+get_rng ()
 {
   return rand() % 256;
 }

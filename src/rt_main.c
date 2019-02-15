@@ -17,6 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+
 #include "rt_def.h"
 #include "lumpy.h"
 #include <stdio.h>
@@ -67,7 +68,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_ted.h"
 #include "rt_in.h"
 #include "rt_map.h"
-#include "random.h"
 #include "rt_debug.h"
 #include "isr.h"
 #include "rt_cfg.h"
@@ -204,6 +204,7 @@ int main (int argc, char *argv[])
 #endif
 
 #ifndef DOS
+   srand(time(0));
    signal (11, crash_print);
 
    if (setup_homedir() == -1) return 1;
@@ -356,7 +357,6 @@ int main (int argc, char *argv[])
 #endif
 
       Init_Tables ();
-      srand(time(0)); // Initialize random number generator
       InitializeMessages();
       LoadColorMap();
       }
@@ -1246,7 +1246,7 @@ void GameLoop (void)
                      )
                      {
                      if (demonumber==-1)
-                        demonumber=get_rng("GameLoop",0);
+                        demonumber=(rand()%256);
                      for (i=0;i<4;i++)
                         {
                         demonumber=(demonumber+1)%4;

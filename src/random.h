@@ -23,4 +23,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <stdint.h>
 
-int32_t get_rng (int8_t*, int32_t);
+void initialize_rng ();
+int32_t get_rng ();

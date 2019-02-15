@@ -35,7 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "isr.h"
 #include "rt_battl.h"
 #include "rt_actor.h"
-#include "random.h"
 #include "rt_playr.h"
 #include "rt_game.h"
 #include "rt_sound.h"
@@ -255,7 +254,7 @@ void BATTLE_Init
 		( gamestate.BattleOptions.Kills == bo_kills_blind ) )
 		{
 		// Possibility of playing from 5 to 50 kills
-		PointGoal = ( get_rng( "BATTLE_Init", 0 ) % 46 ) + 5;
+		PointGoal = ( rand() % 46 ) + 5;
 		}
 
    DisplayPoints = PointGoal;

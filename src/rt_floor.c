@@ -42,7 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modexlib.h"
 #include "rt_playr.h"
 #include "rt_sound.h"
-#include "random.h"
 
 #define MAXSKYSEGS    2048
 #define MAXSKYDATA    8

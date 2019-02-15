@@ -44,7 +44,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_sound.h"
 #include "rt_menu.h"
 #include "rt_util.h"
-#include "random.h"
 #include "rt_game.h"
 #include "rt_draw.h"
 #include "rt_debug.h"
@@ -3019,8 +3018,6 @@ void SetupGameMaster ( void )
    savetime=GetTicCount();
 
    done=false;
-
-   srand(time(0));
 
    while (done==false)
       {
