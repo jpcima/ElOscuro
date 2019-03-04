@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #ifndef _rt_draw_public
 #define _rt_draw_public
-
+#include <stdint.h>
 //***************************************************************************
 //
 //    RT_DRAW.C - Draw-o-rama
@@ -123,5 +123,6 @@ void DoEndCinematic ( void );
 void DoCreditScreen ( void );
 void DoMicroStoryScreen ( void );
 void DoInBetweenCinematic (int yoffset, int lump, int delay, char * string );
+void DrawSkyPost (uint8_t*, uint8_t*, int32_t);
 
 #endif

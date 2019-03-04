@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 // RT_DRAW.C
-
+#include <stdint.h>
 #include "profile.h"
 #include "rt_def.h"
 #include <string.h>
@@ -35,7 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_draw.h"
 #include "_rt_draw.h"
 #include "rt_dr_a.h"
-#include "rt_fc_a.h"
 #include "rt_scale.h"
 #include "rt_floor.h"
 #include "rt_main.h"
@@ -3275,6 +3274,115 @@ void RotateBuffer (int startangle, int endangle, int startscale, int endscale, i
    SetFastTics(savetics);
 }
 
+static void DrawMaskedRotRow(int32_t count, uint8_t* dest, uint8_t* src)
+{
+	unsigned eax;
+	unsigned xfrac, yfrac;
+
+	xfrac = mr_xfrac;
+	yfrac = mr_yfrac;
+
+	while (count--) {
+		eax = xfrac >> 16;
+		if (eax < 256 && (yfrac >> 16) < 512) {
+			eax = (eax << 9) | ((yfrac << 7) >> (32-9));
+		} else {
+			eax = 0;
+		}
+
+		if (src[eax] != 0xff) *dest = src[eax];
+		dest++;
+
+		xfrac += mr_xstep;
+		yfrac += mr_ystep;
+	}
+}
+
+static void DrawRotRow(int32_t count, uint8_t* dest, uint8_t* src)
+{
+	unsigned eax, ecx, edx;
+//	unsigned a, b, c,d;
+	 byte * srctmp;
+	 byte * desttmp;
+
+	ecx = mr_yfrac;
+	edx = mr_xfrac;
+
+	if ((g_swidth == 320)||(iG_masked==true))
+	{
+		while (count--) {
+			eax = edx >> 16;
+			if (eax < 256 && (ecx >> 16) < 512) {
+				eax = (eax << 9) | ((ecx << 7) >> (32-9));
+			} else {
+				eax = 0;
+			}
+
+			*dest++ = src[eax];
+
+			edx += mr_xstep;
+			ecx += mr_ystep;
+		}
+	}else if (g_swidth == 640) {
+		while (count--) {
+			eax = edx >> 16;
+			if (eax < (256*2.0) && (ecx >> 16) < (512*1.8)) {
+				eax = (eax << 10) | ((ecx << 6) >> (32-10));
+			} else {
+				eax = 0;
+			}
+
+			*dest++ = src[eax];
+
+			edx += mr_xstep;
+			ecx += mr_ystep;
+		}
+	}else if (g_swidth == 800) {
+
+
+
+	srctmp = src;
+	desttmp = dest;
+
+	desttmp -= (g_swidth*1);
+
+	ecx = mr_yfrac;
+	edx = mr_xfrac;
+	//count = 800
+//zxcv
+	while (count--) {
+		eax = edx >> 16;//edx=4146069504 eax=63264  edx/eax = 65536->0x10000
+
+		//a=(eax << 9); //=eax*512
+		//a=(eax << 7); //=eax*128
+		//a=512|128; = 640;
+		//SetTextMode (  );
+		//a=(ecx >> 16);//ecx=4102225920 a=62595   ecx/65536 = 62595
+
+		//         Y-dir                    x-dir
+		if (eax < (256*2.5) && (ecx >> 16) < (512*2)) {
+			//eax = (eax << 9) | ((ecx << 7) >> (32-9));
+			eax = (eax << 10) | ((ecx << 6) >> (32-10));
+	/*		eax = (eax * 512*2) ;
+								//(23)
+			eax += 	 ((ecx ) >> (32-9));//ecx=196608
+			*/
+		} else {
+			eax = 0;
+
+
+		}
+ 		//desttmp -= centeroffset;
+		*desttmp++ = srctmp[eax];
+		//*desttmp++ = srctmp[eax];
+
+		edx += mr_xstep;
+		ecx += mr_ystep;
+	}
+
+	}
+}
+
 
 //******************************************************************************
 //
@@ -5893,116 +6001,7 @@ void  DrawMapPost (int height, byte * src, byte * buf)
 	}
 }
 
-void DrawRotRow(int count, byte * dest, byte * src)
-{
-	unsigned eax, ecx, edx;
-//	unsigned a, b, c,d;
-	 byte * srctmp;
-	 byte * desttmp;
-
-	ecx = mr_yfrac;
-	edx = mr_xfrac;
-
-	if ((g_swidth == 320)||(iG_masked==true))  
-	{
-		while (count--) {
-			eax = edx >> 16;
-			if (eax < 256 && (ecx >> 16) < 512) {
-				eax = (eax << 9) | ((ecx << 7) >> (32-9));
-			} else {
-				eax = 0;
-			}
-			
-			*dest++ = src[eax];
-			
-			edx += mr_xstep;
-			ecx += mr_ystep;
-		}
-	}else if (g_swidth == 640) {
-		while (count--) {
-			eax = edx >> 16;
-			if (eax < (256*2.0) && (ecx >> 16) < (512*1.8)) {
-				eax = (eax << 10) | ((ecx << 6) >> (32-10));
-			} else {
-				eax = 0;
-			}
-			
-			*dest++ = src[eax];
-			
-			edx += mr_xstep;
-			ecx += mr_ystep;
-		}
-	}else if (g_swidth == 800) {
-
-
-
-	srctmp = src;
-	desttmp = dest;
-
-	desttmp -= (g_swidth*1);
-
-	ecx = mr_yfrac;
-	edx = mr_xfrac;
-	//count = 800
-//zxcv
-	while (count--) { 
-		eax = edx >> 16;//edx=4146069504 eax=63264  edx/eax = 65536->0x10000
-		 
-		//a=(eax << 9); //=eax*512
-		//a=(eax << 7); //=eax*128
-		//a=512|128; = 640;
-		//SetTextMode (  );
-		//a=(ecx >> 16);//ecx=4102225920 a=62595   ecx/65536 = 62595
-
-		//         Y-dir                    x-dir
-		if (eax < (256*2.5) && (ecx >> 16) < (512*2)) {
-			//eax = (eax << 9) | ((ecx << 7) >> (32-9));
-			eax = (eax << 10) | ((ecx << 6) >> (32-10));
-	/*		eax = (eax * 512*2) ;
-								//(23)
-			eax += 	 ((ecx ) >> (32-9));//ecx=196608
-			*/
-		} else {
-			eax = 0;
-
-			
-		}
- 		//desttmp -= centeroffset;	
-		*desttmp++ = srctmp[eax];
-		//*desttmp++ = srctmp[eax];
-		
-		edx += mr_xstep;
-		ecx += mr_ystep;
-	}
-
-	}
-}
-
-void DrawMaskedRotRow(int count, byte * dest, byte * src)
-{
-	unsigned eax;
-	unsigned xfrac, yfrac;
-	
-	xfrac = mr_xfrac;
-	yfrac = mr_yfrac;
-	
-	while (count--) {
-		eax = xfrac >> 16;
-		if (eax < 256 && (yfrac >> 16) < 512) {
-			eax = (eax << 9) | ((yfrac << 7) >> (32-9));
-		} else {
-			eax = 0;
-		}
-		
-		if (src[eax] != 0xff) *dest = src[eax];
-		dest++;
-		
-		xfrac += mr_xstep;
-		yfrac += mr_ystep;
-	}
-}
-
-void DrawSkyPost (byte * buf, byte * src, int height)
+void DrawSkyPost (uint8_t* buf, uint8_t* src, int32_t height)
 {
 #if 0
 // bna fix for missing sky by high res eg 800x600

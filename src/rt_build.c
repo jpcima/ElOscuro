@@ -40,7 +40,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_util.h"
 #include "engine.h"
 #include "lumpy.h"
-#include "rt_fc_a.h"
 #include "z_zone.h"
 #include "w_wad.h"
 #include "rt_view.h"

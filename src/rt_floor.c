@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 // RT_FLOOR.C
-
+#include <stdint.h>
 #ifdef DOS
 #include <conio.h>
 #endif
@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_def.h"
 #include "watcom.h"
 #include "rt_floor.h"
-#include "rt_fc_a.h"
 #include "rt_draw.h"
 #include "rt_util.h"
 #include "engine.h"
@@ -540,7 +539,22 @@ void SetFCLightLevel (int height)
       }
 }
 
+static void DrawRow(int32_t count, uint8_t* dest, uint8_t* src)
+{
+	unsigned frac, fracstep;
+	int coord;
 
+	frac = (mr_yfrac<<16) + (mr_xfrac&0xffff);
+	fracstep = (mr_ystep<<16) + (mr_xstep&0xffff);
+
+	while (count--) {
+		/* extract the x/y coordinates */
+		coord = ((frac >> (32-7)) | ((frac >> (32-23)) << 7)) & 16383;
+
+		*dest++ = shadingtable[src[coord]];
+		frac += fracstep;
+	}
+}
 
 void DrawHLine (int xleft, int xright, int yp)
 {
@@ -729,21 +743,4 @@ void DrawPlanes( void )
       }
 }
 
-#ifndef DOS
-void DrawRow(int count, byte * dest, byte * src)
-{
-	unsigned frac, fracstep;
-	int coord;
 
-	frac = (mr_yfrac<<16) + (mr_xfrac&0xffff);
-	fracstep = (mr_ystep<<16) + (mr_xstep&0xffff);
-
-	while (count--) {
-		/* extract the x/y coordinates */
-		coord = ((frac >> (32-7)) | ((frac >> (32-23)) << 7)) & 16383;
-		
-		*dest++ = shadingtable[src[coord]];
-		frac += fracstep;
-	}
-}
-#endif
