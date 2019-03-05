@@ -45,7 +45,7 @@ DONE myprint.h // Get rid of myprintf() and other rt_str.c functions
 DONE _w_wad.h
 DONE _z_zone.h
 DONE _rt_stat.h
-rt_fc_a.h
+DONE rt_fc_a.h
 _rt_str.h
 Makefile_old
 _rt_in.h
