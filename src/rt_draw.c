@@ -5701,6 +5701,7 @@ void DoInBetweenCinematic (int yoffset, int lump, int delay, char * string )
 
 #define NUMFIRSTCREDITMESSAGES 22
 #define NUMSECONDCREDITMESSAGES 28
+#define NUMEXTRACREDITMESSAGES 9
 
 typedef struct CreditType {
   char  text[80];
@@ -5763,6 +5764,20 @@ CreditType SecondCredits[NUMSECONDCREDITMESSAGES] =
     {"Nathan, Petro, Tim, Jake, MacKay",1,184},
     {"Loyal, Ric, Teller, Amano",1,190},
   };
+
+CreditType ExtraCredits[NUMEXTRACREDITMESSAGES] =
+  {
+   {"Rise of the Triad... for Linux!",0,0},
+   {"Steven Fuller",1,10},
+   {"Dan Olson",1,16},
+   {"Ryan C. Gordon",1,22},
+   {"John Reeves Hall",1,28},
+   {"Hans de Goede",1,34},
+   {"Fabian Greffrath",1,40},
+   {"ElOscuro",0,50},
+   {"Marc-Alexandre Espiaut",1,60},
+  };
+
 
 void DrawPreviousCredits ( int num, CreditType * Credits )
 {
@@ -5902,15 +5917,15 @@ void DoCreditScreen ( void )
    I_Delay(40);
 
    for(i=0;i<NUMSECONDCREDITMESSAGES;i++)
-      {
-      time = (CREDITSTARTY - SecondCredits[i].endy)*(VBLCOUNTER/2)/CREDITSTARTY;
-//      time = VBLCOUNTER;
-      WarpCreditString ( time, bkgnd, i, SecondCredits );
-      IN_PumpEvents();
-//      SD_Play ( SD_EXPLODESND );
-      if (LastScan !=0)
+     {
+       time = (CREDITSTARTY - SecondCredits[i].endy)*(VBLCOUNTER/2)/CREDITSTARTY;
+       //      time = VBLCOUNTER;
+       WarpCreditString ( time, bkgnd, i, SecondCredits );
+       IN_PumpEvents();
+       //      SD_Play ( SD_EXPLODESND );
+       if (LastScan !=0)
          break;
-      }
+     }
    i=NUMSECONDCREDITMESSAGES;
    DrawBackground ( bkgnd );
    DrawPreviousCredits ( i, SecondCredits );
@@ -5918,6 +5933,25 @@ void DoCreditScreen ( void )
    IN_PumpEvents();
 
    I_Delay(40);
+
+   for(i=0;i<NUMEXTRACREDITMESSAGES;i++)
+      {
+      time = (CREDITSTARTY - ExtraCredits[i].endy)*(VBLCOUNTER/2)/CREDITSTARTY;
+//      time = VBLCOUNTER;
+      WarpCreditString ( time, bkgnd, i, ExtraCredits );
+      IN_PumpEvents();
+//      SD_Play ( SD_EXPLODESND );
+      if (LastScan !=0)
+         break;
+      }
+   i=NUMEXTRACREDITMESSAGES;
+   DrawBackground ( bkgnd );
+   DrawPreviousCredits ( i, ExtraCredits );
+   FlipPage();
+   IN_PumpEvents();
+
+   I_Delay(40);
+
    MenuFadeOut();
    VL_ClearVideo (0);
 
