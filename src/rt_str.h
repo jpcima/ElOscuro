@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _rt_str_public
 #define _rt_str_public
 
+#include <stdint.h>
 #include "lumpy.h"
 
 
@@ -75,8 +76,8 @@ typedef  struct
 void VW_DrawClippedString (int x, int y, const char *string);
 void US_ClippedPrint (int x, int y, const char *s);
 
-void VWB_DrawPropString  (const char *string);
-void VW_MeasurePropString (const char *string, int *width, int *height);
+void VWB_DrawPropString  (const int8_t *string);
+void VW_MeasurePropString (const int8_t *string, int32_t *width, int32_t *height);
 
 void US_MeasureStr (int *width, int *height, const char * s, ...) __attribute__((format(printf,3,4)));
 

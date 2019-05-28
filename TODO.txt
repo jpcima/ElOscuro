@@ -46,7 +46,7 @@ DONE _w_wad.h
 DONE _z_zone.h
 DONE _rt_stat.h
 DONE rt_fc_a.h
-_rt_str.h
+DONE _rt_str.h
 Makefile_old
 _rt_in.h
 _rt_draw.h

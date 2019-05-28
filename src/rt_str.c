@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //******************************************************************************
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
@@ -38,7 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_build.h"
 #include "lumpy.h"
 #include "rt_str.h"
-#include "_rt_str.h"
 #include "isr.h"
 #include "rt_in.h"
 #include "rt_menu.h"
@@ -55,6 +55,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NONE         -1
 #define SINGLE_FRAME -1
 #define DOUBLE_FRAME -2
+
+void (*USL_MeasureString) (const int8_t*, int32_t*, int32_t*, font_t*) = (void (*)(const int8_t*, int32_t*, int32_t*, font_t*)) VW_MeasurePropString;
+void (*USL_DrawString) (const int8_t*) = VWB_DrawPropString;
+
 
 //******************************************************************************
 //
@@ -266,7 +270,7 @@ void VW_DrawPropString (const char *string)
 //
 //******************************************************************************
 
-void VWB_DrawPropString  (const char *string)
+void VWB_DrawPropString  (const int8_t *string)
 {
    int x;
    x = px;
@@ -411,7 +415,7 @@ void VW_MeasureIntensityPropString (const char *string, int *width, int *height)
 //
 //******************************************************************************
 
-void VW_MeasurePropString (const char *string, int *width, int *height)
+void VW_MeasurePropString (const int8_t *string, int32_t *width, int32_t *height)
 {
    VWL_MeasureString (string, width, height, CurrentFont);
 }
