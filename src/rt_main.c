@@ -1238,7 +1238,7 @@ void GameLoop (void)
                      DoMicroStoryScreen ();
                      }
 #endif
-                  if (
+                  /*if (
                       (!LastScan) &&
                       (!IN_GetMouseButtons()) &&
                       (lowmemory==0) &&
@@ -1259,7 +1259,7 @@ void GameLoop (void)
                         LoadDemo (demonumber+1);
                         break;
                         }
-                     }
+                     }*/
                   }
                }
 
