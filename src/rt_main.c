@@ -137,7 +137,7 @@ static byte *bptr;
 #endif
 static bool turbo;
 
-static int NoWait;
+static bool NoWait = true;
 static int startlevel=0;
 static int demonumber=-1;
 
@@ -567,7 +567,6 @@ void CheckCommandLineParameters( void )
    SOUNDSETUP = false;
 #endif
    tedlevel=false;
-   NoWait=false;
    NoSound=false;
    turbo=false;
    warp=false;
