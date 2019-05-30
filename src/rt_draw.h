@@ -124,5 +124,7 @@ void DoCreditScreen ( void );
 void DoMicroStoryScreen ( void );
 void DoInBetweenCinematic (int yoffset, int lump, int delay, char * string );
 void DrawSkyPost (uint8_t*, uint8_t*, int32_t);
+void DrawMenuPost (int32_t, uint8_t*, uint8_t*);
+void DrawMapPost (int32_t, uint8_t*, uint8_t*);
 
 #endif

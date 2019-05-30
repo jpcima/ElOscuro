@@ -49,5 +49,6 @@ void ScaleSolidShape (visobj_t * sprite);
 void DrawUnScaledSprite (int x, int y, int shapenum, int shade);
 void DrawPositionedScaledSprite (int x, int y, int shapenum, int height, int type);
 void DrawNormalSprite (int x, int y, int shapenum);
+void R_DrawWallColumn (byte*);
 
 #endif

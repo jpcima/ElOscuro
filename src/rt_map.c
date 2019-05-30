@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "sprites.h"
 #include "rt_map.h"
-#include "rt_dr_a.h"
 #include "isr.h"
 #include "rt_util.h"
 #include "modexlib.h"

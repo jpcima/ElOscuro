@@ -33,7 +33,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_actor.h"
 #include "rt_stat.h"
 #include "rt_draw.h"
-#include "rt_dr_a.h"
 #include "rt_scale.h"
 #include "rt_floor.h"
 #include "rt_main.h"
@@ -2756,7 +2755,118 @@ void DrawPlayerLocation ( void )
 	VW_DrawPropString(strupr(itoa(player->angle,&buf[0],16)));
 }
 
+#ifndef DOS
 
+void  DrawMenuPost (int height, byte * src, byte * buf)
+{
+	int frac = hp_startfrac;
+	while (height--) {
+		*buf = src[frac >> 16];
+		
+		buf += linewidth;
+		frac += hp_srcstep;
+	}
+}
+
+void  DrawMapPost (int height, byte * src, byte * buf)
+{
+	int frac = 0;
+	while (height--) {
+		*buf = src[frac >> 16];
+		
+		buf += linewidth;
+		frac += hp_srcstep;
+	}
+}
+
+void DrawSkyPost (uint8_t* buf, uint8_t* src, int32_t height)
+{
+#if 0
+// bna fix for missing sky by high res eg 800x600
+// when sky is >400 (max skyheight) then reverse mouintain to missing spot
+// there should be 200 line of mouintain (400+200) = 600 height lines
+// not the best solution but what it works
+
+	if (g_swidth > 320){
+	// bna section start
+		//int n = 0;
+		int orgh = 0;//height;
+		if (height > 400){orgh=height;}
+
+		while (height--) {
+			if ((orgh > 0)&&( height<(orgh-400))){
+				src-=2;
+				*buf = shadingtable[*src];
+			}else{
+
+				*buf = shadingtable[*src];
+			}
+			buf += linewidth;
+			src++;
+		}
+	// bna section end
+	}
+	else
+#endif
+	{
+	int i = 0;
+	const byte *orig_src = src;
+	// org code
+		while (height--) {
+			*buf = shadingtable[*src];
+			
+			buf += linewidth;
+			src = orig_src + (++i*200/g_sheight);
+		}
+	//	
+	}
+  
+	/*
+	int lw = linewidth * 2;
+	int h  = height;
+
+	while (h--) {
+		*(buf) = shadingtable[*src];
+		buf += lw;
+		*(buf) = shadingtable[*src];
+		buf += lw;
+		
+		//buf += lw;
+		src++;
+		
+	}*/
+}
+
+#define CEILINGCOLOR 24 //default color when no sky or floor
+#define FLOORCOLOR 32
+
+void RefreshClear (void)
+{
+	int start, base;
+	
+	memset(spotvis, 0, sizeof(spotvis));
+	
+	if (fandc) {
+		return;
+	}
+	
+	start = min(centery, viewheight);
+	
+	if (start > 0) {
+		VL_Bar(0, 0, g_sheight, start, CEILINGCOLOR);
+	} else {
+		start = 0;
+	}
+	
+	base = start;
+	
+	start = min(viewheight-start, viewheight);
+	if (start > 0) {
+		VL_Bar(0, base, g_sheight, start, FLOORCOLOR);
+	}
+}
+
+#endif
 
 /*
 ========================
@@ -6057,119 +6167,6 @@ void DoMicroStoryScreen ( void )
 
    VL_FadeOut (0, 255, 0, 0, 0, 20);
 }
-
-#ifndef DOS
-
-void  DrawMenuPost (int height, byte * src, byte * buf)
-{
-	int frac = hp_startfrac;
-	while (height--) {
-		*buf = src[frac >> 16];
-		
-		buf += linewidth;
-		frac += hp_srcstep;
-	}
-}
-
-void  DrawMapPost (int height, byte * src, byte * buf)
-{
-	int frac = 0;
-	while (height--) {
-		*buf = src[frac >> 16];
-		
-		buf += linewidth;
-		frac += hp_srcstep;
-	}
-}
-
-void DrawSkyPost (uint8_t* buf, uint8_t* src, int32_t height)
-{
-#if 0
-// bna fix for missing sky by high res eg 800x600
-// when sky is >400 (max skyheight) then reverse mouintain to missing spot
-// there should be 200 line of mouintain (400+200) = 600 height lines
-// not the best solution but what it works
-
-	if (g_swidth > 320){
-	// bna section start
-		//int n = 0;
-		int orgh = 0;//height;
-		if (height > 400){orgh=height;}
-
-		while (height--) {
-			if ((orgh > 0)&&( height<(orgh-400))){
-				src-=2;
-				*buf = shadingtable[*src];
-			}else{
-
-				*buf = shadingtable[*src];
-			}
-			buf += linewidth;
-			src++;
-		}
-	// bna section end
-	}
-	else
-#endif
-	{
-	int i = 0;
-	const byte *orig_src = src;
-	// org code
-		while (height--) {
-			*buf = shadingtable[*src];
-			
-			buf += linewidth;
-			src = orig_src + (++i*200/g_sheight);
-		}
-	//	
-	}
-  
-	/*
-	int lw = linewidth * 2;
-	int h  = height;
-
-	while (h--) {
-		*(buf) = shadingtable[*src];
-		buf += lw;
-		*(buf) = shadingtable[*src];
-		buf += lw;
-		
-		//buf += lw;
-		src++;
-		
-	}*/
-}
-
-#define CEILINGCOLOR 24 //default color when no sky or floor
-#define FLOORCOLOR 32
-
-void RefreshClear (void)
-{
-	int start, base;
-	
-	memset(spotvis, 0, sizeof(spotvis));
-	
-	if (fandc) {
-		return;
-	}
-	
-	start = min(centery, viewheight);
-	
-	if (start > 0) {
-		VL_Bar(0, 0, g_sheight, start, CEILINGCOLOR);
-	} else {
-		start = 0;
-	}
-	
-	base = start;
-	
-	start = min(viewheight-start, viewheight);
-	if (start > 0) {
-		VL_Bar(0, base, g_sheight, start, FLOORCOLOR);
-	}
-}
-
-#endif
 
 #if 0
 

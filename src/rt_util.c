@@ -43,7 +43,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_util.h"
 #include "isr.h"
 #include "z_zone.h"
-#include "rt_dr_a.h"
 #include "rt_in.h"
 #include "rt_main.h"
 #include "scriplib.h"
