@@ -49,7 +49,7 @@ DONE rt_fc_a.h
 DONE _rt_str.h
 Makefile_old
 DONE _rt_in.h
-_rt_draw.h
+DONE _rt_draw.h
 rt_dr_a.h
 rt_scale.h
 fli_type.h
