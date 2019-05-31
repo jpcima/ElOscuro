@@ -2462,7 +2462,7 @@ void PollMove (void)
 
 
    x = KX + MX + JX + CX + VX;
-   y = KY + MY + JY + CY + VY;
+   y = KY + JY + CY + VY; // +MY for using mouse for movement
 
    if (buttonpoll[bt_aimbutton])
       {
