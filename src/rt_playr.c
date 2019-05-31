@@ -175,9 +175,9 @@ int      buttonscan[NUMBUTTONS] = {sc_Control, sc_Alt, sc_RShift, sc_Space,
 											  sc_PgUp,sc_PgDn,sc_Enter,sc_Delete,
                                    sc_Home,sc_End,sc_1,sc_2,sc_3,sc_4,
                                    sc_CapsLock, sc_F12,
-                                   sc_Comma,sc_Period,sc_BackSpace,sc_A,
-                                   sc_UpArrow, sc_RightArrow,
-                                   sc_DownArrow, sc_LeftArrow,
+                                   sc_A,sc_D,sc_BackSpace,sc_Q,
+                                   sc_W, 0,
+                                   sc_S, 0,
                                    sc_Tab, sc_T, sc_Z };
 
 int      joyxmax = 0, joyymax = 0, joyxmin = 0, joyymin = 0;
