@@ -943,7 +943,7 @@ void SetConfigDefaultValues (void)
    joystickenabled = false;
    joypadenabled   = false;
    joystickport    = 0;
-   viewsize        = 7;
+   viewsize        = 8;
    mouseadjustment = 5;
    gammaindex      = 0;
    gamestate.violence = 3;

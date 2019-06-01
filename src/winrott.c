@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "rt_view.h"
 
-int32_t g_swidth = 640;  //bna val 800
-int32_t g_sheight = 480; //bna val 600
+int32_t g_swidth = 320;  //bna val 800
+int32_t g_sheight = 200; //bna val 600
 int32_t g_sbwide = 0;
 int32_t g_swidth_bytes = 0; // default screen width in bytes
 
