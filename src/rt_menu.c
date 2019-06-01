@@ -38,11 +38,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <io.h>
 #elif PLATFORM_UNIX
 #include <unistd.h>
-#include "SDL.h"
 #endif
 
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#include <SDL2/SDL.h>
 
 #include "rt_def.h"
 #include "_rt_menu.h"

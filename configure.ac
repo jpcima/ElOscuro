@@ -14,8 +14,8 @@ AC_PROG_RANLIB
 # Checks for libraries.
 AC_SEARCH_LIBS([sqrt], [m])
 AC_DEFINE([USE_SDL])
-PKG_CHECK_MODULES([SDL],       [sdl])
-PKG_CHECK_MODULES([SDL_mixer], [SDL_mixer])
+PKG_CHECK_MODULES([SDL2],       [sdl2])
+PKG_CHECK_MODULES([SDL2_mixer], [SDL2_mixer])
 
 # Checks for header files.
 AC_DEFINE([PLATFORM_UNIX])

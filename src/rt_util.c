@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <conio.h>
 #include <io.h>
 #include <direct.h>
-#elif USE_SDL
-#include "SDL.h"
 #endif
 
 #include <stdarg.h>
@@ -39,6 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <SDL2/SDL.h>
 #include "watcom.h"
 #include "rt_util.h"
 #include "isr.h"

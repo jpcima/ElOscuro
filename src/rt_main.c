@@ -36,14 +36,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <process.h>
 #include <direct.h>
 #include <bios.h>
-#else
-#include <signal.h>
 #endif
 
-#if USE_SDL
-/* Need to redefine main to SDL_main on some platforms... */
-#include "SDL.h"
-#endif
+#include <SDL2/SDL.h>
 
 #include "rt_actor.h"
 #include "rt_stat.h"
@@ -204,7 +199,6 @@ int main (int argc, char *argv[])
 
 #ifndef DOS
    srand(time(0));
-   signal (11, crash_print);
 
    if (setup_homedir() == -1) return 1;
 #endif

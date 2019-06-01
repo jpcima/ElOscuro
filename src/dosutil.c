@@ -12,11 +12,10 @@
 
 #include <fcntl.h>
 
+#include <SDL2/SDL.h>
+
 #include "rt_def.h"
 
-#if defined(USE_SDL)
-#include "SDL.h"
-#endif
               
 /* 
   Copied over from Wolf3D Linux: http://www.icculus.org/wolf3d/

@@ -27,9 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <i86.h>
 #endif
 
-#if USE_SDL
-#include "SDL.h"
-#endif
+#include <SDL2/SDL.h>
 
 #include "rt_main.h"
 #include "rt_spbal.h"

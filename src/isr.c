@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <SDL2/SDL.h>
+
 #ifdef DOS
 #include <dos.h>
 #include <mem.h>
@@ -748,8 +750,6 @@ void I_ShutdownKeyboard (void)
 	*(short *)0x41c = *(short *)0x41a;      // clear bios key buffer
 }
 #else
-
-#include "SDL.h"
 
 static int ticoffset;    /* offset for SDL_GetTicks() */
 static int ticbase;      /* game-supplied base */

@@ -10,4 +10,4 @@ libaudiolib_a_SOURCES = \
 	pitch.c \
 	user.c \
 	usrhooks.c
-libaudiolib_a_CFLAGS = @SDL_CFLAGS@
+libaudiolib_a_CFLAGS = @SDL2_CFLAGS@
