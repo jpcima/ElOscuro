@@ -7,17 +7,19 @@ rott@SUFFIX@_SOURCES = \
 	cin_efct.c \
 	cin_evnt.c \
 	cin_main.c \
+	crc.c \
 	dosutil.c \
 	dukemusc.c \
 	engine.c \
+	hashtable.c \
 	isr.c \
 	modexlib.c \
+	random.c \
 	rt_actor.c \
 	rt_battl.c \
 	rt_build.c \
 	rt_cfg.c \
 	rt_com.c \
-	crc.c \
 	rt_debug.c \
 	rt_dmand.c \
 	rt_door.c \
@@ -32,7 +34,6 @@ rott@SUFFIX@_SOURCES = \
 	rt_msg.c \
 	rt_net.c \
 	rt_playr.c \
-	random.c \
 	rt_scale.c \
 	rt_sound.c \
 	rt_spbal.c \
@@ -46,9 +47,9 @@ rott@SUFFIX@_SOURCES = \
 	rt_vid.c \
 	rt_view.c \
 	scriplib.c \
+	w_wad.c \
 	watcom.c \
 	winrott.c \
-	w_wad.c \
 	z_zone.c
 rott@SUFFIX@_CFLAGS = @SDL2_CFLAGS@ @SDL2_mixer_CFLAGS@
 rott@SUFFIX@_LDADD = audiolib/libaudiolib.a @SDL2_LIBS@ @SDL2_mixer_LIBS@

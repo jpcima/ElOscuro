@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _modexlib_public
 #define _modexlib_public
 
+#include <SDL2/SDL.h>
 #include "winrott.h"
 #include "rt_def.h"
 
@@ -123,7 +124,7 @@ extern  int      screensize;
 extern  byte    *bufferofs;
 extern  byte    *displayofs;
 extern  bool  graphicsmode;
-
+extern SDL_Surface * sdl_surface;
 
 void  GraphicsMode ( void );
 void  SetTextMode ( void );

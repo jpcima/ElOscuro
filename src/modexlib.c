@@ -416,34 +416,48 @@ void XFlipPage ( void )
 =
 ====================
 */
-static SDL_Surface *sdl_surface = NULL;
-static SDL_Surface *unstretch_sdl_surface = NULL;
+///static SDL_Surface *sdl_surface = NULL;
+///static SDL_Surface *unstretch_sdl_surface = NULL;
+
+SDL_Surface *sdl_surface = NULL;
+SDL_Surface *unstretch_sdl_surface = NULL;
+SDL_Surface *temp = NULL;
+SDL_Window *window = NULL;
+static SDL_Renderer *renderer = NULL;
+static SDL_Texture *sdl_texture = NULL;
 
 void GraphicsMode ( void )
 {
-    Uint32 flags = 0;
+  Uint32 flags = 0;
 
-	if (SDL_InitSubSystem (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
-	{
-	    Error ("Could not initialize SDL\n");
-	}
+  if (SDL_InitSubSystem (SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+    {
+      Error ("Could not initialize SDL\n");
+    }
 
-    #if defined(PLATFORM_WIN32) || defined(PLATFORM_MACOSX)
-        // FIXME: remove this.  --ryan.
-        flags = SDL_FULLSCREEN;
-        SDL_WM_GrabInput(SDL_GRAB_ON);
-    #endif
+  SDL_SetRelativeMouseMode (SDL_TRUE);
 
-    SDL_WM_SetCaption ("Rise of the Triad", "ROTT");
-    SDL_ShowCursor (0);
-//    sdl_surface = SDL_SetVideoMode (320, 200, 8, flags);
-    if (sdl_fullscreen)
-        flags = SDL_FULLSCREEN;
-    sdl_surface = SDL_SetVideoMode (g_swidth, g_sheight, 8, flags);    
-	if (sdl_surface == NULL)
-	{
-		Error ("Could not set video mode\n");
-	} 
+  SDL_SetHint (SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+  if (sdl_fullscreen)
+    flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
+
+  window = SDL_CreateWindow ("Rise of the Triad", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 320, 200, flags);
+
+  if (window == NULL)
+    {
+      Error ("Could not set video mode\n");
+      exit (1);
+    }
+
+  renderer = SDL_CreateRenderer (window, -1, SDL_RENDERER_ACCELERATED);
+
+  sdl_texture = SDL_CreateTexture (renderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, 320, 200);
+
+  sdl_surface = SDL_CreateRGBSurface (0, 320, 200, 8, 0, 0, 0, 0);
+
+  SDL_SetSurfaceRLE (sdl_surface, 1);
+
+  SDL_RenderSetLogicalSize (renderer, 320, 200);
 }
 
 /*
@@ -680,6 +694,44 @@ void VL_DePlaneVGA (void)
 {
 }
 
+//int32_t hudRescaleFactor = 1;
+void
+RenderSurface (void)
+{
+  SDL_Texture *newTex = SDL_CreateTextureFromSurface (renderer, sdl_surface);
+
+  if (newTex == NULL)
+  {
+    Error ("CreateTextureFromSurface failed: %s\n", SDL_GetError ());
+    exit (1);
+  }
+
+  SDL_RenderClear (renderer);
+
+  SDL_RenderCopy (renderer, newTex, NULL, NULL);
+  /*
+  if (!StretchScreen && hudRescaleFactor > 1 && doRescaling)
+  {
+    if (SHOW_TOP_STATUS_BAR ())
+      RescaleAreaOfTexture (renderer,
+                            newTex,
+                            (SDL_Rect){(320 - 320) >> 1, 0, 320, 16},
+                            (SDL_Rect){(320 - (320 * hudRescaleFactor)) >> 1, 0, 320 * hudRescaleFactor, 16 * hudRescaleFactor}
+    );                          //Status Bar
+    if (SHOW_BOTTOM_STATUS_BAR ())
+      RescaleAreaOfTexture (renderer,
+                            newTex,
+                            (SDL_Rect){(320 - 320) >> 1, 200 - 16, 320, 16},
+                            (SDL_Rect){(320 - (320 * hudRescaleFactor)) >> 1, 200 - 16 * hudRescaleFactor, 320 * hudRescaleFactor, 16 * hudRescaleFactor}
+    );                          //Bottom Bar
+
+  }
+  */
+  SDL_RenderPresent (renderer);
+
+  SDL_DestroyTexture (newTex);
+
+}
 
 /* C version of rt_vh_a.asm */
 
@@ -691,7 +743,8 @@ void VH_UpdateScreen (void)
 	}else{
 		DrawCenterAim ();
 	}
-	SDL_UpdateRect (SDL_GetVideoSurface (), 0, 0, 0, 0);
+	//SDL_UpdateRect (SDL_GetVideoSurface (), 0, 0, 0, 0);
+  RenderSurface();
 }
 
 
@@ -724,7 +777,8 @@ void XFlipPage ( void )
 	}else{
 		DrawCenterAim ();
 	}
-   SDL_UpdateRect (sdl_surface, 0, 0, 0, 0);
+  //SDL_UpdateRect (sdl_surface, 0, 0, 0, 0);
+  RenderSurface();
  
 #endif
 }
