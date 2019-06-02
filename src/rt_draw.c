@@ -5858,7 +5858,7 @@ void DoInBetweenCinematic (int yoffset, int lump, int delay, char * string )
 
 #define NUMFIRSTCREDITMESSAGES 22
 #define NUMSECONDCREDITMESSAGES 28
-#define NUMEXTRACREDITMESSAGES 9
+#define NUMEXTRACREDITMESSAGES 23
 
 typedef struct CreditType {
   char  text[80];
@@ -5924,17 +5924,30 @@ CreditType SecondCredits[NUMSECONDCREDITMESSAGES] =
 
 CreditType ExtraCredits[NUMEXTRACREDITMESSAGES] =
   {
-   {"Rise of the Triad... for Linux!",0,0},
-   {"Steven Fuller",1,10},
-   {"Dan Olson",1,16},
-   {"Ryan C. Gordon",1,22},
-   {"John Reeves Hall",1,28},
-   {"Hans de Goede",1,34},
-   {"Fabian Greffrath",1,40},
-   {"ElOscuro",0,50},
-   {"Marc-Alexandre Espiaut",1,60},
+   {"ElOscuro source port", 0, 0},
+   {"Copyright (c) 2018-2019 Marc-Alexandre Espiaut", 1, 10},
+   {"For more information, go to:", 1, 20},
+   {"https://www.github.com/marespiaut/ElOscuro", 1, 26},
+   {"Or contact the project leader at:", 1, 36},
+   {"marcalexandre@member.fsf.org", 1, 42},
+   {"ElOscuro is based on", 1, 52},
+   {"Rise of the Triad... for Linux!", 0, 58},
+   {"Steven Fuller", 1, 68},
+   {"Dan Olson", 1, 74},
+   {"Ryan C. Gordon", 1, 80},
+   {"John Reeves Hall", 1, 86},
+   {"Hans de Goede", 1, 92},
+   {"Fabian Greffrath", 1, 98},
+   {"RotT for Linux uses high resolution code from", 1, 108},
+   {"WinRott", 0, 114},
+   {"A Windows and OpenGL port by:", 1, 124},
+   {"Jared Stafford", 1, 130},
+   {"Birger N. Andreasen", 1, 136},
+   {"ElOscuro SDL2 code was taken from", 1, 146},
+   {"rottexpr", 0, 152},
+   {"A RotT source port and modification by:", 1, 162},
+   {"Steven LeVesque", 1, 172}
   };
-
 
 void DrawPreviousCredits ( int num, CreditType * Credits )
 {
@@ -6040,7 +6053,6 @@ void DoCreditScreen ( void )
    int time;
    byte * bkgnd;
    font_t * oldfont;
-   int i;
 	EnableScreenStretch();
    viewwidth = 320;//MAXSCREENWIDTH;
    viewheight = 200;//MAXSCREENHEIGHT;
@@ -6055,7 +6067,22 @@ void DoCreditScreen ( void )
 
    oldfont=CurrentFont;
 
-   for(i=0;i<NUMFIRSTCREDITMESSAGES;i++)
+   for(int32_t i = 0;i<NUMEXTRACREDITMESSAGES;i++)
+     {
+       time = (CREDITSTARTY - ExtraCredits[i].endy)*(VBLCOUNTER/1)/CREDITSTARTY;
+       WarpCreditString ( time, bkgnd, i, ExtraCredits );
+       IN_PumpEvents();
+       if (LastScan !=0)
+         break;
+     }
+   DrawBackground ( bkgnd );
+   DrawPreviousCredits ( NUMEXTRACREDITMESSAGES, ExtraCredits );
+   FlipPage();
+   IN_PumpEvents();
+
+   I_Delay(40);
+
+   for(int32_t i=0;i<NUMFIRSTCREDITMESSAGES;i++)
       {
       time = (CREDITSTARTY - FirstCredits[i].endy)*(VBLCOUNTER*1)/CREDITSTARTY;
 //      time = VBLCOUNTER;
@@ -6065,15 +6092,14 @@ void DoCreditScreen ( void )
       if (LastScan !=0)
          break;
       }
-   i=NUMFIRSTCREDITMESSAGES;
    DrawBackground ( bkgnd );
-   DrawPreviousCredits ( i, FirstCredits );
+   DrawPreviousCredits ( NUMFIRSTCREDITMESSAGES, FirstCredits );
    FlipPage();
    IN_PumpEvents();
 
    I_Delay(40);
 
-   for(i=0;i<NUMSECONDCREDITMESSAGES;i++)
+   for(int32_t i=0;i<NUMSECONDCREDITMESSAGES;i++)
      {
        time = (CREDITSTARTY - SecondCredits[i].endy)*(VBLCOUNTER/2)/CREDITSTARTY;
        //      time = VBLCOUNTER;
@@ -6083,32 +6109,12 @@ void DoCreditScreen ( void )
        if (LastScan !=0)
          break;
      }
-   i=NUMSECONDCREDITMESSAGES;
    DrawBackground ( bkgnd );
-   DrawPreviousCredits ( i, SecondCredits );
+   DrawPreviousCredits ( NUMSECONDCREDITMESSAGES, SecondCredits );
    FlipPage();
    IN_PumpEvents();
 
    I_Delay(40);
-
-   for(i=0;i<NUMEXTRACREDITMESSAGES;i++)
-      {
-      time = (CREDITSTARTY - ExtraCredits[i].endy)*(VBLCOUNTER/2)/CREDITSTARTY;
-//      time = VBLCOUNTER;
-      WarpCreditString ( time, bkgnd, i, ExtraCredits );
-      IN_PumpEvents();
-//      SD_Play ( SD_EXPLODESND );
-      if (LastScan !=0)
-         break;
-      }
-   i=NUMEXTRACREDITMESSAGES;
-   DrawBackground ( bkgnd );
-   DrawPreviousCredits ( i, ExtraCredits );
-   FlipPage();
-   IN_PumpEvents();
-
-   I_Delay(40);
-
    MenuFadeOut();
    VL_ClearVideo (0);
 
