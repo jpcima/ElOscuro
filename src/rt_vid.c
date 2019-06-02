@@ -900,6 +900,7 @@ void VL_FadeOut (int start, int end, int red, int green, int blue, int steps)
 
       WaitVBL ();
       VL_SetPalette (&palette2[0][0]);
+      VH_UpdateScreen();
    }
 
 //
@@ -1010,6 +1011,7 @@ void VL_FadeIn (int start, int end, byte *palette, int steps)
 
       WaitVBL ();
       VL_SetPalette (&palette2[0][0]);
+      VH_UpdateScreen();
    }
 
 //
@@ -1017,6 +1019,7 @@ void VL_FadeIn (int start, int end, byte *palette, int steps)
 //
    VL_SetPalette (palette);
    screenfaded = false;
+   VH_UpdateScreen();
 }
 
 
