@@ -377,8 +377,8 @@ CP_MenuNames MainMenuNames[] =
    "SAVE GAME",
    "OPTIONS",
    "ORDERING INFO",
-   "VIEW SCORES", //"END GAME"
-   "BACK TO DEMO", //"BACK TO GAME"
+   "SCORES", //"END GAME"
+   "CREDITS", //"BACK TO GAME"
    "QUIT"
    };
 
@@ -1907,7 +1907,7 @@ void DrawMainMenu(void)
       {
       MainMenu[ backtodemo ].texture[ 6 ] = '8';
       MainMenu[ backtodemo ].texture[ 7 ] = '\0';
-      strcpy (MainMenuNames[ backtodemo ] , "BACK TO DEMO");
+      strcpy (MainMenuNames[ backtodemo ] , "CREDITS");
       }
 
    MN_GetCursorLocation( &MainItems, &MainMenu[ 0 ] );
@@ -3223,7 +3223,7 @@ void AdjustMenuStruct
    MainMenu[ viewscores ].texture[ 6 ] = '7';
    MainMenu[ viewscores ].texture[ 7 ] = '\0';
    MainMenu[ viewscores ].letter       = 'V';
-   strcpy (MainMenuNames[ viewscores ] , "VIEW SCORES");
+   strcpy (MainMenuNames[ viewscores ] , "SCORES");
    }
 
 //******************************************************************************
