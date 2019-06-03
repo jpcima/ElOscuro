@@ -128,18 +128,6 @@ void BATTLE_Init
    int team;
    int TeamNumber[ MAXPLAYERCOLORS ];
 
-   #if (BATTLECHECK == 1)
-      if ( ( gamestate.teamplay ) && ( BattleMode == battle_Tag ) )
-         {
-         Error( "BATTLE_Init : Cannot play Tag in team mode.\n" );
-         }
-
-      if ( ( gamestate.teamplay ) && ( BattleMode == battle_CaptureTheTriad ) )
-         {
-         Error( "BATTLE_Init : Can only play Capture the Triad in team mode.\n" );
-         }
-   #endif
-
 	Timer   = 0;
 	RoundOver = false;
 
@@ -388,22 +376,6 @@ void BATTLE_Init
 		}
 
 	BATTLE_StartRound();
-
-   #if (BATTLEINFO == 1)
-      SoftError( "GRAVITY      = %d\n", GRAVITY );
-      SoftError( "BO_Gravity   = %d\n", BattleOptions.Gravity );
-      SoftError( "BO_Speed     = %d\n", BattleOptions.Speed );
-      SoftError( "BO_Ammo      = %d\n", BattleOptions.Ammo );
-      SoftError( "BO_HitPoints = %d\n", BattleOptions.HitPoints );
-      SoftError( "BO_Dangers   = %d\n", BattleOptions.SpawnDangers );
-      SoftError( "BO_Health    = %d\n", BattleOptions.SpawnHealth );
-      SoftError( "BO_Weapons   = %d\n", BattleOptions.SpawnWeapons );
-      SoftError( "BO_Respawn   = %d\n", BattleOptions.RespawnItems );
-      SoftError( "BO_Light     = %d\n", BattleOptions.LightLevel );
-      SoftError( "BO_Kills     = %d\n", BattleOptions.Kills );
-      SoftError( "BO_DangerDam = %d\n", BattleOptions.DangerDamage );
-      SoftError( "BO_TimeLimit = %d\n", BattleOptions.TimeLimit );
-   #endif
 	}
 
 
@@ -603,12 +575,7 @@ battle_status BATTLE_CheckGameStatus
 
    if ( ( player < 0 ) || ( player >= MAXPLAYERS ) )
       {
-      #if (BATTLECHECK == 1)
-         Error( "BATTLE_CheckGameStatus - reason %d : Player out of range!\n",
-            reason );
-      #else
          return( battle_no_event );
-      #endif
       }
 
    if ( !BATTLEMODE )
@@ -662,11 +629,6 @@ battle_status BATTLE_CheckGameStatus
          break;
 
       case battle_player_killed :
-         #if (BATTLEINFO == 1)
-            SoftError( "BATTLE_CheckGameStatus: Player %d Died", player );
-            SoftError( "---ticks = %d\n", Timer );
-         #endif
-
          switch( BattleMode )
             {
             case battle_Normal :
@@ -697,11 +659,7 @@ battle_status BATTLE_CheckGameStatus
          if ( ( BattleMode != battle_Collector ) &&
             ( BattleMode != battle_Scavenger ) )
             {
-            #if (BATTLECHECK == 1)
-               Error( "BATTLE_CheckGameStatus : Got collector item on wrong battle mode!" );
-            #else
                return( battle_no_event );
-            #endif
             }
          BATTLE_Points[ team ]++;
          UpdateKills = true;
@@ -722,11 +680,7 @@ battle_status BATTLE_CheckGameStatus
 
          if ( BattleMode != battle_Eluder )
             {
-            #if (BATTLECHECK == 1)
-               Error( "BATTLE_CheckGameStatus : Caught Eluder on non-Eluder battle mode!" );
-            #else
                return( battle_no_event );
-            #endif
             }
 
          BATTLE_Points[ team ]++;
@@ -749,11 +703,7 @@ battle_status BATTLE_CheckGameStatus
 
          if ( BattleMode != battle_Deluder )
             {
-            #if (BATTLECHECK == 1)
-               Error( "BATTLE_CheckGameStatus : Shot Eluder on non-Eluder battle mode!" );
-            #else
                return( battle_no_event );
-            #endif
             }
 
          BATTLE_Points[ team ]++;
@@ -771,11 +721,7 @@ battle_status BATTLE_CheckGameStatus
       case battle_captured_triad :
          if ( BattleMode != battle_CaptureTheTriad )
             {
-            #if (BATTLECHECK == 1)
-               Error( "BATTLE_CheckGameStatus : Triad Captured on invalid battle mode!" );
-            #else
                return( battle_no_event );
-            #endif
             }
 
          if ( consoleplayer == player )
@@ -795,12 +741,7 @@ battle_status BATTLE_CheckGameStatus
          break;
 
       default :
-         #if (BATTLECHECK == 1)
-            Error( "BATTLE_CheckGameStatus called with a reason of %d.",
-               reason );
-         #else
             return( battle_no_event );
-         #endif
          break;
       }
 
@@ -865,14 +806,6 @@ void BATTLE_SortPlayerRanks
          }
       }
 
-   #if (BATTLEINFO == 1)
-      for( i = 0; i < BATTLE_NumberOfTeams; i++ )
-         {
-         SoftError( "Sorted rank %d = player %d : Score = %d\n", i,
-            BATTLE_PlayerOrder[ i ], BATTLE_Points[ BATTLE_PlayerOrder[ i ] ] );
-         }
-   #endif
-
    if ( ( SwapFlag == true ) && ( gamestate.ShowScores ) &&
       ( SHOW_TOP_STATUS_BAR() || SHOW_KILLS() ) )
       {
@@ -900,42 +833,19 @@ battle_status BATTLE_PlayerKilledPlayer
    int killerteam;
    int victimteam;
 
-   #if (BATTLEINFO == 1)
-      SoftError( "PlayerKilledPlayer:\nMode = %d\n", BattleMode );
-      SoftError( "Reason = %d\n", reason );
-      SoftError( "killer = %d, team = %d\n", killer, killerteam );
-      SoftError( "victim = %d, team = %d\n", victim, victimteam );
-      SoftError( "---ticks = %d\n", Timer );
-   #endif
-
    if ( ( killer < 0 ) || ( killer >= MAXPLAYERS ) )
       {
-      #if (BATTLECHECK == 1)
-         Error( "BATTLE_PlayerKilledPlayer - reason %d : Killer out of range!\n",
-            reason );
-      #else
          return( battle_no_event );
-      #endif
       }
    if ( ( victim < 0 ) || ( victim >= MAXPLAYERS ) )
       {
-      #if (BATTLECHECK == 1)
-         Error( "BATTLE_PlayerKilledPlayer - reason %d : Victim out of range!\n",
-            reason );
-      #else
          return( battle_no_event );
-      #endif
       }
 
    if ( ( killer == victim ) && ( reason != battle_kill_with_missile ) &&
       ( reason != battle_kill_with_missile_in_air ) )
       {
-      #if (BATTLECHECK == 1)
-         Error( "BATTLE_PlayerKilledPlayer : Player "
-         "killed self with illegal reason of %d.", reason );
-      #else
          return( battle_no_event );
-      #endif
       }
 
    killerteam = BATTLE_Team[ killer ];
@@ -944,12 +854,7 @@ battle_status BATTLE_PlayerKilledPlayer
    if ( ( killerteam < 0 ) || ( killerteam >= BATTLE_NumberOfTeams ) ||
       ( victimteam < 0 ) || ( victimteam >= BATTLE_NumberOfTeams ) )
       {
-      #if (BATTLECHECK == 1)
-         Error( "BATTLE_PlayerKilledPlayer - reason %d : Team out of range!\n",
-            reason );
-      #else
          return( battle_no_event );
-      #endif
       }
 
    if ( !BATTLEMODE )
@@ -990,12 +895,7 @@ battle_status BATTLE_PlayerKilledPlayer
             break;
 
          default :
-            #if (BATTLECHECK == 1)
-               Error( "BATTLE_PlayerKilledPlayer called with a reason of %d.",
-                  reason );
-            #else
                return( battle_no_event );
-            #endif
          }
 
       if ( killerteam == victimteam )
@@ -1029,14 +929,6 @@ battle_status BATTLE_PlayerKilledPlayer
             status = battle_end_game;
             }
          }
-      #if (BATTLECHECK == 1)
-      else if ( reason != battle_kill_by_crushing )
-         {
-         Error( "BATTLE_PlayerKilledPlayer - reason %d : "
-            "Illegal reason in Tag!\n", reason );
-         }
-      #endif
-
       return( status );
       }
    else if ( BattleMode == battle_Hunter )
@@ -1067,12 +959,7 @@ battle_status BATTLE_PlayerKilledPlayer
                }
             break;
          default :
-         #if (BATTLECHECK == 1)
-            Error( "BATTLE_PlayerKilledPlayer called with a "
-               "reason of %d in Hunter.", reason );
-         #else
 	    ;
-         #endif
          }
       }
    else
@@ -1107,12 +994,7 @@ battle_status BATTLE_PlayerKilledPlayer
             break;
 
          default :
-            #if (BATTLECHECK == 1)
-               Error( "BATTLE_PlayerKilledPlayer called with a reason of %d.",
-                  reason );
-            #else
                return( battle_no_event );
-            #endif
          }
       }
 

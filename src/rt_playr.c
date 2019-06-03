@@ -62,11 +62,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define FLYINGZMOM  350000
 
-
-#if (DEVELOPMENT == 1)
-#include "rt_str.h"
-#endif
-
 extern bool usejump;
 
 
@@ -3884,10 +3879,7 @@ void Thrust ( objtype * ob )
    index = touchindices[ob->tilex][ob->tiley];
 	if (index && (abs(ob->z - nominalheight) < 5))
 	 {if (!TRIGGER[index-1]){
-#if (BNACRASHPREVENT == 1)
-		if (touchplate[index-1] != 0) { //	CRASH IN SHAREWARE 'ride em cowboy' BNA FIX
-			 //SetTextMode (  ); qwert  // DONT ALLOW BAD touchplate ( == 0 ) see rt_door.c
-#endif
+		if (touchplate[index-1]) {
 			 if (touchplate[index-1]->complete)
 				SD_PlaySoundRTP(SD_BADTOUCHSND,ob->x,ob->y);
 			 else {
@@ -3895,10 +3887,7 @@ void Thrust ( objtype * ob )
 				if (ob == player)
 					AddMessage("Touchplate triggered.",MSG_GAME);  
 			 }
-#if (BNACRASHPREVENT == 1)
 		}else{SD_PlaySoundRTP(SD_BADTOUCHSND,ob->x,ob->y);} 
-		//	CRASH IN SHAREWARE 'ride em cowboy' BNA FIX
-#endif
 	}
 	  TRIGGER[index-1] = 1;
 	 }
@@ -4438,9 +4427,8 @@ void UpdatePlayers ( void )
 		 {
 
 //ErrorDontQuit("obj->next = ",obj->next);
-#if (BNACRASHPREVENT == 1)//crashed here when oscuro and larves were all killed
-		if (obj->next == 0){return;}
-#endif
+		if (!obj->next)
+			return;
        obj->speed=FindDistance(obj->momentumx, obj->momentumy);
 //       M_LINKSTATE(obj,pstate);
 //       pstate->steptime-=obj->speed;

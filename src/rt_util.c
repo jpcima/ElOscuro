@@ -98,10 +98,6 @@ static unsigned char egargb[48]={ 0x00,0x00,0x00,
 
 extern const byte * ROTT_ERR;
 
-#if (DEVELOPMENT == 1)
-int TotalStaticMemory=0;
-#endif
-
 #define SWAP(a,b) \
    {              \
    a=(a)^(b);     \
@@ -365,11 +361,7 @@ void Error (char *error, ...)
 
    px = ERRORVERSIONCOL;
    py = ERRORVERSIONROW;
-#if (BETA == 1)
-   UL_printf ("á");
-#else
    UL_printf (itoa(ROTTMAJORVERSION,&buf[0],10));
-#endif
 
    // Skip the dot
    px++;
@@ -459,8 +451,6 @@ void Error (char *error, ...)
 
    exit (1);
 }
-
-//#if (SOFTERROR==1)
 
 /*
 =================
@@ -564,17 +554,6 @@ void OpenMapDebug ( void )
 */
 void StartupSoftError ( void )
 {
-#if (DEBUG == 1)
-  if (DebugStarted==false)
-     {
-     debugout = fopen(DEBUGFILE,"wt+");
-     DebugStarted=true;
-     }
-#endif
-#if (SOFTERROR == 1)
-  if (SoftErrorStarted==false)
-     OpenSoftError();
-#endif
 }
 
 /*
@@ -1527,11 +1506,7 @@ void UL_DisplayMemoryError ( int memneeded )
 
    px = ERRORVERSIONCOL;
    py = ERRORVERSIONROW;
-#if (BETA == 1)
-   UL_printf ("á");
-#else
    UL_printf (itoa(ROTTMAJORVERSION,&buf[0],10));
-#endif
    px++;
 
    UL_printf (itoa(ROTTMINORVERSION,&buf[0],10));

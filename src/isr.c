@@ -47,12 +47,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "develop.h"
 #include "rt_main.h"
 
-#if (DEVELOPMENT == 1)
-
-#include "rt_vid.h"
-
-#endif
-
 #define TIMERINT                0x08
 #define KEYBOARDINT             0x09
 
@@ -106,9 +100,6 @@ const int ShiftNames[] =              // Shifted ASCII for scan codes
 // Local Variables
 
 static task * timertask;
-#if (DEVELOPMENT == 1)
-static task * fasttimertask;
-#endif
 static int TimerStarted=false;
 static volatile int pausecount=0;
 static struct dostime_t starttime;
@@ -138,125 +129,19 @@ void __interrupt I_TimerISR (void)
 /*
 ================
 =
-= ISR_Timer
-=
-================
-*/
-#if 0
-#if (DEVELOPMENT == 1)
-static int time=0;
-static int t1=0;
-static int t2=0;
-static int t3=0;
-static int insettime=0;
-#endif
-#endif
-/*
-================
-=
 = ISR_SetTime
 =
 ================
 */
 void ISR_SetTime(int settime)
 {
-#if 0
-#if (DEVELOPMENT == 1)
-   int i;
-   int t;
-   int savetime;
-#endif
-#endif
-
    ticcount=settime;
-#if 0
-#if (DEVELOPMENT == 1)
-      {
-      insettime=1;
-      savetime=time;
-      t1=0;
-      t2=0;
-      t3=0;
-      t=0;
-
-      for (i=0;i<settime;i++)
-         {
-         t++;
-         if (t==VBLCOUNTER)
-            {
-            t=0;
-            t1++;
-            if (t1==2)
-               {
-               t1=0;
-               t2++;
-               if (t2==2)
-                  {
-                  t2=0;
-                  t3++;
-                  if (t3==2)
-                     t3=0;
-                  }
-               }
-            }
-         }
-      time=t+(time-savetime);
-      if (time>=VBLCOUNTER)
-         {
-         time-=VBLCOUNTER;
-         t1++;
-         if (t1==2)
-            {
-            t1=0;
-            t2++;
-            if (t2==2)
-               {
-               t2=0;
-               t3++;
-               if (t3==2)
-                  t3=0;
-               }
-            }
-         }
-      insettime=0;
-      }
-#endif
-#endif
 }
 
 static void ISR_Timer (task *Task)
 {
 //	(*(int *)(Task->data))=((*(int *)(Task->data))+1)&0xffff;
 	(*(int *)(Task->data))++;
-
-#if 0
-#if (DEVELOPMENT == 1)
-      {
-      if (Task==timertask)
-         {
-         time++;
-         if ((time==VBLCOUNTER) && (insettime==0))
-            {
-            time=0;
-            VL_SetColor(0,(t1<<5)+20,(t2<<5)+20,(t3<<5)+20);
-            t1++;
-            if (t1==2)
-               {
-               t1=0;
-               t2++;
-               if (t2==2)
-                  {
-                  t2=0;
-                  t3++;
-                  if (t3==2)
-                     t3=0;
-                  }
-               }
-            }
-         }
-      }
-#endif
-#endif
 }
 
 
@@ -330,9 +215,6 @@ void I_StartupTimer (void)
 //      _dos_setvect (TIMERINT, I_TimerISR);
 
    timertask=TS_ScheduleTask( &ISR_Timer, VBLCOUNTER, 10, &ticcount);
-#if (DEVELOPMENT == 1)
-   fasttimertask=TS_ScheduleTask( &ISR_Timer, VBLCOUNTER*4, 10, &fasttics);
-#endif
    TS_Dispatch();
    I_GetCMOSTime ( &cmostime );
    memcpy(&starttime,&cmostime,sizeof(starttime));
@@ -349,9 +231,6 @@ void I_ShutdownTimer (void)
 #else
    struct dostime_t dostime;
    struct dostime_t cmostime;
-#if (DEVELOPMENT == 1)
-   int totaltime;
-#endif
 
    if (TimerStarted==false)
       return;
@@ -365,21 +244,7 @@ void I_ShutdownTimer (void)
    I_GetCMOSTime ( &cmostime );
    _dos_gettime  ( &dostime  );
 
-#if (DEVELOPMENT == 1)
-   SoftError("Time difference in seconds (DOS-CMOS) %ld\n",dostime.second-cmostime.second);
-   SoftError("Time difference in minutes (DOS-CMOS) %ld\n",dostime.minute-cmostime.minute);
-   SoftError("Time difference in hour (DOS-CMOS) %ld\n",dostime.hour-cmostime.hour);
-   totaltime=( ((cmostime.hour-starttime.hour)*3600) +
-               ((cmostime.minute-starttime.minute)*60) +
-                (cmostime.second-starttime.second)
-             );
-   SoftError("Total seconds = %ld Total Tics = %ld Game Tics = %ld\n",totaltime,totaltime*VBLCOUNTER,ticcount);
-#endif
-
    TS_Terminate( timertask );
-#if (DEVELOPMENT == 1)
-   TS_Terminate( fasttimertask );
-#endif
    TS_Shutdown();
 //   TS_Halt();
 /*

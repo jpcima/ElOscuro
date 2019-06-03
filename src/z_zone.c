@@ -34,10 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "develop.h"
 #include "rt_net.h"
 
-#if (DEVELOPMENT == 1)
-#include "rt_main.h"
-#endif
-
 #define MINFRAGMENT 64
 #define DPMI_INT 0x31
 #define MAXMEMORYSIZE 9000000
@@ -49,17 +45,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct memblock_s
 {
-#if (MEMORYCORRUPTIONTEST == 1)
-  int pretag;
-#endif
   int size;     // including the header and possibly tiny fragments
   void** user;  // NULL if a free block
   int tag;      // purgelevel
   struct memblock_s* next;
   struct memblock_s* prev;
-#if (MEMORYCORRUPTIONTEST==1)
-  int posttag;
-#endif
 } memblock_t;
 
 typedef struct
@@ -302,10 +292,6 @@ void Z_Free (void *ptr)
 ========================
 */
 
-#if (DEVELOPMENT == 1)
-int totallevelsize=0;
-#endif
-
 void *Z_Malloc (int size, int tag, void *user)
 {
         int             extra;
@@ -386,12 +372,6 @@ void *Z_Malloc (int size, int tag, void *user)
         base->tag = tag;
 
         mainzone->rover = base->next;   // next allocation will start looking here
-
-
-#if (MEMORYCORRUPTIONTEST==1)
-         base->posttag=MEMORYPOSTTAG;
-         base->pretag=MEMORYPRETAG;
-#endif
 
         return (void *) ((byte *)base + sizeof(memblock_t));
 }
@@ -486,11 +466,6 @@ void *Z_LevelMalloc (int size, int tag, void *user)
         base->tag = tag;
 
         levelzone->rover = base->next;   // next allocation will start looking here
-
-#if (MEMORYCORRUPTIONTEST==1)
-         base->posttag=MEMORYPOSTTAG;
-         base->pretag=MEMORYPRETAG;
-#endif
 
         return (void *) ((byte *)base + sizeof(memblock_t));
 }
@@ -718,15 +693,6 @@ void Z_CheckHeap (void)
                         Error ("Z_CheckHeap: next block doesn't have proper back link\n");
                 if (!block->user && !block->next->user)
                         Error ("Z_CheckHeap: two consecutive free blocks\n");
-#if (MEMORYCORRUPTIONTEST==1)
-                if ((block->tag>0) && (block->user>0))
-                   {
-                   if (block->posttag!=MEMORYPOSTTAG)
-                      Error("Z_CheckHeap: Corrupted posttag\n");
-                   if (block->pretag!=MEMORYPRETAG)
-                      Error("Z_CheckHeap: Corrupted pretag\n");
-                   }
-#endif
         }
 
         // Check levelzone
@@ -741,15 +707,6 @@ void Z_CheckHeap (void)
                         Error ("Z_CheckHeap: next block doesn't have proper back link\n");
                 if (!block->user && !block->next->user)
                         Error ("Z_CheckHeap: two consecutive free blocks\n");
-#if (MEMORYCORRUPTIONTEST==1)
-                if ((block->tag>0) && (block->user>0))
-                   {
-                   if (block->posttag!=MEMORYPOSTTAG)
-                      Error("Z_CheckHeap: Corrupted posttag\n");
-                   if (block->pretag!=MEMORYPRETAG)
-                      Error("Z_CheckHeap: Corrupted pretag\n");
-                   }
-#endif
         }
 }
 
