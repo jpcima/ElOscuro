@@ -52,7 +52,7 @@ DONE _rt_in.h
 DONE _rt_draw.h
 DONE rt_dr_a.h
 DONE rt_scale.h
-fli_type.h
+DONE fli_type.h
 develop.h
 _rt_main.h
 DONE watcom.h
