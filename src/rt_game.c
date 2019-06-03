@@ -5067,17 +5067,6 @@ bool LoadTheGame (int num, gamestorage_t * game)
 	size=LoadBuffer(&altbuffer,&bufptr);
 	LoadPushWalls(altbuffer,size);
 	SafeFree(altbuffer);
-#if 0
-	// Animated Walls Tag
-
-	size=5;
-	LoadTag(&bufptr,"AWALL",size);
-
-	// Animated Walls
-	size=LoadBuffer(&altbuffer,&bufptr);
-	LoadAnimWalls(altbuffer,size);
-	SafeFree(altbuffer);
-#endif
 
 	// MaskedWalls Tag
 

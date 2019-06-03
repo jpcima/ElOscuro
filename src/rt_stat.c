@@ -1884,17 +1884,9 @@ void DoSprites(void)
 {int index,i;
  statobj_t *temp,*tempnext;
 
-
-#if (0)
-	 Debug("\n");
-#endif
 i=0;
 for(temp = firstactivestat;temp;)
   {tempnext = temp->nextactive;
-
-	#if (0)
-	 Debug("\nid: %d, shapenum: %d, numanims: %d",i++,temp->shapenum,temp->numanims);
-	#endif
 
 	if ((temp->shapenum != NOTHING) && (temp->flags & FL_ACTIVE))
 		{index = temp->itemnumber;
