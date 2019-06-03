@@ -51,5 +51,5 @@ rott@SUFFIX@_SOURCES = \
 	watcom.c \
 	winrott.c \
 	z_zone.c
-rott@SUFFIX@_CFLAGS = @SDL2_CFLAGS@ @SDL2_mixer_CFLAGS@
-rott@SUFFIX@_LDADD = audiolib/libaudiolib.a @SDL2_LIBS@ @SDL2_mixer_LIBS@
+rott@SUFFIX@_CFLAGS = @SDL2_CFLAGS@ @SDL2_mixer_CFLAGS@ @libADLMIDI_CFLAGS@
+rott@SUFFIX@_LDADD = audiolib/libaudiolib.a @SDL2_LIBS@ @SDL2_mixer_LIBS@ @libADLMIDI_LIBS@

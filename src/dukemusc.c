@@ -6,29 +6,34 @@
  * Written by Ryan C. Gordon. (icculus@clutteredmind.org)
  */
 
+#include <assert.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <string.h>
-#include <assert.h>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
-#define ROTT
+#include <adlmidi.h>
 
-#ifdef DUKE3D
-#include "duke3d.h"
-#include "buildengine/cache1d.h"
-#endif
+// libADLMIDI
+void my_audio_callback(void *midi_player, uint8_t *stream, int32_t len);
+static uint32_t is_playing = 0;
+static int16_t buffer[4096];
+static SDL_AudioSpec spec;
+static struct ADL_MIDIPlayer* midi_player = 0;
+//static const int8_t* music_path = 0;
+static bool adl_is_playing = false;
+
 
 #define cdecl
 
-#ifdef ROTT
 #include "rt_def.h"      // ROTT music hack
 #include "rt_cfg.h"      // ROTT music hack
 #include "rt_util.h"     // ROTT music hack
-#endif
 #include "music.h"
 
 #define __FX_TRUE  (1 == 1)
@@ -176,6 +181,29 @@ static Mix_Music *music_musicchunk = NULL;
 
 int MUSIC_Init(int SoundCard, int Address)
 {
+  // libADLMIDI
+  //SDL_AudioSpec spec;
+  spec.freq = 44100;
+  spec.format = AUDIO_S16SYS;
+  spec.channels = 2;
+  spec.samples = 2048;
+  midi_player = adl_init(spec.freq);
+  if (!midi_player)
+    {
+      fprintf(stderr, "Couldn't initialize ADLMIDI: %s\n", adl_errorString());
+      return MUSIC_Error;
+    }
+  spec.callback = my_audio_callback;
+  spec.userdata = midi_player;
+  if (SDL_OpenAudio(&spec, NULL) < 0)
+    {
+      fprintf(stderr, "Couldn't open audio: %s\n", SDL_GetError());
+      return MUSIC_Error;
+    }
+  return MUSIC_Ok;
+  // end libADLMIDI
+
+  /*
     init_debugging();
 
     musdebug("INIT! card=>%d, address=>%d...", SoundCard, Address);
@@ -195,11 +223,16 @@ int MUSIC_Init(int SoundCard, int Address)
 
     music_initialized = 1;
     return(MUSIC_Ok);
+  */
 } // MUSIC_Init
 
 
 int MUSIC_Shutdown(void)
 {
+  SDL_CloseAudio();
+  adl_close(midi_player);
+  return MUSIC_Ok;
+  /*
     musdebug("shutting down sound subsystem.");
 
     if (!music_initialized)
@@ -214,6 +247,7 @@ int MUSIC_Shutdown(void)
     music_loopflag = MUSIC_PlayOnce;
 
     return(MUSIC_Ok);
+  */
 } // MUSIC_Shutdown
 
 
@@ -225,7 +259,7 @@ void MUSIC_SetMaxFMMidiChannel(int channel)
 
 void MUSIC_SetVolume(int volume)
 {
-    Mix_VolumeMusic(volume >> 1);  // convert 0-255 to 0-128.
+  //Mix_VolumeMusic(volume >> 1);  // convert 0-255 to 0-128.
 } // MUSIC_SetVolume
 
 
@@ -243,7 +277,8 @@ void MUSIC_ResetMidiChannelVolumes(void)
 
 int MUSIC_GetVolume(void)
 {
-    return(Mix_VolumeMusic(-1) << 1);  // convert 0-128 to 0-255.
+  return 255;
+  //return(Mix_VolumeMusic(-1) << 1);  // convert 0-128 to 0-255.
 } // MUSIC_GetVolume
 
 
@@ -255,27 +290,45 @@ void MUSIC_SetLoopFlag(int loopflag)
 
 int MUSIC_SongPlaying(void)
 {
-    return((Mix_PlayingMusic()) ? __FX_TRUE : __FX_FALSE);
+  if (adl_atEnd(midi_player))
+    {
+      adl_is_playing = false;
+      return __FX_TRUE;
+    }
+  return __FX_FALSE;
+  //return((Mix_PlayingMusic()) ? __FX_TRUE : __FX_FALSE);
 } // MUSIC_SongPlaying
 
 
 void MUSIC_Continue(void)
 {
+  adl_is_playing = true;
+  SDL_PauseAudio(0);
+  /*
     if (Mix_PausedMusic())
         Mix_ResumeMusic();
     else if (music_songdata)
         MUSIC_PlaySong(music_songdata, MUSIC_PlayOnce);
+  */
 } // MUSIC_Continue
 
 
 void MUSIC_Pause(void)
 {
+  adl_is_playing = false;
+  SDL_PauseAudio(1);
+  /*
     Mix_PauseMusic();
+  */
 } // MUSIC_Pause
 
 
 int MUSIC_StopSong(void)
 {
+  adl_is_playing = false;
+  adl_panic(midi_player);
+  return MUSIC_Ok;
+  /*
     //if (!fx_initialized)
     if (!Mix_QuerySpec(NULL, NULL, NULL))
     {
@@ -292,6 +345,7 @@ int MUSIC_StopSong(void)
     music_songdata = NULL;
     music_musicchunk = NULL;
     return(MUSIC_Ok);
+  */
 } // MUSIC_StopSong
 
 
@@ -325,85 +379,44 @@ musdebug("Need to use PlaySongROTT.  :(");
 
 extern char ApogeePath[256];
 
-#ifdef DUKE3D
-// Duke3D-specific.  --ryan.
-void PlayMusic(char *_filename)
-{
-    //char filename[MAX_PATH];
-    //strcpy(filename, _filename);
-    //FixFilePath(filename);
-
-    char filename[MAX_PATH];
-    long handle;
-    long size;
-    void *song;
-    long rc;
-
-    MUSIC_StopSong();
-
-    // Read from a groupfile, write it to disk so SDL_mixer can read it.
-    //   Lame.  --ryan.
-    handle = kopen4load(_filename, 0);
-    if (handle == -1)
-        return;
-
-    size = kfilelength(handle);
-    if (size == -1)
-    {
-        kclose(handle);
-        return;
-    } // if
-
-    song = malloc(size);
-    if (song == NULL)
-    {
-        kclose(handle);
-        return;
-    } // if
-
-    rc = kread(handle, song, size);
-    kclose(handle);
-    if (rc != size)
-    {
-        free(song);
-        return;
-    } // if
-
-    // save the file somewhere, so SDL_mixer can load it
-    GetPathFromEnvironment(filename, MAX_PATH, "tmpsong.mid");
-    handle = SafeOpenWrite(filename, filetype_binary);
-    
-    SafeWrite(handle, song, size);
-    close(handle);
-    free(song);
-    
-    //music_songdata = song;
-
-    music_musicchunk = Mix_LoadMUS(filename);
-    if (music_musicchunk != NULL)
-    {
-        // !!! FIXME: I set the music to loop. Hope that's okay. --ryan.
-        Mix_PlayMusic(music_musicchunk, -1);
-    } // if
-}
-#endif
-
-#ifdef ROTT
 // ROTT Special - SBF
 int MUSIC_PlaySongROTT(unsigned char *song, int size, int loopflag)
 {
+  int8_t music_path[MAX_PATH];
+  int32_t handle;
+
+  MUSIC_StopSong();
+
+  // save the file somewhere, so SDL_mixer can load it
+  GetPathFromEnvironment(music_path, ApogeePath, "tmpsong.mid");
+  handle = SafeOpenWrite(music_path);
+
+  SafeWrite(handle, song, size);
+  close(handle);
+
+  if (adl_openFile(midi_player, music_path) < 0)
+    {
+      fprintf(stderr, "Couldn't open music file: %s\n", adl_errorInfo(midi_player));
+      SDL_CloseAudio();
+      adl_close(midi_player);
+      return 1;
+    }
+  adl_is_playing = true;
+  SDL_PauseAudio(0);
+
+  /*
     char filename[MAX_PATH];
     int handle;
-    
+
     MUSIC_StopSong();
 
     // save the file somewhere, so SDL_mixer can load it
     GetPathFromEnvironment(filename, ApogeePath, "tmpsong.mid");
     handle = SafeOpenWrite(filename);
-    
+
     SafeWrite(handle, song, size);
     close(handle);
-    
+
     music_songdata = song;
 
     // finally, we can load it with SDL_mixer
@@ -411,13 +424,12 @@ int MUSIC_PlaySongROTT(unsigned char *song, int size, int loopflag)
     if (music_musicchunk == NULL) {
         return MUSIC_Error;
     }
-    
+
     Mix_PlayMusic(music_musicchunk, (loopflag == MUSIC_PlayOnce) ? 0 : -1);
 
     return(MUSIC_Ok);
+  */
 } // MUSIC_PlaySongROTT
-#endif
-
 
 void MUSIC_SetContext(int context)
 {
@@ -464,14 +476,15 @@ void MUSIC_GetSongLength(songposition *pos)
 
 int MUSIC_FadeVolume(int tovolume, int milliseconds)
 {
-    Mix_FadeOutMusic(milliseconds);
+  //Mix_FadeOutMusic(milliseconds);
     return(MUSIC_Ok);
 } // MUSIC_FadeVolume
 
 
 int MUSIC_FadeActive(void)
 {
-    return((Mix_FadingMusic() == MIX_FADING_OUT) ? __FX_TRUE : __FX_FALSE);
+  return __FX_FALSE;
+  //return((Mix_FadingMusic() == MIX_FADING_OUT) ? __FX_TRUE : __FX_FALSE);
 } // MUSIC_FadeActive
 
 
@@ -492,5 +505,25 @@ void MUSIC_RegisterTimbreBank(unsigned char *timbres)
     musdebug("STUB ... MUSIC_RegisterTimbreBank().\n");
 } // MUSIC_RegisterTimbreBank
 
+void my_audio_callback(void *midi_player, Uint8 *stream, int len)
+{
+    struct ADL_MIDIPlayer* p = (struct ADL_MIDIPlayer*)midi_player;
+
+    /* Convert bytes length into total count of samples in all channels */
+    int samples_count = len / 2;
+
+    /* Take some samples from the ADLMIDI */
+    samples_count = adl_play(p, samples_count, (short*)buffer);
+
+    if(samples_count <= 0)
+    {
+        is_playing = 0;
+        SDL_memset(stream, 0, len);
+        return;
+    }
+
+    /* Send buffer to the audio device */
+    SDL_memcpy(stream, (Uint8*)buffer, samples_count * 2);
+}
 
 // end of fx_man.c ...
