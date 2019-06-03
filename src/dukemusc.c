@@ -22,14 +22,7 @@
 #include "buildengine/cache1d.h"
 #endif
 
-#if (defined __WATCOMC__)
-// This is probably out of date.  --ryan.
-#include "dukesnd_watcom.h"
-#endif
-
-#if (!defined __WATCOMC__)
 #define cdecl
-#endif
 
 #ifdef ROTT
 #include "rt_def.h"      // ROTT music hack

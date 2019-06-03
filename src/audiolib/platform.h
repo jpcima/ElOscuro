@@ -23,10 +23,6 @@
 #error You need to define PLATFORM_TIMER_HZ for your platform.
 #endif
 
-#if (defined __WATCOMC__)
-#define snprintf _snprintf
-#endif
-
 #endif
 
 static __inline unsigned short _swap16(unsigned short D)
