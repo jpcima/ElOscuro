@@ -18,13 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#ifdef DOS
-#include <malloc.h>
-#include <dos.h>
-#include <io.h>
-#include <conio.h>
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -239,7 +232,6 @@ void PlayMovie ( int8_t * name, bool uselumpy )
    ShutdownCinematic ();
 }
 
-#ifndef DOS
 int cin_iscale;
 byte *cin_source;
 int cin_texturemid;
@@ -281,5 +273,3 @@ void DrawFilmPost (byte * buf, byte * src, int height)
 		buf += linewidth;
 	}
 }
-#endif
-

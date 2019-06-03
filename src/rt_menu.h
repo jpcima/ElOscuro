@@ -204,9 +204,6 @@ void SetMenuHeader( char *header );
 int  HandleMultiPageCustomMenu( char **names, int amount, int curpos, char *title, void ( *routine )( int w ), void ( *redrawfunc )( void ), bool exitonselect );
 int CP_LevelSelectionMenu ( void );
 int CP_EnterCodeNameMenu ( void );
-#ifdef DOS
-void CP_SoundSetup( void );
-#endif
 void QuickSaveGame (void);
 void UndoQuickSaveGame (void);
 void CP_CaptureTheTriadError( void );

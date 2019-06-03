@@ -31,10 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "rt_draw.h"
 #include "rt_in.h"
 
-#ifdef DOS
-#include <conio.h>
-#endif
-
 #include "modexlib.h"
 
 static int cin_sprtopoffset;
@@ -305,10 +301,6 @@ void DrawFlic ( flicevent * flic )
 
    DrawBlankScreen ( );
 
-#ifdef DOS
-   VL_SetVGAPlaneMode ();
-#endif
-
    SafeFree (curpal);
    GetCinematicTics ();
    GetCinematicTics ();
@@ -359,20 +351,13 @@ void DrawCinematicBackground ( backevent * back )
 
    plane = 0;
    
-#ifdef DOS
-   for (plane=0;plane<4;plane++)
-#endif
       {
       buf=(byte *)bufferofs+ylookup[back->yoffset];
       offset=(back->currentoffset>>FRACTIONBITS)+plane;
 
       VGAWRITEMAP(plane);
 
-#ifdef DOS
-      for (i=plane;i<g_swidth;i+=4,offset+=4,buf++)
-#else
       for (i=0;i<g_swidth;i++,offset++,buf++)
-#endif
          {
          if (offset>=back->backdropwidth)
             src=&(pic->data) + ( (offset - back->backdropwidth) * (pic->height) );
@@ -411,20 +396,13 @@ void DrawCinematicMultiBackground ( backevent * back )
 
    plane = 0;
    
-#ifdef DOS
-   for (plane=0;plane<4;plane++)
-#endif
       {
       buf=(byte *)bufferofs+ylookup[back->yoffset];
       offset=(back->currentoffset>>FRACTIONBITS)+plane;
 
       VGAWRITEMAP(plane);
 
-#ifdef DOS
-      for (i=plane;i<g_swidth;i+=4,offset+=4,buf++)
-#else
       for (i=0;i<g_swidth;i++,offset++,buf++)
-#endif
          {
          if (offset>=back->backdropwidth)
             src=back->data + ( (offset - back->backdropwidth) * (back->height) );
@@ -465,20 +443,13 @@ void DrawCinematicBackdrop ( backevent * back )
 
    plane = 0;
 
-#ifdef DOS
-   for (plane=0;plane<4;plane++)
-#endif
       {
       buf=(byte *)bufferofs;
       offset=(back->currentoffset>>FRACTIONBITS)+plane;
 
       VGAWRITEMAP(plane);
 
-#ifdef DOS
-      for (i=plane;i<g_swidth;i+=4,offset+=4,buf++)
-#else
       for (i=0;i<g_swidth;i++,offset++,buf++)
-#endif
          {
          if (offset>=back->backdropwidth)
             src = shape + p->collumnofs[offset - back->backdropwidth];
@@ -573,11 +544,7 @@ void DrawCinematicSprite ( spriteevent * sprite )
    for (; x1<=x2 ; x1++, frac += cin_iscale)
      {
      VGAWRITEMAP(x1&3);
-#ifdef DOS
-     ScaleFilmPost(((p->collumnofs[frac>>FRACTIONBITS])+shape),buf+(x1>>2));
-#else
      ScaleFilmPost(((p->collumnofs[frac>>FRACTIONBITS])+shape),buf+x1);
-#endif
      }
 }
 
@@ -679,12 +646,7 @@ void DrawBlankScreen ( void )
 */
 void DrawClearBuffer ( void )
 {
-#ifdef DOS
-  VGAMAPMASK(15);
-  memset((byte *)bufferofs,0,g_sbwide*g_sheight);
-#else
   memset((byte *)bufferofs,0,g_swidth*g_sheight);
-#endif
 }
 
 /*
@@ -885,18 +847,11 @@ void ProfileDisplay ( void )
 
    plane = 0;
    
-#ifdef DOS
-   for (plane=0;plane<4;plane++)
-#endif
       {
       buf=(byte *)bufferofs;
       VGAWRITEMAP(plane);
 
-#ifdef DOS
-      for (i=plane;i<width;i+=4,buf++)
-#else
       for (i=0;i<width;i++,buf++)
-#endif
          {
          DrawFilmPost(buf,&src[0],200);
          }
@@ -927,9 +882,6 @@ void DrawPostPic ( int lumpnum )
 
    plane = 0;
    
-#ifdef DOS
-   for (plane=0;plane<4;plane++)
-#endif
       {
       buf=(byte *)bufferofs;
 
@@ -937,11 +889,7 @@ void DrawPostPic ( int lumpnum )
 
       VGAWRITEMAP(plane);
 
-#ifdef DOS
-      for (i=plane;i<width;i+=4,src+=(pic->height<<2),buf++)
-#else
       for (i=0;i<width;i++,src+=pic->height,buf++)
-#endif
          {
          DrawFilmPost(buf,src,height);
          }

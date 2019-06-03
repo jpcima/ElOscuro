@@ -21,11 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef DOS
-#include <dos.h>
-#include <conio.h>
-#endif
-
 #include "rt_def.h"
 #include "rt_vid.h"
 #include "rt_menu.h"
@@ -88,33 +83,6 @@ static byte  rightmasks[4] = {1,3,7,15};
 
 void VL_MemToScreen (byte *source, int width, int height, int x, int y)
 {
-#ifdef DOS
-   byte *screen, *dest, mask;
-   int  plane;
-
-   dest = (byte *)(bufferofs+ylookup[y]+(x>>2));
-//   dest = (byte *)(displayofs+ylookup[y]+(x>>2));
-   mask = 1 << (x&3);
-
-
-   for (plane = 0; plane<4; plane++)
-   {
-      VGAMAPMASK (mask);
-
-      screen = dest;
-      for (y = 0; y < height; y++, screen += linewidth, source+=width)
-         memcpy (screen, source, width);
-
-
-      mask <<= 1;
-
-      if (mask == 16)
-      {
-         mask = 1;
-         dest++;
-      }
-   }
-#else
 	/* TODO please optimize me */
 	
 	byte *ptr, *destline;
@@ -133,7 +101,6 @@ void VL_MemToScreen (byte *source, int width, int height, int x, int y)
 			}			
 		}
 	}
-#endif
 }
 // bna function start
 void VL_MemToScreenClipped (byte *source, int width, int height, int x, int y);
@@ -222,18 +189,11 @@ void DrawTiledRegion
    int    HeightIndex;
    int    WidthIndex;
 
-#ifdef DOS
-   start = ( byte * )( bufferofs + ( x>>2 ) + ylookup[ y ] );
-#else
    start = ( byte * )( bufferofs +  x + ylookup[ y ] );
-#endif
 
    source       = &tile->data;
    sourcewidth  = tile->width;
    sourceheight = tile->height;
-#ifdef DOS
-   offx >>= 2;
-#endif
    if ( offx >= sourcewidth )
       {
       offx %= sourcewidth;
@@ -246,21 +206,12 @@ void DrawTiledRegion
    startoffset = offy * sourcewidth;
    planesize = sourcewidth * sourceheight;
 
-#ifdef DOS
-   width >>= 2;
-
-   mask  = 1 << ( x & 3 );
-#endif
    plane = 4;
    while( plane > 0 )
       {
       VGAMAPMASK( mask );
       
-#ifdef DOS
-      origdest = start;
-#else
       origdest = start+(4-plane);
-#endif
 
       sourcey     = offy;
       sourceoff   = source + startoffset;
@@ -274,11 +225,7 @@ void DrawTiledRegion
          while( WidthIndex-- )
             {
             *dest = sourceoff[ sourcex ];
-#ifdef DOS
-            dest++;
-#else
             dest += 4;
-#endif
             
             sourcex++;
             if ( sourcex >= sourcewidth )
@@ -287,11 +234,7 @@ void DrawTiledRegion
                }
             }
 
-#ifdef DOS
-         origdest  += g_sbwide;
-#else 
          origdest += g_swidth;
-#endif
 
          sourceoff += sourcewidth;
          sourcey++;
@@ -303,14 +246,6 @@ void DrawTiledRegion
          }
 
       source += planesize;
-
-#ifdef DOS
-      mask <<= 1;
-      if ( mask > 8 )
-         {
-         mask = 1;
-         }
-#endif
 
       plane--;
       }
@@ -340,48 +275,6 @@ void VWB_DrawPic (int x, int y, pic_t *pic)
 
 void VL_Bar (int x, int y, int width, int height, int color)
 {
-#ifdef DOS
-   byte  *dest;
-   byte  leftmask,rightmask;
-   int   midbytes,linedelta;
-
-   leftmask = leftmasks[x&3];
-   rightmask = rightmasks[(x+width-1)&3];
-   midbytes = ((x+width+3)>>2) - (x>>2) - 2;
-   linedelta = linewidth-(midbytes+1);
-
-   dest = (byte *)(bufferofs+ylookup[y]+(x>>2));
-
-   if (midbytes < 0)
-   {
-   // all in one byte
-      VGAMAPMASK (leftmask&rightmask);
-      while (height--)
-      {
-         *dest = color;
-         dest += linewidth;
-      }
-      VGAMAPMASK (15);
-      return;
-   }
-
-   while (height--)
-   {
-      VGAMAPMASK (leftmask);
-      *dest++ = color;
-
-      VGAMAPMASK (15);
-      memset (dest,color,midbytes);
-      dest += midbytes;
-
-      VGAMAPMASK (rightmask);
-      *dest = color;
-
-      dest += linedelta;
-   }
-
-   VGAMAPMASK(15);
-#else
 	byte *dest = (byte *)(bufferofs+ylookup[y]+x);
 	
 	while (height--) {
@@ -389,7 +282,6 @@ void VL_Bar (int x, int y, int width, int height, int color)
 		
 		dest += linewidth;
 	}
-#endif
 }
 
 
@@ -416,50 +308,6 @@ void VWB_Bar (int x, int y, int width, int height, int color)
 
 void VL_TBar (int x, int y, int width, int height)
 {
-#ifdef DOS
-   byte  *dest;
-   byte  pixel;
-   byte  readmask;
-   byte  writemask;
-   int   w = width;
-
-   while (height--)
-   {
-      width = w;
-
-      dest = (byte*)(bufferofs+ylookup[y]+(x>>2));
-      readmask    = (x&3);
-      writemask   = 1 << readmask;
-
-      VGAREADMAP (readmask);
-      VGAMAPMASK (writemask);
-
-      while (width--)
-      {
-         pixel = *dest;
-
-         pixel = *(colormap+(27<<8)+pixel);
-
-         *dest = pixel;
-
-         writemask <<= 1;
-         if (writemask == 16)
-         {
-            writemask = 1;
-            dest++;
-         }
-
-         readmask++;
-         if (readmask == 4)
-            readmask = 0;
-
-         VGAREADMAP (readmask);
-         VGAMAPMASK (writemask);
-      }
-
-      y++;
-   }
-#else
 	int w = width;
 	
 	while (height--) {
@@ -479,8 +327,6 @@ void VL_TBar (int x, int y, int width, int height)
 		
 		y++;
 	}
-			
-#endif
 }
 
 
@@ -506,45 +352,9 @@ void VWB_TBar (int x, int y, int width, int height)
 
 void VL_Hlin (unsigned x, unsigned y, unsigned width, unsigned color)
 {
-#ifdef DOS
-   unsigned xbyte;
-   byte     *dest;
-   byte     leftmask,
-            rightmask;
-   int      midbytes;
-
-   xbyte =      x >> 2;
-   leftmask    = leftmasks[x&3];
-   rightmask   = rightmasks[(x+width-1)&3];
-   midbytes    = ((x+width+3)>>2) - xbyte - 2;
-
-   dest = (byte*)(bufferofs+ylookup[y]+xbyte);
-
-   if (midbytes<0)
-   {
-     // all in one byte
-      VGAMAPMASK (leftmask & rightmask);
-      *dest = color;
-      VGAMAPMASK(15);
-      return;
-   }
-
-   VGAMAPMASK (leftmask);
-   *dest++ = color;
-
-   VGAMAPMASK (15);
-   memset (dest, color, midbytes);
-   dest += midbytes;
-
-   VGAMAPMASK (rightmask);
-   *dest = color;
-
-   VGAMAPMASK (15);
-#else
 	byte *dest = (byte*)(bufferofs+ylookup[y]+x);
 	
 	memset(dest, color, width);
-#endif
 }
 
 
@@ -556,23 +366,6 @@ void VL_Hlin (unsigned x, unsigned y, unsigned width, unsigned color)
 
 void VL_Vlin (int x, int y, int height, int color)
 {
-#ifdef DOS
-   byte  *dest,
-         mask;
-
-   mask = pixmasks[x&3];
-   VGAMAPMASK (mask);
-
-   dest = (byte *)(bufferofs+ylookup[y]+(x>>2));
-
-   while (height--)
-   {
-      *dest = color;
-      dest += linewidth;
-   }
-
-   VGAMAPMASK (15);
-#else
 	byte *dest = (byte*)(bufferofs+ylookup[y]+x);
 	
 	while (height--) {
@@ -580,7 +373,6 @@ void VL_Vlin (int x, int y, int height, int color)
 		
 		dest += linewidth;
 	}
-#endif
 }
 
 
@@ -621,47 +413,6 @@ void VWB_Vlin (int y1, int y2, int x, int color)
 
 void VL_THlin (unsigned x, unsigned y, unsigned width, bool up)
 {
-#ifdef DOS
-   byte     *dest;
-   byte     pixel;
-   byte     readmask;
-   byte     writemask;
-
-
-   readmask    = (x&3);
-   writemask   = 1 << readmask;
-
-   dest = (byte*)(bufferofs+ylookup[y]+(x>>2));
-
-   VGAREADMAP (readmask);
-   VGAMAPMASK (writemask);
-
-   while (width--)
-   {
-      pixel = *dest;
-
-      if (up)
-         pixel = *(colormap+(13<<8)+pixel);
-      else
-         pixel = *(colormap+(27<<8)+pixel);
-
-      *dest = pixel;
-
-      writemask <<= 1;
-      if (writemask == 16)
-      {
-         writemask = 1;
-         dest++;
-      }
-
-      readmask++;
-      if (readmask == 4)
-         readmask = 0;
-
-      VGAREADMAP (readmask);
-      VGAMAPMASK (writemask);
-   }
-#else
 	byte *dest = (byte*)(bufferofs+ylookup[y]+x);
 	
 	while (width--) {
@@ -677,7 +428,6 @@ void VL_THlin (unsigned x, unsigned y, unsigned width, bool up)
 		
 		dest++;
 	}
-#endif
 }
 
 
@@ -690,36 +440,6 @@ void VL_THlin (unsigned x, unsigned y, unsigned width, bool up)
 
 void VL_TVlin (unsigned x, unsigned y, unsigned height, bool up)
 {
-#ifdef DOS
-   byte     *dest;
-   byte     pixel;
-   byte     readmask;
-   byte     writemask;
-
-
-
-   readmask    = (x&3);
-   writemask   = 1 << readmask;
-
-   dest = (byte*)(bufferofs+ylookup[y]+(x>>2));
-
-   VGAREADMAP (readmask);
-   VGAMAPMASK (writemask);
-
-   while (height--)
-   {
-      pixel = *dest;
-
-      if (up)
-         pixel = *(colormap+(13<<8)+pixel);
-      else
-         pixel = *(colormap+(27<<8)+pixel);
-
-      *dest = pixel;
-
-      dest += linewidth;
-   }
-#else
 	byte *dest = (byte*)(bufferofs+ylookup[y]+x);
 	
 	while (height--) {
@@ -735,7 +455,6 @@ void VL_TVlin (unsigned x, unsigned y, unsigned height, bool up)
 		
 		dest += linewidth;
 	}
-#endif
 }
 
 
@@ -1204,12 +923,6 @@ void SetBorderColor (int color)
 		}
    }
    // bna section end
-
-#ifdef DOS
-   inp  (STATUS_REGISTER_1);
-   outp (ATR_INDEX,0x31);
-   outp (ATR_INDEX,color);
-#endif
 }
 
 //****************************************************************************
@@ -1220,15 +933,7 @@ void SetBorderColor (int color)
 
 void SetBorderColorInterrupt (int color)
 {
-#ifdef DOS
-   union REGS regs;
-
-   regs.w.ax = 0x1001;
-   regs.w.bx = color<<8;
-   int386(0x10,&regs,&regs);
-#else
 	STUB_FUNCTION;
-#endif
 }
 
 
@@ -1290,12 +995,7 @@ void VL_DrawLine (int x1, int y1, int x2, int y2, byte color)
    y1<<=16;
    while (count>0)
       {
-#ifdef DOS
-      VGAWRITEMAP((x1>>16)&3);
-      *((byte *)bufferofs+(x1>>18)+(ylookup[y1>>16]))=color;
-#else
       *((byte *)bufferofs+(x1>>16)+(ylookup[y1>>16]))=color;
-#endif
       x1+=xinc;
       y1+=yinc;
       count--;
@@ -1325,11 +1025,7 @@ void DrawXYPic (int x, int y, int shapenum)
    if ((y<0) || ((y+p->height)>=200))
       Error ("DrawXYPic: y is out of range\n");
 
-#ifdef DOS
-   buffer = (byte*)bufferofs+(x>>2)+ylookup[y];
-#else
    buffer = (byte*)bufferofs+ylookup[y];
-#endif
 
    src=(byte *)&p->data;
 
@@ -1340,11 +1036,7 @@ void DrawXYPic (int x, int y, int shapenum)
          {
          buf=buffer+ylookup[yy];
          for (xx = 0; xx < p->width; xx++,buf++)
-#ifdef DOS
-            *(buf)=*(src++);
-#else
             *(buf+plane+xx*4)=*(src++);
-#endif
          }
       }
 }

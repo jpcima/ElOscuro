@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __RT_BATTLE_public
 #define __RT_BATTLE_public
 
+#include <stdbool.h>
 
 #define BIT_MASK( bit_number )   ( 1 << ( bit_number ) )
 #define MINUTES_TO_GAMECOUNT( minutes ) \

@@ -25,11 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef DOS
-#include <dos.h>
-#include <conio.h>
-#endif
-
 #include "rt_build.h"
 #include "rt_draw.h"
 #include "rt_scale.h"
@@ -262,19 +257,11 @@ void   DrawPlanePosts (void)
 
    shadingtable=colormap+(16<<8);
 
-#ifdef DOS
-   for (plane=0;plane<4;plane++)
-#endif
-
       {
       VGAWRITEMAP(plane);
       buf=(byte *)(bufferofs);
 
-#ifdef DOS
-      for (i=plane;i<viewwidth;i+=4,buf++)
-#else
       for (i=0;i<viewwidth;i++,buf++)
-#endif
          {
          height=(posts[i].wallheight);
          if (height<=4)

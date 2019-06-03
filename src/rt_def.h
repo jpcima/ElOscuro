@@ -51,7 +51,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #error please define your platform.
 #endif
 
-#if PLATFORM_DOS || PLATFORM_WIN32
+#if PLATFORM_WIN32
 #define PATH_SEP_CHAR '\\'
 #define PATH_SEP_STR  "\\"
 #elif PLATFORM_UNIX
@@ -119,7 +119,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define max(a, b)  (((a) > (b)) ? (a) : (b))
 #endif
 
-#if !PLATFORM_DOS
   #if PLATFORM_WIN32
     #define strcmpi(x, y) stricmp(x, y)
     #define _fstricmp(x, y) stricmp(x, y)
@@ -154,7 +153,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define far
 #define cdecl
-#endif
 
 //***************************************************************************
 //

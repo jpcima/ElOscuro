@@ -21,12 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdlib.h>
 #include <string.h>
 
-#if PLATFORM_DOS
-#include <conio.h>
-#include <dos.h>
-#include <i86.h>
-#endif
-
 #include <SDL2/SDL.h>
 
 #include "rt_main.h"
@@ -401,9 +395,6 @@ void IN_PumpEvents(void)
 #if USE_SDL
    sdl_handle_events();
 
-#elif PLATFORM_DOS
-   /* no-op. */
-
 #else
 #error please define for your platform.
 #endif
@@ -422,21 +413,7 @@ void INL_GetMouseDelta(int *x,int *y)
 {
    IN_PumpEvents();
 
-#ifdef PLATFORM_DOS
-   union REGS inregs;
-   union REGS outregs;
-
-   if (!MousePresent)
-      *x = *y = 0;
-   else
-   {
-     inregs.w.ax = MDelta;
-     int386 (MouseInt, &inregs, &outregs);
-     *x = outregs.w.cx;
-     *y = outregs.w.dx;
-   }
-
-#elif USE_SDL
+#if USE_SDL
    *x = sdl_mouse_delta_x;
    *y = sdl_mouse_delta_y;
 
@@ -468,18 +445,6 @@ word IN_GetMouseButtons
 
 #if USE_SDL
    buttons = sdl_mouse_button_mask;
-
-#elif PLATFORM_DOS
-   union REGS inregs;
-   union REGS outregs;
-
-   if (!MousePresent || !mouseenabled)
-      return (0);
-
-   inregs.w.ax = MButtons;
-   int386 (MouseInt, &inregs, &outregs);
-
-   buttons = outregs.w.bx;
 
 #else
 #  error please define for your platform.
@@ -528,9 +493,6 @@ void IN_GetJoyAbs (word joy, word *xp, word *yp)
    Joy_ys = joy? 3 : 1;       // Do the same for y axis
    Joy_yb = 1 << Joy_ys;
 
-#ifdef DOS
-   JoyStick_Vals ();
-#else
    if (joy < sdl_total_sticks)
    {
 	   Joy_x = SDL_JoystickGetAxis (sdl_joysticks[joy], 0);
@@ -539,7 +501,6 @@ void IN_GetJoyAbs (word joy, word *xp, word *yp)
 	   Joy_x = 0;
 	   Joy_y = 0;
    }
-#endif
 
    *xp = Joy_x;
    *yp = Joy_y;
@@ -633,12 +594,6 @@ word INL_GetJoyButtons (word joy)
    if (joy < sdl_total_sticks)
        result = sdl_stick_button_state[joy];
 
-#elif PLATFORM_DOS
-   result = inp (0x201);   // Get all the joystick buttons
-   result >>= joy? 6 : 4;  // Shift into bits 0-1
-   result &= 3;            // Mask off the useless bits
-   result ^= 3;
-
 #else
 #error please define for your platform.
 #endif
@@ -686,15 +641,6 @@ bool INL_StartMouse (void)
 #if USE_SDL
    /* no-op. */
    retval = true;
-
-#elif PLATFORM_DOS
-   union REGS inregs;
-   union REGS outregs;
-
-   inregs.w.ax = 0;
-   int386 (MouseInt, &inregs, &outregs);
-
-   retval = ((outregs.w.ax == 0xffff) ? true : false);
 
 #else
 #error please define your platform.
@@ -816,9 +762,7 @@ bool INL_StartJoy (word joy)
 void INL_ShutJoy (word joy)
 {
    JoysPresent[joy] = false;
-#ifndef DOS
    if (joy < sdl_total_sticks) SDL_JoystickClose (sdl_joysticks[joy]);
-#endif
 }
 
 
@@ -1316,12 +1260,6 @@ byte IN_JoyButtons (void)
 
 #if USE_SDL
    joybits = sdl_sticks_joybits;
-
-#elif PLATFORM_DOS
-   joybits = inp (0x201);  // Get all the joystick buttons
-   joybits >>= 4;          // only the high bits are useful
-   joybits ^= 15;          // return with 1=pressed
-
 #else
 #error define your platform.
 #endif
@@ -1512,7 +1450,6 @@ void QueueLetterInput (void)
    int scancode;
    bool send = false;
 
-#ifndef PLATFORM_DOS
    /* HACK HACK HACK */
    /* 
      OK, we want the new keys NOW, and not when the update gets them.
@@ -1525,7 +1462,6 @@ void QueueLetterInput (void)
    tail = Keytail;
    queuegotit=1;
    /* HACK HACK HACK */
-#endif
 
    while (head != tail)
       {

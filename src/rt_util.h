@@ -126,15 +126,11 @@ struct find_t
 };
 int _dos_findfirst(char *filename, int x, struct find_t *f);
 int _dos_findnext(struct find_t *f);
-
-#elif PLATFORM_DOS
-   /* no-op */
 #else
 #error please define for your platform.
 #endif
 
 
-#if !PLATFORM_DOS
 struct dosdate_t
 {
     unsigned char day;
@@ -144,7 +140,6 @@ struct dosdate_t
 };
 
 void _dos_getdate(struct dosdate_t *date);
-#endif
 
 void  SoftwareError (char *error, ...) __attribute__((format(printf,1,2)));
 //#define SoftError  SoftwareError
@@ -171,12 +166,7 @@ void Square (void);
    modify exact [eax edx]
 #endif
 
-
-#ifdef DOS
-void my_outp(int port, int data);
-#else
 #define my_outp(a,b)
-#endif
 
 #ifdef __WATCOMC__
 #pragma aux my_outp =  \

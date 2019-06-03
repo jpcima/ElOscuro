@@ -164,9 +164,6 @@ extern bool MONOPRESENT;
 extern bool MAPSTATS;
 extern bool TILESTATS;
 extern bool HUD;
-#ifdef DOS
-extern bool SOUNDSETUP;
-#endif
 
 extern char CWD[40];
 
