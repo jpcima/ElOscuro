@@ -289,7 +289,16 @@ void MUSIC_SetLoopFlag(int loopflag)
 
 int MUSIC_SongPlaying(void)
 {
-  if (!adl_is_playing || adl_atEnd(midi_player))
+  int adl_at_end;
+
+  if (!adl_is_playing)
+      return __FX_FALSE;
+
+  SDL_LockAudio();
+  adl_at_end = adl_atEnd(midi_player);
+  SDL_UnlockAudio();
+
+  if (adl_at_end)
     {
       adl_is_playing = false;
       return __FX_FALSE;
@@ -325,7 +334,9 @@ void MUSIC_Pause(void)
 int MUSIC_StopSong(void)
 {
   adl_is_playing = false;
+  SDL_LockAudio();
   adl_panic(midi_player);
+  SDL_UnlockAudio();
   return MUSIC_Ok;
   /*
     //if (!fx_initialized)
@@ -383,6 +394,7 @@ int MUSIC_PlaySongROTT(unsigned char *song, int size, int loopflag)
 {
   int8_t music_path[MAX_PATH];
   int32_t handle;
+  int adl_ret;
 
   MUSIC_StopSong();
 
@@ -393,10 +405,14 @@ int MUSIC_PlaySongROTT(unsigned char *song, int size, int loopflag)
   SafeWrite(handle, song, size);
   close(handle);
 
-  if (adl_openFile(midi_player, music_path) < 0)
+  SDL_LockAudio();
+  adl_ret = adl_openFile(midi_player, music_path);
+  SDL_UnlockAudio();
+
+  if (adl_ret < 0)
     {
-      fprintf(stderr, "Couldn't open music file: %s\n", adl_errorInfo(midi_player));
       SDL_CloseAudio();
+      fprintf(stderr, "Couldn't open music file: %s\n", adl_errorInfo(midi_player));
       adl_close(midi_player);
       return 1;
     }
