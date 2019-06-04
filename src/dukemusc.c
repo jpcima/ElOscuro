@@ -28,7 +28,6 @@ static struct ADL_MIDIPlayer* midi_player = 0;
 //static const int8_t* music_path = 0;
 static bool adl_is_playing = false;
 
-
 #define cdecl
 
 #include "rt_def.h"      // ROTT music hack
@@ -290,12 +289,12 @@ void MUSIC_SetLoopFlag(int loopflag)
 
 int MUSIC_SongPlaying(void)
 {
-  if (adl_atEnd(midi_player))
+  if (!adl_is_playing || adl_atEnd(midi_player))
     {
       adl_is_playing = false;
-      return __FX_TRUE;
+      return __FX_FALSE;
     }
-  return __FX_FALSE;
+  return __FX_TRUE;
   //return((Mix_PlayingMusic()) ? __FX_TRUE : __FX_FALSE);
 } // MUSIC_SongPlaying
 
